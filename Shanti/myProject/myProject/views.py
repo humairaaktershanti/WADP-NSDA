@@ -1,12 +1,8 @@
 from django.shortcuts import render
 from myApp.models import*
 
-def homePage(req):
-    studentData = student.objects.all()
-    context = {
-        'data': studentData
-    }
-    return render(req, "index.html", context)
+# def homePage(req):
+#     return render(req, "index.html")
 
 
 def loginPage(req):
@@ -14,3 +10,15 @@ def loginPage(req):
 
 def signupPage(req):
     return render(req,"signupPage.html")
+
+def contactPage(req):
+    return render(req,"contactPage.html")
+
+def newsPage(req):
+    return render(req,"newsPage.html")
+
+def aboutPage(req):
+    return render(req,"aboutPage.html")
+
+def homePage(req):
+    return render(req,"homePage.html")
