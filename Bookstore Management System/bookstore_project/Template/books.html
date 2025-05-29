@@ -1,0 +1,29 @@
+{% extends 'master.html' %}
+
+{% block body %}
+
+<table id="customers">
+  <tr>
+    <th>Title</th>
+    <th>Author</th>
+    <th>Price</th>
+    <th>Stock</th>
+    <th>Publish Date</th>
+  </tr>
+  
+  {% for a in books %}
+    
+  
+    
+  <tr>
+    <td>{{ a.title }}</td>
+    <td>{{ a.author }}</td>
+    <td>{{ a.price }}</td>
+    <td>{{ a.stock }}</td>
+    <td>{{ a.published_date }}</td>
+  </tr>
+  {% endfor %}
+  
+</table>
+    
+{% endblock body %}
