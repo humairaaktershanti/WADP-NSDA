@@ -2,24 +2,13 @@ from django.db import models
 
 # Create your models here.
 class student(models.Model):
-    name = models.CharField(max_length=100)
-    department = models.CharField(max_length=100)
-    city = models.CharField(max_length=100)
-    age= models.IntegerField()
+    name = models.CharField(max_length=100, null=True)
+    department = models.CharField(max_length=100, null=True)
+    city = models.CharField(max_length=100, null=True)
+    age= models.IntegerField(null=True)
 
-
-class addTeacher(models.Model):
-    name = models.CharField(max_length=100)
-    department = models.CharField(max_length=100)
-    city = models.CharField(max_length=100)
-    age= models.IntegerField()
-
-
-
-
-class addCourse(models.Model):
-    name = models.CharField(max_length=100)
-    department = models.CharField(max_length=100)
-    courseCode = models.CharField(max_length=10, unique=True)
-    credits = models.IntegerField(default=3)
-
+class teacher(models.Model):
+    name = models.CharField(max_length=100, null=True)
+    department = models.CharField(max_length=100, null=True)
+    city = models.CharField(max_length=100, null=True)
+    age= models.IntegerField(null=True)

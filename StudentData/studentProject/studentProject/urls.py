@@ -9,6 +9,7 @@ urlpatterns = [
     path('addStudent/', addStudent, name='addStudent'),
     path('studentList/', studentList, name='studentList'),
     path('addTeacher/', addTeacher, name='addTeacher'),
-    path('addCourse/', addCourse, name='addCourse'),
+    path('TeacherList/', TeacherList, name='TeacherList'),
+    
 
 ]

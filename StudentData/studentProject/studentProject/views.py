@@ -4,7 +4,7 @@ from studentApp.models import *
 
 def addStudent(request):
     if request.method == 'POST':
-        name = request.POST.get('studentName')
+        name = "request.POST.get('studentName')"
         department = request.POST.get('department')
         city = request.POST.get('cityName')
         age = request.POST.get('studentAge')
@@ -31,16 +31,14 @@ def studentList(request):
     }
     return render(request, 'studentList.html', context)
 
-
-
 def addTeacher(request):
     if request.method == 'POST':
-        name = request.POST.get('name')
+        name = "request.POST.get('teacherName')"
         department = request.POST.get('department')
-        city = request.POST.get('city')
-        age = request.POST.get('age')
+        city = request.POST.get('cityName')
+        age = request.POST.get('teacherAge')
 
-        newteacher = addTeacher(
+        newteacher=teacher(
             name=name,
             department=department,
             city=city,
@@ -48,24 +46,8 @@ def addTeacher(request):
         )
 
         newteacher.save()
-        return redirect('studentList')
+        return redirect('TeacherList')
     return render(request, 'addTeacher.html')
 
-
-def addCourse(request):
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        department = request.POST.get('department')
-        courseCode = request.POST.get('courseCode')
-        credits = request.POST.get('credits')
-
-        newcourse = addCourse(
-            name=name,
-            department=department,
-            courseCode=courseCode,
-            credits=credits
-        )
-
-        newcourse.save()
-        return redirect('studentList')
-    return render(request, 'addCourse.html')
+def TeacherList(req):
+    return render(req, 'TeacherList.html')

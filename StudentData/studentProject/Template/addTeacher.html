@@ -4,10 +4,12 @@
 
 <div class="add-student-form-container">
     <h2>Teacher Form</h2>
-    
+
+    <h1><a href="{% url 'TeacherList' %}">Teacher List</a></h1>
+
     <form action=" " method="post" class="add-student-form">
-         {% csrf_token %}
-        <label for="teacherName">Student Name:</label>
+        {% csrf_token %}
+        <label for="teacherName">Teacher Name:</label>
         <input type="text" id="teacherName" name="teacherName" required>
 
         <label for="department">Department:</label>
@@ -66,5 +68,5 @@
     background: #005fa3;
 }
 </style>
-    
+
 {% endblock body %}
