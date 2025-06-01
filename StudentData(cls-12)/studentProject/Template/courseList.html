@@ -1,0 +1,27 @@
+{% extends 'master.html' %}
+
+{% block body %}
+<style>
+    /* Removed CSS styles to disable design */
+</style>
+<table border="1">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Code</th>
+            <th>credits</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for student in course %}
+        <tr>
+            <td>{{ student.name }}</td>
+            <td>{{ student.department }}</td>
+            <td>{{ student.Code }}</td>
+            <td>{{ student.credits }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock body %}

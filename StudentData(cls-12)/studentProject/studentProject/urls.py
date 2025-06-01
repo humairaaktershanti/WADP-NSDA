@@ -10,6 +10,8 @@ urlpatterns = [
     path('studentList/', studentList, name='studentList'),
     path('addTeacher/', addTeacher, name='addTeacher'),
     path('TeacherList/', TeacherList, name='TeacherList'),
+    path('addCourse/', addCourse, name='addCourse'),
+    path('courseList/', courseList, name='courseList'),
     
 
 ]

@@ -33,7 +33,7 @@ def studentList(request):
 
 def addTeacher(request):
     if request.method == 'POST':
-        name = "request.POST.get('teacherName')"
+        name = request.POST.get('teacherName')
         department = request.POST.get('department')
         city = request.POST.get('cityName')
         age = request.POST.get('teacherAge')
@@ -49,5 +49,38 @@ def addTeacher(request):
         return redirect('TeacherList')
     return render(request, 'addTeacher.html')
 
-def TeacherList(req):
-    return render(req, 'TeacherList.html')
+def TeacherList(request):
+
+    Teacher = teacher.objects.all()
+    context = {
+        'teacher': Teacher
+    }
+    return render(request, 'TeacherList.html', context)
+
+
+
+def addCourse(request):
+    if request.method == 'POST':
+        name = request.POST.get('courseName')
+        department = request.POST.get('department')
+        Code = request.POST.get('courseCode')
+        credits = request.POST.get('credits')
+
+        newCourse=course(
+            name=name,
+            department=department,
+            Code=Code,
+            credits=credits
+        )
+
+        newCourse.save()
+        return redirect('courseList')
+    return render(request, 'addCourse.html')
+
+def courseList(request):
+
+    Course = course.objects.all()
+    context = {
+        'course': Course
+    }
+    return render(request, 'courseList.html', context)
