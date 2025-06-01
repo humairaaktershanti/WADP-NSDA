@@ -105,3 +105,29 @@ def DeleteCourse(request, myid):
     newcourse= course.objects.get(id=myid)
     newcourse.delete()
     return redirect('courseList')
+
+
+def editStudent(request, myid):
+    newStudent= student.objects.get(id=myid)
+    context= {
+        'student': newStudent
+    }
+
+    if request.method == 'POST':
+        name = request.POST.get('studentName')
+        department = request.POST.get('department')
+        city = request.POST.get('cityName')
+        age = request.POST.get('studentAge')
+
+        newstudent=student(
+            id=myid,
+            name=name,
+            department=department,
+            city=city,
+            age=age
+        )
+
+        newstudent.save()
+        return redirect('studentList')
+
+    return render(request, 'editStudent.html',context)

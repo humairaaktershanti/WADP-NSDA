@@ -57,7 +57,7 @@
             <td>{{ student.city }}</td>
             <td>{{ student.age }}</td>
             <td>
-                <a href="">Edit</a>
+                <a href="{% url 'editStudent' student.id %}">Edit</a>
                 <a href="{% url 'DeleteStudent' student.id %}">Delete</a>
                 <a href="">View</a>
             </td>
