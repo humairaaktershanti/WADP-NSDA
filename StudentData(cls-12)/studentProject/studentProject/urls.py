@@ -12,6 +12,10 @@ urlpatterns = [
     path('TeacherList/', TeacherList, name='TeacherList'),
     path('addCourse/', addCourse, name='addCourse'),
     path('courseList/', courseList, name='courseList'),
-    
+    path('DeleteStudent/<str:myid>/', DeleteStudent, name='DeleteStudent'),
+    path('DeleteTeacher/<str:myid>/', DeleteTeacher, name='DeleteTeacher'),
+    path('DeleteCourse/<str:myid>/', DeleteCourse, name='DeleteCourse'),
+
+
 
 ]

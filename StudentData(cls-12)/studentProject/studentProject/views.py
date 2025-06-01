@@ -4,7 +4,7 @@ from studentApp.models import *
 
 def addStudent(request):
     if request.method == 'POST':
-        name = "request.POST.get('studentName')"
+        name = request.POST.get('studentName')
         department = request.POST.get('department')
         city = request.POST.get('cityName')
         age = request.POST.get('studentAge')
@@ -84,3 +84,24 @@ def courseList(request):
         'course': Course
     }
     return render(request, 'courseList.html', context)
+
+
+
+
+def DeleteStudent(request, myid):
+    newstudent= student.objects.get(id=myid)
+    newstudent.delete()
+    return redirect('studentList')
+
+
+def DeleteTeacher(request, myid):
+    newteacher= teacher.objects.get(id=myid)
+    newteacher.delete()
+    return redirect('TeacherList')
+
+
+
+def DeleteCourse(request, myid):
+    newcourse= course.objects.get(id=myid)
+    newcourse.delete()
+    return redirect('courseList')
