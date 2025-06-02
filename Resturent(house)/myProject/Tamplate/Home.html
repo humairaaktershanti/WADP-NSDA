@@ -1,0 +1,18 @@
+{% include "Nav.html" %}
+
+{% block body %}
+<div style="text-align:center; margin-top:50px;">
+    <h1>Welcome to Our Restaurant!</h1>
+    <p style="font-size:1.2em; color:#555;">
+        Experience delicious food, cozy ambiance, and friendly service.<br>
+        Explore our menu and enjoy a memorable dining experience.
+    </p>
+    <img src="/static/images/restaurant_welcome.jpg" alt="Welcome to Our Restaurant" style="width:60%; max-width:500px; border-radius:15px; margin:30px 0;">
+    <div>
+        <a href="/menu" style="padding:12px 30px; background:#e67e22; color:#fff; border-radius:5px; text-decoration:none; font-size:1.1em;">
+            View Menu
+        </a>
+    </div>
+</div>
+
+{% endblock body %}
