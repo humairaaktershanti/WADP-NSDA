@@ -119,7 +119,7 @@ def editStudent(request, myid):
         city = request.POST.get('cityName')
         age = request.POST.get('studentAge')
 
-        newstudent=student(
+        editstudent=student(
             id=myid,
             name=name,
             department=department,
@@ -127,7 +127,38 @@ def editStudent(request, myid):
             age=age
         )
 
-        newstudent.save()
+        student.save()
         return redirect('studentList')
 
     return render(request, 'editStudent.html',context)
+
+
+
+
+
+
+
+def editTeacher(request, myid):
+    newTeacher= teacher.objects.get(id=myid)
+    context= {
+        'teacher': newTeacher
+    }
+
+    if request.method == 'POST':
+        name = request.POST.get('teacherName')
+        department = request.POST.get('department')
+        city = request.POST.get('cityName')
+        age = request.POST.get('teacherAge')
+
+        editTeacher=teacher(
+            id=myid,
+            name=name,
+            department=department,
+            city=city,
+            age=age
+        )
+
+        teacher.save()
+        return redirect('TeacherList')
+
+    return render(request, 'editTeacher.html',context)

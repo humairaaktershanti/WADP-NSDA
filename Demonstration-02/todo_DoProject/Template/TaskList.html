@@ -1,0 +1,68 @@
+{% extends 'Master.html' %}
+
+{% block body %}
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Due Date</th>
+            <th>Create Date</th>
+            <th>action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for task in Data %}
+        <tr>
+            <td>{{ task.title }}</td>
+            <td>{{ task.description }}</td>
+            <td>{{ task.status }}</td>
+            <td>{{ task.due_date }}</td>
+            <td>{{ task.created_at}}</td>
+            <td>
+                <a href="{% url 'UpdateTask' task.id %}">Update</a> |
+                <a href="{% url 'DeleteTask' task.id %}">Delete</a>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 18px;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007BFF;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+{% endblock body %}

@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.shortcuts import render
 from myApp.models import *
 
 # Create your views here.
@@ -24,7 +23,20 @@ def AddResturent(request):
             openingHours=openingHours,
             )
         Resturent.save()
-        return render(request, 'AddResturent.html')
+
+
+
+    return render(request, 'AddResturent.html')
+
+
+
+def ResturentList(request):
+    Resturent = ResturentModel.objects.all()
+    context = {
+        'Resturent': Resturent
+    }
+    return render(request, 'ResturentList.html', context)
+   
 
 
 
