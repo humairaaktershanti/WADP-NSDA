@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from tasksApp.models import *
 
 
@@ -21,8 +21,9 @@ def addTask(R):
         )
         new_obj.save()
 
-    return render(R,"addTask.html")
+        return redirect(taskList)
 
+    return render(R,"addTask.html")
 
 def taskList(R):
     listData = ToDoModel.objects.all()
@@ -31,3 +32,23 @@ def taskList(R):
     }
 
     return render(R,"taskList.html", context)
+
+def deleteTask(req, id):
+    deleteTask = ToDoModel.objects.get(id=id).delete()
+    #deleteTask.delete()
+    return redirect('taskList')
+
+def editTask(req, id):
+    editTask = ToDoModel.objects.get(id=id)
+    context={
+        'editTask': editTask      
+    }
+
+    return render (req, "editTask.html",context)
+
+def viewTask(req, id):
+    viewTask = ToDoModel.objects.get(id=id)
+    context={
+        'viewTask':viewTask      
+    }
+    return render (req, "viewTask.html",context)
