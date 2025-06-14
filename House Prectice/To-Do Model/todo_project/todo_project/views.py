@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from tasksApp.models import *
-
+from django.utils import timezone
 
 def home(R):
     return render(R,"home.html")
@@ -43,6 +43,19 @@ def editTask(req, id):
     context={
         'editTask': editTask      
     }
+
+    if req.method == "POST":
+        new_obj = ToDoModel(
+            id=id,
+            title = req.POST.get('title'),
+            description = req.POST.get('description'),
+            status = req.POST.get('status'),
+            due_date = req.POST.get('due_date'),
+            created_at= timezone.now()
+        )
+        new_obj.save()
+
+        return redirect(taskList)
 
     return render (req, "editTask.html",context)
 

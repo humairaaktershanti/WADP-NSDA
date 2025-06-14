@@ -12,4 +12,4 @@ class ToDoModel(models.Model):
     default='pending'
     )
     due_date=models.DateField()
-    created_at=models.DateField(auto_now_add=True)
+    created_at=models.DateTimeField(auto_now_add=True)

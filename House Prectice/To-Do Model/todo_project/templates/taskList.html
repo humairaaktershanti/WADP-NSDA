@@ -29,24 +29,20 @@
 <table id="customers">
   <tr>
     <th>Title</th>
-    <th>Description</th>
-    <th>Status</th>
-    <th>Update</th>
+    <th>Status</th>    
     <th>Due Date</th>
-    <th>Created Time</th>
+    <th>Update</th>
   </tr>
   {% for khalid in listData %}
   <tr>
     <td>{{khalid.title}}</td>
-    <td>{{khalid.description}}</td>
     <td>{{khalid.status}}</td>
+    <td>{{khalid.due_date}}</td>
     <td>
       <a href="{% url 'editTask' khalid.id %}">Edit</a> |
       <a href="{% url 'viewTask' khalid.id %}">View</a> |
       <a href="{% url 'deleteTask' khalid.id %}">Delete</a>
-    </td>
-    <td>{{khalid.due_date}}</td>
-    <td>{{khalid.created_at}}</td>
+    </td>    
   </tr>
   {% endfor %}
 </table>
