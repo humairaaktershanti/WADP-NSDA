@@ -1,3 +1,4 @@
+@@ -0,0 +1,33 @@
 print("--------Loop Through a List")
 student_name = ["John", "Jane", "Jim", "Jill"]
 for name in student_name:
@@ -29,5 +30,3 @@ for value in marks.values():
 print("------Loop Through a Dictionary key-Value")
 for sub, reg in marks.items():
     print(sub,":",reg)
-
-    
