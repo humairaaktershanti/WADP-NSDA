@@ -1,4 +1,3 @@
-@@ -0,0 +1,33 @@
 print("--------Loop Through a List")
 student_name = ["John", "Jane", "Jim", "Jill"]
 for name in student_name:
