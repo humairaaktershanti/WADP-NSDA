@@ -1,0 +1,111 @@
+{% extends "books/master.html" %}
+{% block body %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Book Store - Book List</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+  body {
+    background: #f5f7fa;
+    font-family: 'Roboto', sans-serif;
+    padding: 40px 20px;
+    justify-content: center;
+  }
+
+  .book-list-container {
+    max-width: 900px;
+    width: 100%;
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+    font-weight: 700;
+  }
+
+  .book-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px 25px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease;
+  }
+
+  .book-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+  }
+
+  .book-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+
+  .title-author {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: #007bff;
+  }
+
+  .category-date {
+    font-size: 0.9rem;
+    color: #666;
+  }
+
+  .description {
+    font-size: 1rem;
+    color: #444;
+    margin-top: 12px;
+    line-height: 1.4;
+  }
+
+  @media (max-width: 600px) {
+    .book-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .category-date {
+      margin-top: 6px;
+    }
+  }
+</style>
+</head>
+<body>
+
+  <div class="book-list-container">
+    <h2>Book List</h2>
+    {% for i in bookData %}
+    <div class="book-card">
+      <div class="book-header">
+        <div class="title-author">{{ i.Title }}</div>
+        <div class="category-date">{{ i.Author }} | {{i.PublishDate|date:'Y-m-d'}}</div>
+        
+      </div>
+      <div class="description">
+        {{i.Description}}
+      </div>
+      <div class="img">
+        <img src="/{{i.Cover_Photo}}" alt="Cover img">
+      </div>
+    </div>
+    {% endfor %}
+    
+    <!-- Add more book cards here -->
+
+  </div>
+
+</body>
+</html>
+{% endblock body %}
