@@ -36,6 +36,21 @@ def addRecipe(req):
 
 
 def viewTask(req,id):
+    recipeData = recipeData=RecipeModel.objects.get(id=id)
+    context={
+        'recipeData': recipeData
+    }
+    return render(req,"viewTask.html",context)
 
-    
-    return render(req,"viewTask.html")
+
+def delete(req,id):
+    recipeData = recipeData=RecipeModel.objects.get(id=id)
+    recipeData.delete()
+    return redirect("/")
+
+def edit(req, id):
+    recipeData = recipeData=RecipeModel.objects.get(id=id)
+    context={
+        'recipeData': recipeData
+    }
+    return render(req, "editRecipe.html", context)

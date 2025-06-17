@@ -10,6 +10,8 @@ urlpatterns = [
     path('',homeList,name='homeList'),
     path('addRecipe',addRecipe,name='addRecipe'),
     path('viewTask/<int:id>',viewTask,name='viewTask'),
+    path('delete/<int:id>',delete,name='delete'),
+    path('edit/<int:id>',edit,name='edit'),
 
     
 

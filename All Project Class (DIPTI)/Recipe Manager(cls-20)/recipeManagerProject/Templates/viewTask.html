@@ -17,16 +17,15 @@
 </style>
 <h2>Recipe List</h2>
 
-{% for i in recipeData %}
 
   <div class="card">
-    <img src="/{{i.Image}}" alt="Image" style="width:40%">
+    <img src="/{{recipeData.Image}}" alt="Image" style="width:40%">
     <div class="container">
-      <h4><b>{{i.Title}}</b></h4> 
-      <p>{{i.Ingredients}}</p>
+      <h4><b>Recipe: {{recipeData.Title}}</b></h4> 
+      <p><b>Description: </b>{{recipeData.Description}}</p>
+      <p><b>Ingredients:</b>{{recipeData.Ingredients}}</p>
+      <p><b>Instructions:</b>{{recipeData.Instructions}}</p>
     </div>
   </div>
 
-
-{% endfor %}
 {% endblock body %}

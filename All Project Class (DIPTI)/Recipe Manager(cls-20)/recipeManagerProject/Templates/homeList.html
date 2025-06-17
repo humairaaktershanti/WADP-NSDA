@@ -22,10 +22,14 @@
   <div class="card">
     <img src="/{{i.Image}}" alt="Image" style="width:40%">
     <div class="container">
-      <h4><b>{{i.Title}}</b></h4> 
-      <p>{{i.Ingredients}}</p>
+      <h4><b>Recipe: {{i.Title}}</b></h4> 
+      <p><b>Ingredients:</b>{{i.Ingredients}}</p>
+      <a href="{% url 'delete' i.id %}">Delete</a>
+      <a href="{% url 'edit' i.id %}">Edit</a>
     </div>
+    
   </div>
+  
 </a>
 
 {% endfor %}
