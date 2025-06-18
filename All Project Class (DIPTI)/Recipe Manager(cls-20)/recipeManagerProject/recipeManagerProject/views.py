@@ -53,4 +53,16 @@ def edit(req, id):
     context={
         'recipeData': recipeData
     }
+
+    if req.method=='POST':
+        recipeData.Title=req.POST.get('Title')
+        recipeData.Description=req.POST.get('Description')
+        recipeData.Ingredients=req.POST.get('Ingredients')
+        recipeData.Instructions=req.POST.get('Instructions')
+        if req.FILES.get('Image'):
+            recipeData.Image = req.FILES.get('Image')
+
+        recipeData.save()
+
+        return redirect("homeList")
     return render(req, "editRecipe.html", context)
