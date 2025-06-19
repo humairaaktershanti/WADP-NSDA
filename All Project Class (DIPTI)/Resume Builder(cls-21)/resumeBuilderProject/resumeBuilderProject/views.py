@@ -75,6 +75,3 @@ def editResume(req,id):
     }
 
     return render(req,"editResume.html",context)
-
-
-def 
