@@ -1,0 +1,47 @@
+{% extends "master.html" %} 
+
+{% block body %}
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+
+<h2>HTML Table</h2>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Date of birth</th>
+    <th>Profile photo</th>
+    <th>Action</th>
+  </tr>
+{% for i in data %}
+
+  <tr>
+    <td>"{{i.name}}"</td>
+    <td>"{{i.date_of_birth}}"</td>
+    <td><img src"/{{i.profile_photo}}"height="100px"></td>
+    <td>
+        <a href="{% url 'updateManager' i.id %}">Update</a>
+        <a href="">Delete</a>
+  </tr>
+
+{% endfor %}
+ 
+</table>
+
+
+{% endblock body %}
