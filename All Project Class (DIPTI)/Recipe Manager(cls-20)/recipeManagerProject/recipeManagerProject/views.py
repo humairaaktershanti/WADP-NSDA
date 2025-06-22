@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from myApp.models import *
 
+
+
 def homeList(req):
     recipeData=RecipeModel.objects.all()
     context={
@@ -66,3 +68,5 @@ def edit(req, id):
 
         return redirect("homeList")
     return render(req, "editRecipe.html", context)
+
+

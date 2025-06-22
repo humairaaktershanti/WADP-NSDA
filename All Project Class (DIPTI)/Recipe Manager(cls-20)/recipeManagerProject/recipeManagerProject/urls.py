@@ -13,6 +13,7 @@ urlpatterns = [
     path('delete/<int:id>',delete,name='delete'),
     path('edit/<int:id>',edit,name='edit'),
 
+
     
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

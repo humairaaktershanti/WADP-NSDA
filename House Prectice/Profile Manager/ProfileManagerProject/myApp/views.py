@@ -16,7 +16,8 @@ def formManager(req):
 
         )
         data.save()
-        return redirect ("formManager")
+        
+        return redirect ("listManager")
 
 
 
@@ -28,6 +29,32 @@ def listManager(req):
         'data':data
     }
     return render(req,"listManager.html",context)
+
+
+def updateManager(req,id):
+    data=profileModel.objects.get(id=id)
+    context={
+
+        'data':data
+    }
+
+
+    if req.method=='POST':
+        name=req.POST.get('name')
+        date_of_birth=req.POST.get('date_of_birth')
+        profile_photo=req.FILES.get('profile_photo')
+        data=profileModel(
+            id=id,
+            name=name,
+            date_of_birth=date_of_birth,
+            profile_photo=profile_photo,
+
+
+        )
+        data.save()
+        return redirect ("formManager")
+
+    return render(req,'updateManager.html',context)
 
 
     
