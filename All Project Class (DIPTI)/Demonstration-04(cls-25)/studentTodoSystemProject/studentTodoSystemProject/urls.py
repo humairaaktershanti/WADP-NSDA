@@ -18,4 +18,7 @@ urlpatterns = [
     path('deleteTask/<int:id>',deleteTask,name='deleteTask'),
     path('editStudent/<int:id>',editStudent,name='editStudent'),
     path('editTask/<int:id>',editTask,name='editTask'),
+    path('SignUp/',SignUp,name='SignUp'),
+    path('Login/',Login,name='Login'),
+    path('logOut/',logOut,name='logOut'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
