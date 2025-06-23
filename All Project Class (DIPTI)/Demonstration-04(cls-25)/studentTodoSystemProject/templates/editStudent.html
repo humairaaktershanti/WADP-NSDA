@@ -1,0 +1,66 @@
+{% extends "master.html" %} 
+
+{% block body %}
+
+<style>
+input[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+div {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+</style>
+
+
+<h3>Add Student</h3>
+
+<div>
+  <form action="" method='POST'enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <label for="fname">Name</label>
+    <input type="text" id="fname" name="name" value="{{data.name}}" placeholder="Name..">
+
+    <label for="lname">Roll No</label>
+    <input type="text" id="lname" name="roll_no" value="{{data.roll_no}}" placeholder="Roll No..">
+
+    <label for="lname">Department</label>
+    <input type="text" id="lname" name="department" value="{{data.department}}" placeholder="Department..">
+
+    <label for="lname">Student Image</label>
+    <img src="/{{data.student_image}}" height='100px'>
+    <input type="file" id="lname" name="student_image">
+
+    
+
+
+  
+    <input type="submit" value="Submit">
+  </form>
+</div>
+
+{% endblock body %}

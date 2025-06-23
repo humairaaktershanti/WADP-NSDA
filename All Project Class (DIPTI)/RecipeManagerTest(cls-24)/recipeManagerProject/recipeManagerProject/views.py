@@ -63,6 +63,8 @@ def deleteRecipe(req,id):
 #         Description=req.POST.get('Description')
 #         Ingredients=req.POST.get('Ingredients')
 #         Instructions=req.POST.get('Instructions')
+
+
 #         Image=req.FILES.get('Image')
     
 
@@ -74,6 +76,9 @@ def deleteRecipe(req,id):
 #             Instructions=Instructions,
 #             Image=Image
 #         )   
+
+
+
 #         data.save()
 #         return redirect('ListRecipes')
 
