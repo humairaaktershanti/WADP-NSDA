@@ -3,7 +3,10 @@
 {% block body %}
   <style>
 
-
+    .row{
+      display: flex;
+      justify-content: center;
+    }
     .cv-container {
       background-color: #fff;
       border-radius: 10px;
@@ -58,7 +61,8 @@
   </style>
 
   
-  <div class="cv-container">
+  <div class='row'>
+<div class="cv-container">
     <div class="profile-header">
       <img src="/{{ user.profileimage }}">
       <div>
@@ -84,6 +88,7 @@
       <div class="info-row"><span class="info-label">Passing Year:</span><span class="info-value">{{ user.passingYear }}</span></div>
       <div class="info-row"><span class="info-label">Grade:</span><span class="info-value">{{ user.grade }}</span></div>
     </div>
+  </div>
   </div>
 
 
