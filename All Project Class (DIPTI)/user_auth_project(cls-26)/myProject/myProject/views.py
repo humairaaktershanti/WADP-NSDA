@@ -58,6 +58,7 @@ def signIn(req):
  
     return render (req,'signIn.html')
 
+@login_required(login_url="signIn")
 def home(req):
     return render(req,'home.html')
 
@@ -66,7 +67,3 @@ def logOut(req):
 
 
     return redirect('signIn')
-
-
-
-    
