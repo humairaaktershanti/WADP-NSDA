@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Customer User Sign In</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #ffecd2, #fcb69f);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-form {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            width: 350px;
+        }
+        .login-form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .login-form label {
+            font-weight: bold;
+        }
+        .login-form input[type="text"],
+        .login-form input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 16px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+        .login-form input[type="submit"] {
+            width: 100%;
+            background-color: #FF7F50;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .login-form input[type="submit"]:hover {
+            background-color: #e96b3d;
+        }
+        .login-form .signup-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+        .login-form .signup-link a {
+            color: #FF7F50;
+            text-decoration: none;
+        }
+        .login-form .signup-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <form class="login-form" action="" method="POST">
+        {% csrf_token %}
+        <h2>User Sign In</h2>
+
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" placeholder="Enter Username" required>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" placeholder="Enter Password" required>
+
+        <input type="submit" value="Login">
+
+        <div class="signup-link">
+            Don't have an account? <a href="{% url "signUp" %}">Sign up here</a>
+        </div>
+    </form>
+
+</body>
+</html>
