@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Arrange the task</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+
+      height: 40vh;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    nav {
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: bold;
+    }
+
+    .welcome-message {
+      text-align: center;
+      padding-bottom: 500px;
+    }
+
+    .welcome-message h1 {
+      font-size: 3em;
+      margin-bottom: 100px;
+    }
+
+    .welcome-message p {
+      font-size: 1.5em;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <a href="">Home</a>
+      <a href="{% url 'taskpage' %}">Task List</a>
+      <a href="{% url 'createtask' %}">Create Task</a>
+      <a href="{% url 'cardtask' %}">Card Task</a>
+      <a href="{% url 'changepasswordpage' %}">Change Password</a>
+      <a href="{% url 'logoutpage' %}">log Out</a>
+
+    </nav>
+
+
+  </header>
+  <p>    
+    <div class="welcome-message">
+      <h1>Welcome  the World</h1>
+      <p>Your adventure begins here</p>
+    </div>
+  </p>
+</body>
+</html>

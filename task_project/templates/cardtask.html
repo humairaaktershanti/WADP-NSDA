@@ -1,0 +1,106 @@
+<!-- Include this in your <head> or external CSS file -->
+<style>
+  .task-card {
+    border: 1px solid #ccc;
+    border-left: 5px solid #007BFF;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 10px 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    background: #fff;
+    transition: transform 0.2s;
+  }
+
+  .task-card:hover {
+    transform: scale(1.01);
+  }
+
+  .task-header {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+
+  .task-field {
+    margin: 4px 0;
+    color: #555;
+  }
+
+  .task-label {
+    font-weight: bold;
+    color: #333;
+    margin-right: 5px;
+  }
+
+  .task-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 10px;
+  }
+</style>
+
+
+<h2>Pending_task-{{Pending_task.count}}</h2>
+
+{% for i in Pending_task %}
+
+<div class="task-card">
+  <div class="task-header">{{ i.title }}</div>
+  <div class="task-field"><span class="task-label">Description:</span>{{ i.description }}</div>
+  <div class="task-meta">
+    <div class="task-field"><span class="task-label">Due:</span>{{ i.due_date }}</div>
+    <div class="task-field"><span class="task-label">Priority:</span>{{ i.priority }}</div>
+    <div class="task-field"><span class="task-label">Status:</span>{{ i.status }}</div>
+  </div>
+</div>
+{% endfor %}
+
+<h2>In progress-{{In_progress_task.count}}</h2>
+
+{% for i in In_progress_task %}
+
+<div class="task-card">
+  <div class="task-header">{{ i.title }}</div>
+  <div class="task-field"><span class="task-label">Description:</span>{{ i.description }}</div>
+  <div class="task-meta">
+    <div class="task-field"><span class="task-label">Due:</span>{{ i.due_date }}</div>
+    <div class="task-field"><span class="task-label">Priority:</span>{{ i.priority }}</div>
+    <div class="task-field"><span class="task-label">Status:</span>{{ i.status }}</div>
+  </div>
+</div>
+{% endfor %}
+
+<h2>Completed_task-{{Completed_task.count}}</h2>
+
+{% for i in Completed_task %}
+
+<div class="task-card">
+  <div class="task-header">{{ i.title }}</div>
+  <div class="task-field"><span class="task-label">Description:</span>{{ i.description }}</div>
+  <div class="task-meta">
+    <div class="task-field"><span class="task-label">Due:</span>{{ i.due_date }}</div>
+    <div class="task-field"><span class="task-label">Priority:</span>{{ i.priority }}</div>
+    <div class="task-field"><span class="task-label">Status:</span>{{ i.status }}</div>
+  </div>
+</div>
+{% endfor %}
+
+<h2>Task summary</h2>
+
+
+<div class="task-card">
+  <div class="task-header">Total task:{{data.count}}</div>
+  
+  <div class="task-meta">
+    <div class="task-field"><span class="task-label">Pending:</span>{{ Pending_task.count }}</div>
+    <div class="task-field"><span class="task-label">In progress:</span>{{ In_progress_task.count }}</div>
+    <div class="task-field"><span class="task-label">Completed:</span>{{ Completed_task.count }}</div>
+  </div>
+</div>
+
+    
+
+<a href='{% url 'createtask' %}'>Create Task</a>
+<br>
+<a href='{% url 'homepage' %}'>Home</a>
