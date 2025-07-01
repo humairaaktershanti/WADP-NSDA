@@ -93,9 +93,9 @@
 
                     <td>{{ i.updated_at }}</td>
                     <td>
-                        <a href="{% url 'deleteToDo' %}">Delete</a>
-                        <a href="{% url 'viewsToDo' %}">Views</a>
-                        <a href="{% url 'editToDo' %}">Edit</a>
+                        <a href="{% url 'deleteToDo' i.id %}">Delete</a>
+                        <a href="{% url 'viewsToDo' i.id %}">Views</a>
+                        <a href="{% url 'editToDo' i.id %}">Edit</a>
 
                         {% if i.status != 'completed' %}
                          <a href="{% url 'DoneToDo' %}">Done</a>

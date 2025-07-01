@@ -9,7 +9,7 @@ urlpatterns = [
     path('', logIn, name='logIn'),
     path('signUp/', signUp, name='signUp'),
     path('logOut/', logOut, name='logOut'),
-    path('updatePassword/<str:id>', updatePassword, name='updatePassword'),
+    path('updatePassword', updatePassword, name='updatePassword'),
 
     path('addToDo/', addToDo, name='addToDo'),
     path('listToDo/', listToDo, name='listToDo'),

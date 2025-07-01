@@ -51,7 +51,7 @@ def logOut(req):
     logout(req)
     return redirect('logIn')
 
-def updatePassword(req,id):
+def updatePassword(req):
     user = req.user
     if req.method == 'POST':
         oldPassword = req.POST.get('oldPassword')

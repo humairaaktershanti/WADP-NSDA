@@ -18,8 +18,6 @@ class toDoModel(models.Model):
         ('pending','Pending'),
         ('inProgress','InProgress'),
         ('completed','Completed'),
-
     ],max_length=10, null=True)  
-
     created_at=models.DateField(auto_now_add=True,null=True)
     updated_at=models.DateField(auto_now_add=True,null=True)
