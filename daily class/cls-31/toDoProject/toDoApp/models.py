@@ -12,14 +12,7 @@ class customUser(AbstractUser):
 
 class toDoModel(models.Model):
     user = models.ForeignKey(customUser,on_delete=models.CASCADE, null=True)
-    title=models.CharField(max_length=100,null=True)
-    description=models.TextField(null=True)
-    status=models.CharField(choices=[
-        ('pending','Pending'),
-        ('inProgress','InProgress'),
-        ('completed','Completed'),
 
-    ],max_length=10, null=True)  
 
-    created_at=models.DateField(auto_now_add=True,null=True)
-    updated_at=models.DateField(auto_now_add=True,null=True)
+
+  

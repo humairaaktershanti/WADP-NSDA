@@ -19,7 +19,7 @@ def signUp(req):
         phone = req.POST.get('phone')
 
         if password == confirm_password:
-            data = customUser(
+            data = customUser.objects.create_user(
                 username = username,
                 fullName=fullName,
                 email=email,
@@ -43,16 +43,15 @@ def logIn(req):
         user= authenticate(req,username=username,password=password)
         if user:
             login(req,user)
-            return redirect("updatePassword")
+            return redirect("index")
         
     return render(req, 'logIn.html')
 
 def logOut(req):
     logout(req)
-
     return redirect('logIn')
 
-def updatePassword(req):
+def updatePassword(req,id):
     user = req.user
     if req.method == 'POST':
         oldPassword = req.POST.get('oldPassword')
@@ -66,3 +65,99 @@ def updatePassword(req):
 
             return redirect('index')
     return render(req, 'updatePassword.html')
+
+
+def index(req):
+    data = toDoModel.objects.filter(user=req.user)
+    statusVariable1=toDoModel.objects.filter(user=req.user,status='pending')
+    statusVariable2=toDoModel.objects.filter(user=req.user,status='inProgress')
+    statusVariable3=toDoModel.objects.filter(user=req.user,status='completed')
+
+    context={
+        'data':data, 
+        'statusVariable1':statusVariable1,
+        'statusVariable2':statusVariable2,
+        'statusVariable3':statusVariable3,
+         
+    }
+    return render (req,'index.html',context)
+
+
+def addToDo(req):
+
+    if req.method=='POST':
+        
+        title=req.POST.get('title')
+        description=req.POST.get('description')
+        status=req.POST.get('status')
+        created_at=req.POST.get('created_at')
+        updated_at=req.POST.get('updated_at')
+
+        data=toDoModel(
+            title=title,
+            description=description,
+            status=status,
+            created_at=created_at,
+            updated_at=updated_at,
+        )
+        data.save()
+        return redirect ('listToDo')
+    return render(req,"addToDo.html")
+
+
+def listToDo(req):
+
+    data= toDoModel.objects.filter(user=req.user)
+    
+    context={
+        'data':data
+        
+    }
+    return render(req,"listToDo.html",context)
+
+
+
+
+
+def deleteToDo(req,id):
+    data=toDoModel.objects.get(id=id).delete()
+    return redirect ('listToDo')
+
+
+def viewsToDo(req,id):
+    data=toDoModel.objects.get(id=id)
+    context={
+        'data':data
+    }
+    return render(req,"viewsToDo.html",context)
+
+
+def editToDo(req,id):
+    data=toDoModel.objects.get(id=id)
+    context={
+        'data':data
+    }
+
+    if req.method=='POST':
+        data.id=id
+        data.title=req.POST.get('title')
+        data.description=req.POST.get('description')
+        data.status=req.POST.get('status')
+        data.created_at=req.POST.get('created_at')
+        data.updated_at=req.POST.get('updated_at')
+
+
+        data.save()
+        return redirect ('listToDo')
+
+    return render(req,"editToDo.html",context)
+
+
+def DoneToDo(req,id):
+    data=toDoModel.objects.get(id=id)
+    data.status='Completed'
+    data.save()
+    return redirect('listToDo')
+
+
+    
