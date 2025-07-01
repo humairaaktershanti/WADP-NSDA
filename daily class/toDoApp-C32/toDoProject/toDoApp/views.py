@@ -119,6 +119,7 @@ def listToDo(req):
 
 
 
+
 def deleteToDo(req,id):
     data=toDoModel.objects.get(id=id).delete()
     return redirect ('listToDo')
