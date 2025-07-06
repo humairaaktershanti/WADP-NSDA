@@ -1,0 +1,14 @@
+{% extends "master.html" %}
+
+{% block body %}
+<h1>Welcome to the Home Page</h1>   
+<p>This is the home page of your Django application.</p>
+
+{% if user.is_authenticated %}
+    <p>Hello, {{ user.username }}!</p>
+    <p><a href="{% url 'logOut' %}">Log Out</a></p>
+{% else %}
+    <p>You are not logged in. Please <a href="{% url 'logIn' %}">Log In</a> or <a href="{% url 'signUp' %}">Sign Up</a>.</p>
+{% endif %}
+
+{% endblock body %}
