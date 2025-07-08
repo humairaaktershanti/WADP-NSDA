@@ -1,9 +1,0 @@
-from django.contrib import admin
-from django.urls import path
-from myProject.views import homePage, studentTeacher
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('',homePage),
-    path('studentTeacher/', studentTeacher),
-    
-]
