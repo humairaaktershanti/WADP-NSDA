@@ -1,0 +1,62 @@
+{% extends "master.html" %}
+{% block body %}
+    <style>
+            #customers {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+            }
+
+            #customers td, #customers th {
+            border: 1px solid #ddd;
+            padding: 8px;
+            }
+
+            #customers tr:nth-child(even){background-color: #f2f2f2;}
+
+            #customers tr:hover {background-color: #ddd;}
+
+            #customers th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #04AA6D;
+            color: white;
+            }
+    </style>
+
+<h1>My Booking</h1>
+<table id="customers">
+  <tr>
+    <th>Event Title</th>
+    <th>Event type</th>
+    <th>Event Description</th>
+    <th>Event Date</th>
+    <th>Status</th>
+    <th>location</th>
+    <th>Create By</th>
+    <th>Created At</th>
+    <th>Updated At</th>
+    <th>Actions</th>
+  </tr>
+{% for i in data %}
+  <tr>
+    <td>{{i.eventTitle}}</td>
+    <td>{{i.eventType}}</td>
+    <td>{{i.eventDescription}}</td>
+    <td>{{i.eventDate}}</td>
+    <td>{{i.status}}</td>
+    <td>{{i.location}}</td>
+    <td>{{i.createdBy}}</td>
+    <td>{{i.CreatedAt}}</td>
+    <td>{{i.updatedAt}}</td>
+    {% if i.status == 'Completed' %}
+    <td>Already Done</td>
+    {% else %}    
+    <td><a href="{% url 'update' i.id %}"><button>{{i.status}}</button></a>
+    {% endif %} |
+    <a href="{% url 'delete' i.id %}">Delete</a></td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock body %}
