@@ -1,0 +1,20 @@
+<nav>
+  <ul>
+    <li><a class="active" href="{% url 'home' %}">Home</a></li>
+
+
+    {% if user.userType == 'Admin' %}
+    <li><a href="{% url 'addTeacher' %}">Add Teacher</a></li>
+    <li><a href="{% url 'pendingStudent' %}">Pending Student</a></li>
+    {% endif %}
+    
+    
+    {% if user.userType == 'Teacher' %}
+    <li><a href="{% url 'addStudent' %}">Add Student</a></li>
+    <li><a href="{% url 'pendingStudent' %}">Pending Student</a></li>
+    {% endif %}
+
+
+    <li><a href="{% url 'logOut' %}">logOut</a></li>
+  </ul>
+</nav>
