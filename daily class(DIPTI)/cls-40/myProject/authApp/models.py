@@ -11,13 +11,13 @@ class customUser(AbstractUser):
     ],null=True)
 
 class teacherModel(models.Model):
-    user=models.ForeignKey(customUser,on_delete=models.CASCADE,null=True)
+    user=models.OneToOneField(customUser,on_delete=models.CASCADE,null=True)
     teacherName=models.CharField(max_length=100,null=True)
     phoneNumber=models.CharField(max_length=19,null=True)
     profileImage=models.ImageField(upload_to="media/photo",null=True)
 
 class studentModel(models.Model):
-    user=models.ForeignKey(customUser,on_delete=models.CASCADE,null=True)
+    user=models.OneToOneField(customUser,on_delete=models.CASCADE,null=True)
     studentName=models.CharField(max_length=100,null=True)
     phoneNumber=models.CharField(max_length=19,null=True)
     profileImage=models.ImageField(upload_to="media/photo",null=True)
