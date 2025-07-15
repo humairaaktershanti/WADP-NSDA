@@ -2,6 +2,12 @@ from django.shortcuts import render, redirect
 from authApp.models import *
 from django.contrib.auth import login, logout,authenticate
 from django.contrib.auth.decorators import login_required
+
+from random
+from django.conf import settings
+from django.core.cache import cache
+from django.core.mail import send_mail
+
 # Create your views here.
 
 @login_required(login_url='logIn')
@@ -120,3 +126,22 @@ def approved(req, id):
     student.save()
     data.delete()
     return redirect('pendingStudent')
+
+
+
+def forgotPass(req):
+    if req.method=='POST':
+        email=req.POST.get('email')
+
+        user = customUser.objects.filter(email=email).exists()
+        if user:
+            otp=random.randint(1000,9999)
+            cache.set(email,otp,timeout=300)
+            send_mail(
+                'Forgot Password OTP',
+                f'Your otp is :{otp}',
+                settings.EMAIL_HOST_USER,
+                [email]
+                
+            )
+    return render(req,'forgotPass.html')        

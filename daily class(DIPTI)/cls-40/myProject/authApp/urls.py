@@ -15,4 +15,7 @@ urlpatterns = [
     path('approved/<int:id>',approved,name='approved'),
 
 
+    path('forgotPass/',forgotPass,name='forgotPass'),
+
+
 ]
