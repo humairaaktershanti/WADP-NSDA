@@ -1,0 +1,97 @@
+{% extends "master.html" %}
+
+{% block body %}
+
+<style>
+body {
+  background: #f8f9fa;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.card {
+  background: #fff;
+  box-shadow: 0 4px 16px 0 rgba(0,0,0,0.12);
+  transition: box-shadow 0.3s, transform 0.3s;
+  width: 340px;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.card:hover {
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18);
+  transform: translateY(-6px) scale(1.03);
+}
+
+.card img {
+  width: 100%;
+  height: 180px;
+  object-fit:contain;
+  border-radius: 12px 12px 0 0;
+}
+
+.container {
+  padding: 20px 18px 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.container h4 {
+  margin: 0 0 6px 0;
+  font-size: 1.4em;
+  color: #333;
+}
+
+.container p {
+  margin: 0;
+  color: #555;
+  font-size: 1em;
+}
+
+.card a {
+  display: inline-block;
+  margin-right: 12px;
+  margin-top: 10px;
+  color: #fff;
+  background: #007bff;
+  padding: 6px 16px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 0.98em;
+  transition: background 0.2s;
+}
+
+.card a:hover {
+  background: #0056b3;
+}
+</style>
+
+<h2 style="text-align:center; margin-top:24px;">List Recipe</h2>
+<div class="cards-container">
+{% for i in data  %}
+  <div class="card">
+    <img src="/{{ i.image }}" alt="Recipe Image">
+    <div class="container">
+      <h4><b>{{ i.name }}</b></h4> 
+      <p><strong>By:</strong> {{ i.creator }}</p> 
+      <p>{{ i.description }}</p> 
+      <p><strong>Ingredients:</strong> {{ i.ingredients }}</p> 
+      <p><strong>Instructions:</strong> {{ i.instructions }}</p> 
+      <a href="{% url 'editRecipe' i.id %}">Edit</a>
+      <a href="{% url 'viewRecipe' i.id %}">Views</a>
+      <a href="{% url 'deleteRecipe' i.id %}" style="background:#dc3545;">Delete</a>
+    </div>
+  </div>
+{% endfor %}
+</div>
+{% endblock body %}
