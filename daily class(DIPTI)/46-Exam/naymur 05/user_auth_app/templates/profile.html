@@ -1,0 +1,34 @@
+{% extends "master/master.html" %}
+
+
+
+{% block content %}
+<div class="container py-5">
+  <div class="card mx-auto position-relative" style="max-width: 600px;">
+    
+    <!-- Edit Button -->
+    <a href="" class="btn btn-outline-primary position-absolute top-0 end-0 m-3">
+      Edit Profile
+    </a>
+
+    <div class="card-body text-center">
+      
+       
+      <!-- Name + Username -->
+      <h4 class="card-title mb-0">{{request.user.first_name}} {{request.user.last_name}}</h4>
+      <p class="text-muted">{{request.user.username}}</p>
+
+      <hr>
+
+      <!-- Profile Details -->
+      <div class="text-start">
+        <p><strong>userType:</strong> {{request.user.user_type}}</p>
+        <p><strong>Email:</strong> {{request.user.email}}</p>
+        <p><strong>Mobile:</strong> {{request.user.phone}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+    
+{% endblock content %}
+    
