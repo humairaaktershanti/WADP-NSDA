@@ -35,9 +35,15 @@ tr:nth-child(even) {
     <td>{{i.userTypes}}</td>
     <td>{{i.pendingStatus}}</td>
     <td>
+
+      {% if i.pendingStatus == 'Rejected' %}
+       You Are Rejected
+       {% else %}
         <a href="{% url 'acceptPending' i.id %}">Accept</a>
-        <a href="">Reject</a>
+        <a href="{% url 'rejectPending' i.id %}">Reject</a>
+      {% endif %}
     </td>
+    
   </tr>
   {% endfor %}
  

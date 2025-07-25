@@ -107,3 +107,28 @@ def acceptPending(req,id):
                 )
         data.delete()        
         return redirect('pendingList')
+    
+
+def rejectPending(req,id):
+    data = pendingAccountModel.objects.get(id=id)
+
+    data.pendingStatus = 'Rejected'
+    data.save()
+    return redirect('pendingList')
+
+def profile(req):
+    return render(req,'profile.html')
+
+def editProfile(req,id):
+    data=customUserModel.objects.get(id=id)
+    profileData=employerProfileModel.objects.get(employerUser=data)
+    context={
+        'data':profileData
+
+    }
+    
+
+    return render(req,'editProfile.html',context)
+
+# 27 min video
+    

@@ -2,7 +2,7 @@ from django.db import models
 from userAuthApp.models import *
 
 class employerProfileModel(models.Model):
-    employerUser = models.OneToOneField(customUserModel,on_delete=models.CASCADE, max_length = 100,null = True)
+    employerUser = models.OneToOneField(customUserModel,on_delete=models.CASCADE, max_length = 100,null = True,related_name='employerProfile')
     companyName = models.CharField(max_length = 100,null = True)
     email = models.EmailField(null = True)
     phone = models.IntegerField(null=True)

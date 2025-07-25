@@ -1,0 +1,21 @@
+{% extends "master.html" %}
+{% block body %}
+<h1>{{user.userTypes}} </h1>
+
+{% if user.userTypes == 'Employer' %}
+<p>Company Name: {{user.employerProfile.companyName}} </p>
+<p>Email: {{user.employerProfile.email}} </p>
+<p>Phone: {{user.employerProfile.phone}} </p>
+<p>About Company: {{user.employerProfile.aboutCompany}} </p>
+<img src="/{{user.employerProfile.companyLogo}}" height="300">
+
+<p>Location: {{user.employerProfile.location}} </p>
+
+<a href="{% url 'editProfile' user.id %}">Edit Profile</a>
+
+
+
+{% endif %}
+
+
+{% endblock body %}
