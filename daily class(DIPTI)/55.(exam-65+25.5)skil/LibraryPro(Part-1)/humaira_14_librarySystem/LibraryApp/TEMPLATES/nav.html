@@ -1,0 +1,21 @@
+<ul>
+  {% if user.userTypes == 'Librarian' %}
+  <li><a href="{% url 'addBook' %}">Add Book</a></li>  
+  <li><a href="{% url 'librarianProfile' %}">Librarian Profile</a></li>  
+  <li><a href="{% url 'librarianDashboard' %}">Librarian Dashboard</a></li> 
+  {% endif %}
+  
+  {% if user.userTypes == 'Student' %}
+  <li><a class="active" href="{% url 'studentDashboard' %}">Student Dashboard</a></li>
+  <li><a href="{% url 'studentProfile' %}">Student Profile</a></li> 
+  {% endif %}
+  
+
+
+  <li><a href="{% url 'listBok' %}">list Bok</a></li> 
+   
+   
+
+  <li><a href="{% url 'logOut' %}">Log Out</a></li>
+  <li><a href="{% url 'changePassword' %}">Change Password</a></li>
+</ul>
