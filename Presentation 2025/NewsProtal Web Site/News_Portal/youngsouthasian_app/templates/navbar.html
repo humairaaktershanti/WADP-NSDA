@@ -1,0 +1,86 @@
+{% load static %}
+<!-- Top Black Bar -->
+<div class="top-bar">
+    <span class="date" id="currentDate"></span>
+
+    <div class="social-icons">
+        
+
+        <a href="https://www.facebook.com/youngsouthasian1"><i class="fab fa-facebook"></i></a>
+        <a href="https://www.linkedin.com/company/young-south-asian/"><i class="fab fa-linkedin"></i></a>
+        <a href=""><i class="fab fa-twitter"></i></a>
+        <a href=""><i class="fab fa-instagram"></i></a>
+        <a href=""><i class="fab fa-youtube"></i></a>
+        <a href="{% url 'login_view' %}" class="login-btn"><i class="fas fa-user"></i> Login</a>
+    </div>
+</div>
+
+       <!-- Top Header Start -->
+<div class="top-header">
+    <div class="container">
+        <div class="row align-items-center">
+            <!-- Logo on the left -->
+            <div class="col-lg-6 col-md-6 d-flex align-items-center">
+                <div class="logo">
+                    <a href="{% url 'category_news' %}">
+                        <img src="{% static 'news/img/young.jfif' %}" alt="Logo" height="45px" width="250px">
+                    </a>
+                </div>
+            </div>
+
+            <!-- Image on the right -->
+            <div class="col-lg-6 col-md-6 d-flex justify-content-end align-items-center">
+                <img src="{% static 'news/img/team.png' %}" alt="" height="60px">
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Top Header End -->
+
+
+
+<!-- Header Start -->
+<div class="header">
+    <div class="container">
+        <nav class="navbar navbar-expand-md navbar-dark" style="background:#551279;">
+            <a href="#" class="navbar-brand">MENU</a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <!-- Left-aligned navigation -->
+                <div class="navbar-nav">
+                    <a href="{% url 'category_news' 'bangladesh' %}" class="nav-item nav-link active"><b>Bangladesh</b></a>
+                    <a href="{% url 'category_news' 'international' %}" class="nav-item nav-link"><b>International</b></a>
+                    <a href="{% url 'category_news' 'sports' %}" class="nav-item nav-link"><b>Sports</b></a>
+                    <a href="{% url 'category_news' 'business' %}" class="nav-item nav-link"><b>Business</b></a>
+                    <a href="{% url 'category_news' 'politics' %}" class="nav-item nav-link"><b>Politics</b></a>
+                    <a href="{% url 'category_news' 'entertainment' %}" class="nav-item nav-link"><b>Entertainment</b></a>
+                    <a href="{% url 'category_news' 'lifestyle' %}" class="nav-item nav-link"><b>Lifestyle</b></a>
+                    <!--
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Dropdown</a>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">Sub Item 1</a>
+                            <a href="#" class="dropdown-item">Sub Item 2</a>
+                        </div>
+                    </div>
+-->
+                    <a href="{% url 'category_news' 'technology' %}" class="nav-item nav-link"><b>Technology</b></a>
+                    
+                    <a href="{% url 'category_news' 'education' %}" class="nav-item nav-link"><b>Education</b>
+                    </a>
+                    
+                </div>
+                
+                <!-- Right-aligned search -->
+                <div class="ml-auto search">
+                    <button><i class="fa fa-search"></i></button>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+<!-- Header End -->
+

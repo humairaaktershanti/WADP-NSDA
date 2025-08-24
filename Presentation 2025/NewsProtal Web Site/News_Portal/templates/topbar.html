@@ -1,0 +1,46 @@
+{% load static %}
+<!-- Navbar -->
+  <nav class="navbar navbar-expand navbar-light shadow-sm">
+    <form class="form-inline my-2 my-lg-0 position-relative">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search articles or authors..." aria-label="Search" />
+      <button class="btn-search" type="submit"><i class="fas fa-search"></i></button>
+    </form>
+    <ul class="navbar-nav ml-auto align-items-center">
+      <!-- Notifications -->
+     
+      <!-- Messages -->
+     
+      <!-- User profile dropdown -->
+      <li class="nav-item dropdown">
+        <a
+          class="nav-link dropdown-toggle d-flex align-items-center"
+          href="#"
+          id="userDropdown"
+          role="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <img src="{{request.user.profile}}" alt="User" class="rounded-circle" style="width: 32px; height: 32px; object-fit: cover; margin-right: 8px;" />
+          <span>{{request.user.username}}</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+          <a class="dropdown-item" href="#"><i class="fas fa-user mr-2"></i> 
+          
+          <div class="card">
+            <img src="{{request.user.profile}}" alt="Avatar" style="width:100%">
+            <div class="container">
+              <h4><b>{{request.user.username}}</b></h4> 
+              <p>{{request.user.email}}</p> 
+            </div>
+          </div>
+
+          
+          </a>
+         
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item text-danger" href="{% url 'logout_view' %}"><i class="fas fa-sign-out-alt mr-2"></i> Logout</a>
+        </div>
+      </li>
+    </ul>
+  </nav>

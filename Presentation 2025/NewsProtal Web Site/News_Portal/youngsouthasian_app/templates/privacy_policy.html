@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy</title>
+</head>
+<body>
+    <h2><b>Privacy Policy</b></h2>
+    <h4><b>Your privacy is critically important to us.</b></h4>
+    
+</body>
+</html>
+
+
+<!-- Main News Start -->
+<div class="main-news">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2><i class="fas fa-align-justify"></i>International</h2>
+                        <div class="row">
+                            <!-- First large news -->
+                            {% if first_news %}
+                                <div class="col-lg-6">
+                                    <div class="mn-img">
+                                        <img src="{{ first_news.featured_image.url }}" alt="{{ first_news.title }}" />
+                                    </div>
+                                    <div class="mn-content">
+                                        <a class="mn-title" href="">{{ first_news.title }}</a>
+                                        <a class="mn-date" href=""><i class="far fa-clock"></i>{{ first_news.published_date|date:"d-M-Y" }}</a>
+                                        <p>
+                                            {{ first_news.content|truncatewords:20 }}
+                                        </p>
+                                    </div>
+                                </div>
+                            {% endif %}
+
+                            <!-- Smaller news list -->
+                            <div class="col-lg-6">
+                                {% for news_item in other_news %}
+                                    <div class="mn-list">
+                                        <div class="mn-img">
+                                            <img src="{{ news_item.featured_image.url }}" alt="{{ news_item.title }}" />
+                                        </div>
+                                        <div class="mn-content">
+                                            <a class="mn-title" href="">{{ news_item.title }}</a>
+                                            <a class="mn-date" href=""><i class="far fa-clock"></i>{{ news_item.published_date|date:"d-M-Y" }}</a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Main News End -->
