@@ -1,0 +1,123 @@
+{% extends 'master.html' %}
+
+{% block body %}
+<style>
+  .form-container {
+    max-width: 800px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 25px 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 0.05);
+  }
+
+  .form-container h2 {
+    color: #4a0072;
+    font-weight: 700;
+    margin-bottom: 25px;
+  }
+
+  .form-container label {
+    font-weight: 600;
+    color: #001f3d;
+    margin-bottom: 6px;
+    display: block;
+  }
+
+  .form-container input[type="text"],
+  .form-container input[type="file"],
+  .form-container textarea,
+  .form-container select {
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    border: 1.5px solid #ccc;
+    border-radius: 6px;
+    transition: border-color 0.3s ease;
+    margin-bottom: 18px;
+    box-sizing: border-box;
+  }
+
+  .form-container input[type="text"]:focus,
+  .form-container input[type="file"]:focus,
+  .form-container textarea:focus,
+  .form-container select:focus {
+    border-color: #5D3FD3;
+    outline: none;
+    box-shadow: 0 0 6px #5D3FD3aa;
+  }
+
+  .form-container button[type="submit"] {
+    background: #5D3FD3;
+    color: white;
+    font-weight: 700;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .form-container button[type="submit"]:hover {
+    background: #4a0072;
+  }
+</style>
+
+<main id="content" role="main" aria-label="Add News">
+  <section>
+    <div class="form-container">
+      <h2>Add News</h2>
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form.media}}
+        
+        {{ form.non_field_errors }}
+
+        <div>
+          <label for="{{ form.title.id_for_label }}">Title</label>
+          {{ form.title }}
+          {{ form.title.errors }}
+        </div>
+
+        <div>
+          <label for="{{ form.excerpt.id_for_label }}">Excerpt</label>
+          {{ form.excerpt }}
+          {{ form.excerpt.errors }}
+        </div>
+
+        <div>
+          <label for="{{ form.content.id_for_label }}">Content</label>
+          {{ form.content }}
+          {{ form.content.errors }}
+        </div>
+
+        <div>
+          <label for="{{ form.category.id_for_label }}">Category</label>
+          {{ form.category }}
+          {{ form.category.errors }}
+        </div>
+
+        <div>
+          <label for="{{ form.author.id_for_label }}">Author</label>
+          {{ form.author }}
+          {{ form.author.errors }}
+        </div>
+
+        <div>
+          <label for="{{ form.featured_image.id_for_label }}">Featured Image</label>
+          {{ form.featured_image }}
+          {{ form.featured_image.errors }}
+        </div>
+
+        <div>
+          <label for="{{ form.status.id_for_label }}">Status</label>
+          {{ form.status }}
+          {{ form.status.errors }}
+        </div>
+
+        <button type="submit">Add News</button>
+      </form>
+    </div>
+  </section>
+</main>
+{% endblock %}

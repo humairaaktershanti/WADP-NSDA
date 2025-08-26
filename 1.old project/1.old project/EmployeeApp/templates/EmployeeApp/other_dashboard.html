@@ -1,0 +1,31 @@
+{% extends 'AuthApp/master.html' %}
+
+{% block title %}Employee Dashboard - InstraCore{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-body p-5 text-center">
+                    <i class="bi bi-person-workspace text-primary" style="font-size: 4rem;"></i>
+                    <h3 class="mt-4">Welcome to Your Dashboard</h3>
+                    <p class="lead">Your specific dashboard features are being developed.</p>
+                    <div class="alert alert-info mt-4">
+                        <i class="bi bi-info-circle"></i> You are logged in as a {{ user.sub_role|title }}. 
+                        Your dashboard will be available soon with features tailored to your role.
+                    </div>
+                    <div class="mt-4">
+                        <a href="{% url 'profile' %}" class="btn btn-primary me-2">
+                            <i class="bi bi-person"></i> Update Profile
+                        </a>
+                        <a href="{% url 'logout' %}" class="btn btn-outline-secondary">
+                            <i class="bi bi-box-arrow-right"></i> Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,315 @@
+{% extends "base.html" %}
+{% load static %}
+{% block body %}
+<!-- Top News Start-->
+<div class="top-news">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Left Section for the First Top News -->
+            <div class="col-md-6 tn-left">
+                {% if left_news %}
+                    <div class="tn-img">
+                        <!-- Check if image exists -->
+                        {% if left_news.0.featured_image %}
+                            <img src="{{ left_news.0.featured_image.url }}" alt="{{ left_news.0.title }}" />
+                        {% else %}
+                            <img src="{% static 'news/img/default-image.jpg' %}" alt="Default Image" />
+                        {% endif %}
+                        <div class="tn-content">
+                            <div class="tn-content-inner">
+                                <!-- Ensure 'published_date' exists -->
+                                <a class="tn-date" href=""><i class="far fa-clock"></i>{{ left_news.0.published_date|date:"d-M-Y" }}</a>
+                                <a class="tn-title" href="">{{ left_news.0.title }}</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+            
+            <!-- Right Section for the Rest of the Top News -->
+            <div class="col-md-6 tn-right">
+                <div class="row">
+                    {% for news_item in right_news %}
+                        <div class="col-md-6">
+                            <div class="tn-img">
+                                <!-- Check if image exists -->
+                                {% if news_item.featured_image %}
+                                    <img src="{{ news_item.featured_image.url }}" alt="{{ news_item.title }}" />
+                                {% else %}
+                                    <img src="{% static 'news/img/default-image.jpg' %}" alt="Default Image" />
+                                {% endif %}
+                                <div class="tn-content">
+                                    <div class="tn-content-inner">
+                                        <!-- Ensure 'published_date' exists -->
+                                        <a class="tn-date" href=""><i class="far fa-clock"></i>{{ news_item.published_date|date:"d-M-Y" }}</a>
+                                        <a class="tn-title" href="">{{ news_item.title }}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Top News End-->
+
+
+
+
+
+        <!-- Category News Start -->
+<div class="cat-news">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sports Section -->
+            <div class="col-md-6">
+                <h2 class="section-title">
+                    <span class="title-line"></span>
+                    <i class="fas fa-bars"></i> Sports
+                </h2>
+                <div class="row cn-slider">
+                    {% for n in sports_news %}
+                    <div class="col-md-6">
+                        <div class="cn-img">
+                            {% if n.featured_image %}
+                            <img src="{{ n.featured_image.url }}" alt="{{ n.title }}">
+                            {% endif %}
+                            <div class="cn-content">
+                                <div class="cn-content-inner">
+                                    <a class="cn-date" href="#"><i class="far fa-clock"></i> {{ n.published_date|date:"d-M-Y" }}</a>
+                                    <a class="cn-title" href="#">{{ n.title }}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Technology Section -->
+            <div class="col-md-6">
+                <h2 class="section-title">
+                    <span class="title-line"></span>
+                    <i class="fas fa-align-justify"></i> Technology
+                </h2>
+                <div class="row cn-slider">
+                    {% for news in tech_news %}
+                    <div class="col-md-6">
+                        <div class="cn-img">
+                            {% if news.featured_image %}
+                            <img src="{{ news.featured_image.url }}" alt="{{ news.title }}">
+                            {% endif %}
+                            <div class="cn-content">
+                                <div class="cn-content-inner">
+                                    <a class="cn-date" href="#"><i class="far fa-clock"></i> {{ news.published_date|date:"d-M-Y" }}</a>
+                                    <a class="cn-title" href="#">{{ news.title }}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Category News End -->
+
+
+
+        <!-- Category News Start-->
+<div class="cat-news">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Business -->
+            <div class="col-md-6">
+                <h2><i class="fas fa-align-justify"></i> Business</h2>
+                <div class="row cn-slider">
+                    {% for news in business_news %}
+                    <div class="col-md-6">
+                        <div class="cn-img">
+                            <img src="{{ news.featured_image.url }}" alt="{{ news.title }}">
+                            <div class="cn-content">
+                                <div class="cn-content-inner">
+                                    <a class="cn-date"><i class="far fa-clock"></i>{{ news.published_date|date:"d-M-Y" }}</a>
+                                    <a class="cn-title" href="#">{{ news.title }}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Entertainment -->
+            <div class="col-md-6">
+                <h2><i class="fas fa-align-justify"></i> Entertainment</h2>
+                <div class="row cn-slider">
+                    {% for news in entertainment_news %}
+                    <div class="col-md-6">
+                        <div class="cn-img">
+                            <img src="{{ news.featured_image.url }}" alt="{{ news.title }}">
+                            <div class="cn-content">
+                                <div class="cn-content-inner">
+                                    <a class="cn-date"><i class="far fa-clock"></i>{{ news.published_date|date:"d-M-Y" }}</a>
+                                    <a class="cn-title" href="#">{{ news.title }}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Category News End-->
+
+
+        <!-- Main News Start-->
+        <div class="main-news">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h2><i class="fas fa-align-justify"></i>International</h2>
+                                <div class="row">
+                                    <!-- First large news -->
+                                    {% if first_news %}
+                                    <div class="col-lg-6">
+                                        <div class="mn-img">
+                                            <img src="{{ first_news.featured_image.url }}" />
+                                        </div>
+                                        <div class="mn-content">
+                                            <a class="mn-title" href="{% url 'news_detail' first_news.id %}">{{ first_news.title }}</a>
+
+                                            <a class="mn-date" href=""><i class="far fa-clock"></i>0{{ first_news.published_date|date:"d-M-Y" }}</a>
+                                            <p>
+                                                {{ first_news.excerpt|truncatewords:20 }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+
+                                    <div class="col-lg-6">
+                                        {% for news_item in other_news %}
+                                        <div class="mn-list">
+                                            <div class="mn-img">
+                                                <img src="{{ news_item.featured_image.url }}" />
+                                            </div>
+                                            <div class="mn-content">
+                                                <a class="mn-title" href="{% url 'news_detail' news_item.id %}">{{ news_item.title }}</a>
+                                                <a class="mn-date" href=""><i class="far fa-clock"></i>{{ news_item.published_date|date:"d-M-Y" }}</a>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+                            <div class="col-md-12">
+                                <h2><i class="fas fa-align-justify"></i>Lifestyle</h2>
+                                <div class="row">
+                                    {% if first_life_news %}
+                                    <div class="col-lg-6">
+                                        <div class="mn-img">
+                                            <img src="{{ first_life_news.featured_image.url }}" />
+                                        </div>
+                                        <div class="mn-content">
+                                            <a class="mn-title" href="{% url 'news_detail' first_life_news.id %}">{{ first_life_news.title }}</a>
+                                            <a class="mn-date" href=""><i class="far fa-clock"></i>{{ first_life_news.published_date|date:"d-M-Y" }}</a>
+                                            <p>
+                                                {{ first_life_news.excerpt|truncatewords:20 }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                    
+                                    <div class="col-lg-6">
+                                        {% for i in other_life_news %}
+                                        <div class="mn-list">
+                                            <div class="mn-img">
+                                                <img src="{{ i.featured_image.url }}" />
+                                            </div>
+                                            <div class="mn-content">
+                                                <a class="mn-title" href="{% url 'news_detail' i.id %}">{{ i.title }}</a>
+                                                <a class="mn-date" href=""><i class="far fa-clock"></i>{{ i.published_date|date:"d-M-Y" }}</a>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="sidebar">
+                            <div class="sidebar-widget">
+                                <h2><i class="fas fa-align-justify"></i>Category</h2>
+                                <div class="category">
+                                    <ul class="fa-ul">
+                                        <li><span class="fa-li"><i class="far fa-arrow-alt-circle-right"></i></span><a href="">National</a></li>
+                                        <li><span class="fa-li"><i class="far fa-arrow-alt-circle-right"></i></span><a href="">International</a></li>
+                                        <li><span class="fa-li"><i class="far fa-arrow-alt-circle-right"></i></span><a href="">Economics</a></li>
+                                        <li><span class="fa-li"><i class="far fa-arrow-alt-circle-right"></i></span><a href="">Politics</a></li>
+                                        <li><span class="fa-li"><i class="far fa-arrow-alt-circle-right"></i></span><a href="">Lifestyle</a></li>
+                                        <li><span class="fa-li"><i class="far fa-arrow-alt-circle-right"></i></span><a href="">Technology</a></li>
+                                        <li><span class="fa-li"><i class="far fa-arrow-alt-circle-right"></i></span><a href="">Trades</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            
+                            <div class="sidebar-widget">
+                                <h2><i class="fas fa-align-justify"></i>McDonald's Ad</h2>
+                                <div class="image">
+                                    <a href=""><img src="{% static 'news/img/adds-1.png' %}" alt="Image"></a>
+                                </div>
+                            </div>
+
+                            <div class="sidebar-widget">
+                                <h2><i class="fas fa-align-justify"></i>Taste PEPSI </h2>
+                                <div class="image">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <a href=""><img src="{% static 'news/img/coca.jpg' %}" alt="Image" height=130px></a>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <a href=""><img src="{% static 'news/img/image_nagad_offer.jpeg' %}" alt="Image"  height=130px></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sidebar-widget">
+                                <h2><i class="fas fa-align-justify"></i>Tags</h2>
+                                <div class="tags">
+                                    <a href="">Bangladesh</a>
+                                    <a href="">International</a>
+                                    <a href="">Business</a>
+                                    <a href="">Politics</a>
+                                    <a href="">Lifestyle</a>
+                                    <a href="">Technology</a>
+                                    <a href="">Trades</a>
+                                    <a href="">National</a>
+                                    <a href="">International</a>
+                                    <a href="">Economics</a>
+                                    <a href="">Politics</a>
+                                    <a href="">Lifestyle</a>
+                                    <a href="">Technology</a>
+                                    <a href="">Sports</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Main News End-->
+
+{% endblock body %}

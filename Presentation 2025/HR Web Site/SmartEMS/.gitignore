@@ -1,0 +1,10 @@
+# .gitignore
+
+# Ignore Python virtual environments
+myenv/
+myEnv/
+env/
+
+# Ignore Python cache
+__pycache__/
+*.pyc

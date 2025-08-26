@@ -1,0 +1,30 @@
+{% extends 'AuthApp/master.html' %}
+
+{% block title %}Access Denied - InstraCore{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0">Access Denied</h4>
+                </div>
+                <div class="card-body p-5 text-center">
+                    <i class="bi bi-shield-x text-danger" style="font-size: 4rem;"></i>
+                    <h3 class="mt-4">You don't have permission to access this page</h3>
+                    <p class="text-muted">Only superusers can access the Django admin panel.</p>
+                    <div class="mt-4">
+                        <a href="{% url 'admin_dashboard' %}" class="btn btn-primary me-2">
+                            <i class="bi bi-speedometer2"></i> Go to Dashboard
+                        </a>
+                        <a href="{% url 'logout' %}" class="btn btn-outline-secondary">
+                            <i class="bi bi-box-arrow-right"></i> Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
