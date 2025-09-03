@@ -1,0 +1,71 @@
+{% extends "master.html" %}
+{% block body %}
+
+<style>
+
+
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+
+    .card-container {
+        display: flex;
+        /* grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); */
+        gap: 20px;
+        margin-top: 30px;
+        justify-content: center;
+        justify-items: center;
+    }
+
+    .card {
+        background: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .card-content {
+        padding: 15px;
+    }
+
+    .card-content h3 {
+        margin: 0 0 10px 0;
+        color: #333;
+    }
+
+    .card-content p {
+        font-size: 14px;
+        color: #555;
+        overflow: hidden;
+    }
+
+</style>
+
+<h1>Welcode to Library System : {{request.user.username}}</h1>
+
+<div class="card-container">
+    <div class="card">
+        {% load static %}
+        <img src="/{{ request.user.profile_picture }}" height='150px'>
+        <div class="card-content">
+            <h3>student_id: {{ request.user.email}}</h3>
+            <p>department: {{ request.user.full_name }}</p>
+            <p>contact_number: {{ request.user.email }}</p>
+            <p>address: {{ request.user.address }}</p>
+            <p>phone: {{ request.user.phone }}</p>
+            <a href="{% url 'editprofile' %}"><button>Add/Update</button></a>
+        </div>
+    </div>
+</div>
+
+{% endblock body %}

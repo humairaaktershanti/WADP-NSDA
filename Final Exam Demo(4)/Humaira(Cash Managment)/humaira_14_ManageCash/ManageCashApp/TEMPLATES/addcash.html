@@ -1,0 +1,16 @@
+{% extends 'master.html' %}
+
+
+{% block body %}
+<div class="container mt-4" style="width: 600px;">
+    {% comment %} <div class="container bg-primary"> {% endcomment %}
+    <h2>Add Cash</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% comment %} <button type="submit" class="btn btn-success">Submit</button> {% endcomment %}
+        <button type="submit" class="btn btn-success">Submit</button>
+
+    </form>
+</div>
+{% endblock body %}
