@@ -1,0 +1,50 @@
+{% extends 'master.html' %}
+
+{% block content %}
+<h1>Recipe List:</h1>
+
+<table id="customers">
+    <tr>
+    <th>RecipeTitle</th>
+    <th>Ingredients</th>
+    <th>Instructions</th>
+    <th>PreparationTime</th>
+    
+    <th>Create_by</th>
+    <th>SampleImage</th>
+    <th>Action</th>
+    </tr>
+
+    
+    {% for i in recipedata %}
+    <tr>
+        <td>{{i.RecipeTitle}}</td>
+        <td>{{i.Ingredients}}</td>
+        <td>{{i.Instructions}}</td>
+        <td>{{i.PreparationTime}}</td>
+        <td>{{i.Create_by}}</td>
+        <td>
+            <img src="/{{i.SampleImage}}" width="50px" alt="">
+        </td>
+        <td>
+            
+            {% if user.UserType == 'Chef' %}
+                <a href="{% url 'editrecipe' i.id %}">Edit</a>
+                <a href="{% url 'deleterecipe' i.id %}">Delete</a>
+            {% endif %}
+                
+            <a href="{% url 'viewrecipe' i.id %}">View</a>
+        </td>
+    </tr>
+        
+    {% endfor %}
+        
+
+    
+
+
+
+</table>
+    
+{% endblock content %}
+    

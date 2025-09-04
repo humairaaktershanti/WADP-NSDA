@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+          }
+        
+          .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            outline: none;
+          }
+        
+          .btn-view {
+            background-color: #4CAF50;
+            color: white;
+          }
+        
+          .btn-edit {
+            background-color: #2196F3;
+            color: white;
+          }
+        
+          .btn-delete {
+            background-color: #f44336;
+            color: white;
+          }
+    </style>
+</head>
+<body>
+
+    <div class="btn-container">
+        <a href="{% url 'editprofilePage' %}" class="btn btn-view">Edit Profile</a>
+        <a href="{% url 'basicinfoPage' %}" class="btn btn-edit">Basic Info</a>
+        <a href="{% url 'contactinfoPage' %}" class="btn btn-delete">Contact Info</a>
+        
+        {% if user.UserType == 'Customer' %}
+        <a href="{% url 'productlistPage' %}" class="btn btn-view">Product List</a>
+
+        {% elif user.UserType == 'Seller' %}
+        <a href="{% url 'productlistPage' %}" class="btn btn-delete">Added Product</a>
+        {% endif %}
+          
+        
+        
+        
+          
+        
+      </div>
+    
+</body>
+</html>
