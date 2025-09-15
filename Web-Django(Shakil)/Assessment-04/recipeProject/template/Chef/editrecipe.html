@@ -1,0 +1,105 @@
+{% extends 'master.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Recipe</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" integrity="sha512-t4GWSVZO1eC8BM339Xd7Uphw5s17a86tIZIj8qRxhnKub6WoyhnrxeCIMeAqBPgdZGlCcG2PrZjMc+Wr78+5Xg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="card col-md-8 p-3 mb-3">
+      <h2 class="text-center mb-4">Edit Recipe</h2>
+      <form action="{% url 'updaterecipePage' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label for="recipeid" class="form-label">Recipe ID</label>
+          <input type="text" class="form-control" id="recipeid" value="{{recipedata.id}}" name="recipeid" readonly required>
+        </div>
+        <div class="mb-3">
+          <label for="recipeTitle" class="form-label">Recipe Title</label>
+          <input type="text" class="form-control" id="recipeTitle" value="{{recipedata.RecipeTitle}}" name="RecipeTitle" required>
+        </div>
+        <div class="mb-3">
+          <label for="ingredients" class="form-label">Ingredients</label>
+          <textarea class="form-control" id="ingredients" name="Ingredients" rows="4" required>{{recipedata.Ingredients}}</textarea>
+        </div>
+        <div class="mb-3">
+          <label for="instructions" class="form-label">Instructions</label>
+          <textarea class="form-control" id="instructions"  name="Instructions" rows="4" required>{{recipedata.Instructions}}</textarea>
+        </div>
+        <div class="row mb-3">
+          <div class="col">
+            <label for="preparationTime" class="form-label">Preparation Time</label>
+            <input type="text" class="form-control" id="preparationTime" value="{{recipedata.PreparationTime}}" name="PreparationTime" required>
+          </div>
+          <div class="col">
+            <label for="cookingTime" class="form-label">Cooking Time</label>
+            <input type="text" class="form-control" id="cookingTime" value="{{recipedata.CookingTime}}" name="CookingTime" required>
+          </div>
+          <div class="col">
+            <label for="totalTime" class="form-label">Total Time</label>
+            <input type="text" class="form-control" id="totalTime" value="{{recipedata.TotalTime}}" name="TotalTime" required>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="nutritionalInformation" class="form-label">Nutritional Information</label>
+          <input type="text" class="form-control" id="nutritionalInformation" value="{{recipedata.NutritionalInformation}}" name="NutritionalInformation" required>
+        </div>
+        <div class="mb-3">
+          <label for="totalCalorie" class="form-label">Total Calorie</label>
+          <input type="text" class="form-control" id="totalCalorie" value="{{recipedata.TotalCalorie}}" name="TotalCalorie" required>
+        </div>
+        <div class="mb-3">
+          <label for="tags" class="form-label">Tags</label>
+          <select class="form-select" id="tags" value="{{recipedata.Tags}}" name="Tags" required>
+            <option value="">Select Tags</option>
+            <option value="Vegetrian">Vegetrian</option>
+            <option value="Non-Vegetrian">Non-Vegetrian</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="recipeCategory" class="form-label">Recipe Category</label>
+          <select class="form-select" id="recipeCategory" value="{{recipedata.RecipeCategory}}" name="RecipeCategory" required>
+            <option value="">Select Recipe Category</option>
+            <option value="Breakfast">Breakfast</option>
+            <option value="Lunch">Lunch</option>
+            <option value="Dinner">Dinner</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="difficultyLevel" class="form-label">Difficulty Level</label>
+          <select class="form-select" id="difficultyLevel" name="DifficultyLevel" required>
+            <option value="{{recipedata.DifficultyLevel}}">Select Difficulty Level</option>
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="sampleImage" class="form-label">Sample Image</label>
+          <input type="file" class="form-control" id="sampleImage"  name="SampleImage" >
+          <input type="hidden" class="form-control" id="preimg" value="{{recipedata.SampleImage}}"  name="preimg" required>
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary">Update Recipe</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+    
+{% endblock content %}
+    

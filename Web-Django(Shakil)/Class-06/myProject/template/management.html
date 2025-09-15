@@ -1,0 +1,25 @@
+{% extends 'master.html' %}
+
+
+{% block content %}
+<h1>This is Management Data</h1>
+
+<table id="customers">
+    <tr>
+      <th>ID</th>
+      <th>Management Name</th>
+      <th>Address</th>
+    </tr>
+   
+    {% for i in mandata %}
+    <tr>
+      <td>{{i.managementid}}</td>
+      <td>{{i.name}}</td>
+      <td>{{i.address}}</td>
+    </tr>
+  
+    {% endfor %}
+    
+  </table>
+    
+{% endblock content %}

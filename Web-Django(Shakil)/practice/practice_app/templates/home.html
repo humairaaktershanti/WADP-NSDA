@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #customers {
+            font-family: Arial, Helvetica, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        #customers td,
+        #customers th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #customers tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        #customers tr:hover {
+            background-color: #ddd;
+        }
+
+        #customers th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #04AA6D;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    {% include 'nav.html' %}
+    <h1>Author Data</h1>
+    <table id="customers">
+        <tr>
+            <td>SL No</td>
+            <td>Author Name</td>
+            <td>Email</td>
+            <td>Contact</td>
+            <td>Address</td>
+        </tr>
+        
+        {% for data in author_data %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{data.name}}</td>
+            <td>{{data.email}}</td>
+            <td>{{data.contact}}</td>
+            <td>{{data.address}}</td>
+        </tr>
+            
+        {% endfor %}
+    </table>
+
+    <h1>Book Data</h1>
+    <table id="customers">
+        <tr>
+            <td>SL No</td>
+            <td>Book Title</td>
+            <td>Author Name</td>
+            <td>Author Email</td>
+            <td>Author Contact</td>
+            <td>Page</td>
+        </tr>
+        
+        {% for book in book_data %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{ book.title }}</td>
+            <td>{{ book.author.name }}</td>
+            <td>{{ book.author.email }}</td>
+            <td>{{ book.author.contact }}</td>
+            <td>{{ book.pages }}</td>
+        </tr>
+            
+        {% endfor %}
+            
+    </table>
+
+</body>
+
+</html>
