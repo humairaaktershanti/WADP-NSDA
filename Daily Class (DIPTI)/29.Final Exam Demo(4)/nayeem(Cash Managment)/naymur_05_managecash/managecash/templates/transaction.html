@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="mt-5">
+  <h4 class="mb-3">Recent Transactions</h4>
+  <table class="table table-striped table-hover">
+    <thead class="table-dark">
+      <tr>
+        <th>Date</th>
+        <th>Description</th>
+        <th>Type</th>
+        <th>Amount</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for cash in cash_list %}
+      <tr>
+        <td>{{ cash.datetime }}</td>
+        <td>{{ cash.source }}</td>
+        <td><span class="badge bg-success">Cash In</span></td>
+        <td>${{ cash.amount }}</td>
+        <td>
+          <a href="{% url 'editcash' cash.id %}" class="btn btn-sm btn-primary">Edit</a>
+          <a href="{% url 'deletecash' cash.id %}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this?');">Delete</a>
+        </td>
+      </tr>
+      {% endfor %}
+      {% for expense in expense_list %}
+      <tr>
+        <td>{{ expense.datetime }}</td>
+        <td>{{ expense.description }}</td>
+        <td><span class="badge bg-danger">Expense</span></td>
+        <td>${{ expense.amount }}</td>
+        <td>
+          <a href="{% url 'editexpence' expense.id %}" class="btn btn-sm btn-primary">Edit</a>
+          <a href="{% url 'deleteexpence' expense.id %}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this?');">Delete</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{% endblock content %}

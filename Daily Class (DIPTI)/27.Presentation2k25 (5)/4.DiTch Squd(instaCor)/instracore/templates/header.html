@@ -1,0 +1,123 @@
+<header class="header">        
+        <div class="logo">
+            <i class="fas fa-graduation-cap"></i>
+            <span>InstaCore</span>
+        </div>
+        
+        <div class="nav-center">
+            {% if user.role == 'admin' %}
+                <a href="{% url 'admin_dashboard:dashboard' %}" class="btn">Dashboard</a>
+            {% elif user.role == 'employee' and user.sub_role == 'faculty' %}
+                <a href="{% url 'employee:faculty_dashboard' %}" class="btn">Dashboard</a>
+            {% elif user.role == 'employee' and user.sub_role == 'hr' %}
+                <a href="{% url 'employee:hr_dashboard' %}" class="btn">Dashboard</a>
+            {% elif user.role == 'employee' and user.sub_role == 'teacher' %}
+                <a href="{% url 'employee:teacher_dashboard' %}" class="btn">Dashboard</a>
+            {% elif user.role == 'student' %}
+                <a href="{% url 'student:dashboard' %}" class="btn">Dashboard</a>
+            {% elif user.role == 'candidate' %}
+                <a href="{% url 'candidate:dashboard' %}" class="btn">Dashboard</a>
+            {% endif %}
+        </div>
+        
+        <div class="header-actions">
+            <div class="notification-container">
+                <div class="notification-icon" onclick="toggleDropdown()">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">{{ combined_notifications|length }}</span>
+                </div>
+
+                <div class="notification-dropdown" id="notificationDropdown">
+                    <div class="notification-dropdown-header">
+                        <h3>Notifications</h3>
+                    </div>
+
+                    {% if combined_notifications %}
+                        {% for item in combined_notifications %}
+                            <div class="notification-item">
+                                <div class="notification-item-header">
+                                    <div class="notification-item-title">
+                                        {% if item.type == "notice" %}
+                                            Notice: {{ item.title }} (Expires: {{ item.expiry_date }})
+                                        {% elif item.type == "event" %}
+                                            Upcoming Event: {{ item.title }} (Date: {{ item.date }})
+                                        {% elif item.type == "activity" %}
+                                            Activity: {{ item.action }}
+                                        {% endif %}
+                                    </div>
+                                    <div class="notification-item-time">
+                                        {% if item.type == "notice" %}
+                                            {{ item.created_at|timesince }} ago
+                                        {% elif item.type == "event" %}
+                                            {{ item.date }}
+                                        {% elif item.type == "activity" %}
+                                            {{ item.timestamp|timesince }} ago
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="notification-item">
+                            <div class="notification-item-content">No new notifications</div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Full Notification Modal -->
+            <div id="notificationModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="closeNotificationModal()">&times;</span>
+                    <h3>All Notifications</h3>
+                    <div class="modal-notification-list">
+                        {% for item in combined_notifications %}
+                            <div class="notification-item">
+                                <div class="notification-item-title">
+                                    {% if item.type == "notice" %}
+                                        Notice: {{ item.title }} (Expires: {{ item.expiry_date }})
+                                    {% elif item.type == "event" %}
+                                        Upcoming Event: {{ item.title }} (Date: {{ item.date }})
+                                    {% elif item.type == "activity" %}
+                                        Activity: {{ item.action }}
+                                    {% endif %}
+                                </div>
+                                <div class="notification-item-time">
+                                    {% if item.type == "notice" %}
+                                        {{ item.created_at|timesince }} ago
+                                    {% elif item.type == "event" %}
+                                        {{ item.date }}
+                                    {% elif item.type == "activity" %}
+                                        {{ item.timestamp|timesince }} ago
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            
+            <div class="profile-container">
+                <div class="profile-wrapper">
+                    {% if user.image %}
+                        <img src="{{ user.image.url }}" alt="Profile" class="profile-image">
+                    {% else %}
+                        <i class="fas fa-user-alt"></i>
+                    {% endif %}
+                    <div class="profile-info">
+                        <div class="profile-name">{{user.username}}</div>
+                        <div class="profile-role">{{user.role}}</div>
+                    </div>
+                </div>
+                <div class="profile-dropdown">
+                    <a href="{% url 'auth:profile' %}"><i class="fas fa-user-circle"></i> My Profile</a>
+                    <div class="divider"></div>
+                    <a href="{% url 'auth:update_profile' %}"><i class="fas fa-edit"></i> Edit Profile</a>
+                    <a href="{% url 'auth:change_password' %}"><i class="fas fa-key"></i> Change Password</a>
+                    <div class="divider"></div>
+                    <a href="#" id="darkModeToggle"><i class="fas fa-moon"></i> Dark Mode</a>
+                    <a href="{% url 'auth:logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        </div>
+    </header>

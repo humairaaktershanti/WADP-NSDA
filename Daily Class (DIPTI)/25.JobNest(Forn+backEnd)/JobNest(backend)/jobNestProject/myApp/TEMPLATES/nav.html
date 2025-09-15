@@ -1,0 +1,23 @@
+<nav>
+    {% if user.is_authenticated %}
+
+    {% if user.userType == 'jobSeekers' %}
+    <a href="{% url 'dashboard_seeker' %}">Dashboard</a>
+    <a href="{% url 'job_list' %}">Browse Jobs</a>
+    <a href="{% url 'profile_seeker' %}">My Applications</a>
+    {% endif %}
+
+    {% if user.userType == 'recruiters' %}
+    <a href="{% url 'job_post' %}">Post Job</a>
+    <a href="{% url 'profile_recruiter' %}">My Profile</a>
+
+    {% endif %}
+
+    <a href="{% url 'change_password' %}">Change Password</a>
+    <a href="{% url 'logOut' %}">Logout</a>
+
+    {% else %}
+    <a href="{% url 'login' %}">Login</a>
+    <a href="{% url 'register' %}">Register</a>
+    {% endif %}
+</nav>

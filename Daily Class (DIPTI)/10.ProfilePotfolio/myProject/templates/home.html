@@ -1,0 +1,95 @@
+
+{% extends "master.html" %}
+{% block body %}
+  <style>
+
+    .row{
+      display: flex;
+      justify-content: center;
+    }
+    .cv-container {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+      max-width: 800px;
+      width: 100%;
+      padding: 30px;
+    }
+
+    .profile-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .profile-header img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 20px;
+      border: 3px solid #4CAF50;
+    }
+
+    .profile-header h2 {
+      margin: 0;
+      color: #333;
+    }
+
+    .section-title {
+      font-size: 18px;
+      margin-top: 20px;
+      margin-bottom: 10px;
+      color: #4CAF50;
+      border-bottom: 2px solid #4CAF50;
+      padding-bottom: 5px;
+    }
+
+    .info-row {
+      margin-bottom: 8px;
+    }
+
+    .info-label {
+      font-weight: bold;
+      color: #555;
+    }
+
+    .info-value {
+      margin-left: 10px;
+      color: #333;
+    }
+  </style>
+
+  
+  <div class='row'>
+<div class="cv-container">
+    <div class="profile-header">
+      <img src="/{{ user.profileimage }}">
+      <div>
+        <h2>{{ user.fullName }}</h2>
+        <p>{{ user.username }}</p>
+      </div>
+    </div>
+
+    <div class="personal-info">
+      <h3 class="section-title">Personal Information</h3>
+      <div class="info-row"><span class="info-label">Gender:</span><span class="info-value">{{ user.gender }}</span></div>
+      <div class="info-row"><span class="info-label">Age:</span><span class="info-value">{{ user.age }}</span></div>
+      <div class="info-row"><span class="info-label">Date of Birth:</span><span class="info-value">{{ user.dateOfBirth }}</span></div>
+      <div class="info-row"><span class="info-label">Mobile Number:</span><span class="info-value">{{ user.mobileNumber }}</span></div>
+      <div class="info-row"><span class="info-label">Present Address:</span><span class="info-value">{{ user.presentAddress }}</span></div>
+      <div class="info-row"><span class="info-label">Permanent Address:</span><span class="info-value">{{ user.permanentAddress }}</span></div>
+    </div>
+
+    <div class="education-info">
+      <h3 class="section-title">Education</h3>
+      <div class="info-row"><span class="info-label">Last Education Name:</span><span class="info-value">{{ user.lastEducationName }}</span></div>
+      <div class="info-row"><span class="info-label">Institute Name:</span><span class="info-value">{{ user.instutiteName }}</span></div>
+      <div class="info-row"><span class="info-label">Passing Year:</span><span class="info-value">{{ user.passingYear }}</span></div>
+      <div class="info-row"><span class="info-label">Grade:</span><span class="info-value">{{ user.grade }}</span></div>
+    </div>
+  </div>
+  </div>
+
+
+{% endblock body %}

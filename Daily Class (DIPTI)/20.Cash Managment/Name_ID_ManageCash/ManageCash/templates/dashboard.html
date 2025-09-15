@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h2>Financial Dashboard</h2>
+        <p class="text-muted">Welcome back, {{ user.username }}! Here's your financial overview.</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h5 class="card-title">Total Cash</h5>
+                <p class="card-text display-6">${{ total_cash|floatformat:2 }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card bg-danger text-white">
+            <div class="card-body">
+                <h5 class="card-title">Total Expenses</h5>
+                <p class="card-text display-6">${{ total_expenses|floatformat:2 }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card {% if balance >= 0 %}bg-info{% else %}bg-warning{% endif %} text-white">
+            <div class="card-body">
+                <h5 class="card-title">Current Balance</h5>
+                <p class="card-text display-6">${{ balance|floatformat:2 }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Recent Cash Entries</h5>
+                <a href="{% url 'add_cash' %}" class="btn btn-sm btn-light">Add New</a>
+            </div>
+            <div class="card-body">
+                {% if recent_cash %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Source</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for entry in recent_cash %}
+                            <tr>
+                                <td>{{ entry.source }}</td>
+                                <td>${{ entry.amount|floatformat:2 }}</td>
+                                <td>{{ entry.datetime|date:"M d, Y" }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-center text-muted">No cash entries yet. <a href="{% url 'add_cash' %}">Add your first entry</a>.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Recent Expenses</h5>
+                <a href="{% url 'add_expense' %}" class="btn btn-sm btn-light">Add New</a>
+            </div>
+            <div class="card-body">
+                {% if recent_expenses %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for expense in recent_expenses %}
+                            <tr>
+                                <td>{{ expense.description }}</td>
+                                <td>${{ expense.amount|floatformat:2 }}</td>
+                                <td>{{ expense.datetime|date:"M d, Y" }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-center text-muted">No expenses recorded yet. <a href="{% url 'add_expense' %}">Add your first expense</a>.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

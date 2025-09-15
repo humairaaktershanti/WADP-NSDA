@@ -1,0 +1,39 @@
+{% extends 'master.html' %}
+
+{% block content %}
+
+<h1>List on Add Cash</h1>
+
+<table>
+  <tr>
+    <th>Source</th>
+    <th>datetime</th>
+    <th>amount</th>
+    <th>description</th>    
+  </tr>
+  {% for i in addCash %}{% endfor %}
+  <tr>
+    <td>{{addCash.source}}</td>
+    <td>{{addCash.datetime}}</td>
+    <td>{{addCash.amount}}</td>
+    <td>{{addCash.description}}</td>
+  </tr> 
+</table>
+
+<h1>List on Expense</h1>
+
+<table>
+  <tr>
+    <th>Description</th>
+    <th>amount</th>
+    <th>Date Time</th>    
+  </tr>
+  {% for i in expense %}{% endfor %}
+  <tr>
+    <td>{{expense.description}}</td>
+    <td>{{expense.amount}}</td>
+    <td>{{expense.datetime}}</td>
+  </tr> 
+</table>
+
+{% endblock %}

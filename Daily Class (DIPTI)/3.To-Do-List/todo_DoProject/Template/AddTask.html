@@ -1,0 +1,37 @@
+{% extends 'Master.html' %}
+
+{% block body %}
+
+<div class="container mt-4">
+    <h2>Create a New Task</h2>
+    <form method="POST" action="" style="max-width: 600px; margin: auto; background: #f9f9f9; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="title" style="font-weight: bold;">Title</label>
+            <input type="text" class="form-control" id="title" name="title" placeholder="Enter task title" required style="border: 1px solid #ccc; border-radius: 4px; padding: 10px;">
+        </div>
+        <div class="form-group">
+            <label for="description" style="font-weight: bold;">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="3" placeholder="Enter task description" style="border: 1px solid #ccc; border-radius: 4px; padding: 10px;"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="status" style="font-weight: bold;">Status</label>
+            <select class="form-control" id="status" name="status" style="border: 1px solid #ccc; border-radius: 4px; padding: 10px;">
+                <option value="Pending">Pending</option>
+                <option value="In Progress">In Progress</option>
+                <option value="Completed">Completed</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="due_date" style="font-weight: bold;">Due Date</label>
+            <input type="date" class="form-control" id="due_date" name="due_date" required style="border: 1px solid #ccc; border-radius: 4px; padding: 10px;">
+        </div>
+        <div class="form-group">
+            <label for="created_at" style="font-weight: bold;">Create At</label>
+            <input type="date" class="form-control" id="created_at" name="created_at" required style="border: 1px solid #ccc; border-radius: 4px; padding: 10px;">
+        </div>
+        <button type="submit" class="btn btn-primary" style="background-color: #007bff; border: none; padding: 10px 20px; border-radius: 4px; font-size: 16px;">Add Task</button>
+    </form>
+</div>
+    
+{% endblock body %}

@@ -1,0 +1,28 @@
+{% extends 'master.html' %}
+
+{% block body %}
+<h2>Pending Accounts</h2>
+{% comment %} <ul>
+  {% for i in data %}
+    <li>
+      {{ i.username }} ({{ i.user_types }}) -
+      <a href="{% url 'approve_account' i.id %}">Approve</a>
+    </li>
+  {% endfor %}
+</ul> {% endcomment %}
+
+<table>
+    <tr>
+        <th>Username</th>
+        <th>User Types</th>
+        <th>Actions</th>
+    </tr>
+    {% for i in data %}
+    <tr>
+        <td>{{ i.username }}</td>
+        <td>{{ i.user_types }}</td>
+        <td><a href="{% url 'approve_account' i.id %}">Approve</a></td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock body %}

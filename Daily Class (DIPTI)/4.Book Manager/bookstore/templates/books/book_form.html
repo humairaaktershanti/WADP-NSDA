@@ -1,0 +1,135 @@
+{% extends "books/master.html" %}
+{% block body %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Book Store Form</title>
+<style>
+  form{
+    justify-content: center;
+  }
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+  body {
+    background: #f5f7fa;
+    font-family: 'Roboto', sans-serif;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .form-container {
+    background: white;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    max-width: 450px;
+    width: 100%;
+  }
+
+  .form-container h2 {
+    margin-bottom: 25px;
+    color: #333;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #555;
+  }
+
+  input[type="text"],
+  input[type="date"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border: 1.8px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+  }
+
+  input[type="text"]:focus,
+  input[type="date"]:focus,
+  select:focus,
+  textarea:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  button {
+    width: 100%;
+    padding: 14px;
+    background: #007bff;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  button:hover {
+    background: #0056b3;
+  }
+</style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h2>Add New Book</h2>
+    <form action='' method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <label for="title">Book Title</label>
+      <input type="text" id="title" name="title" placeholder="Enter book title" required />
+
+      <label for="author">Author</label>
+      <input type="text" id="author" name="author" placeholder="Enter author name" required />
+
+      <label for="category">Book Category</label>
+      <select id="category" name="category" required>
+        <option value="" disabled selected>Select category</option>
+        <option>Fiction</option>
+        <option>Non-fiction</option>
+        <option>Biography</option>
+        <option>Science</option>
+        <option>Technology</option>
+        <option>History</option>
+        <option>Children</option>
+        <option>Others</option>
+      </select>
+
+      <label for="publishDate">Publish Date</label>
+      <input type="date" id="publishDate" name="publishDate" required />
+
+      <label for="Cover_Photo">Cover Photo</label>
+      <input type="file" id="Cover_Photo" name="Cover_Photo" accept="image/*" required />
+
+
+      <label for="description">Description</label>
+      <textarea id="description" name="description" placeholder="Write a brief description..." required></textarea>
+      
+      
+      <button type="submit">Add Book</button>
+      
+
+    </form>
+
+  </div>
+
+</body>
+</html>
+{% endblock body %}

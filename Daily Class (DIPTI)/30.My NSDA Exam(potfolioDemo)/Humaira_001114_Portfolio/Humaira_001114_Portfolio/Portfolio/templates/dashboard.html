@@ -1,0 +1,151 @@
+{% extends 'master.html' %}
+{% block title %}{{ profile.user.username }}'s Resume{% endblock %}
+{% block content %}
+<p style="font-size: 40px;">CV</p>
+<div class="container my-5" id="resume">
+    <!-- Header -->
+    <div class="resume-header text-center mb-5">
+        {% if profile.profile_image %}
+        <div class="profile-image mb-3" style="text-align: center;">
+            <img src="{{ profile.profile_image.url }}" alt="Profile Picture" class="img-thumbnail rounded-circle" style="max-width: 150px;">
+        </div>
+        {% endif %}
+        <h1 class="name" style="text-align: center;">{{ profile.user.username }}</h1>
+        <p class="contact">
+            {{ profile.user.email }}
+            {% if profile.contact_email %} | {{ profile.contact_email }}{% endif %}
+            {% if profile.phone_number %} | {{ profile.phone_number }}{% endif %}
+        </p>
+        <div class="links" style="text-align: center;">
+            {% if profile.linkedin_url %}
+            <a href="{{ profile.linkedin_url }}" target="_blank">LinkedIn</a>
+            {% endif %}
+            {% if profile.github_url %}
+            <a href="{{ profile.github_url }}" target="_blank">GitHub</a>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Bio -->
+    {% if profile.bio %}
+    <section class="resume-section">
+        <h3 class="section-title">About Me</h3>
+        <p>{{ profile.bio }}</p>
+    </section>
+    {% endif %}
+    
+    <!-- Skills -->
+    {% if profile.skills %}
+    <section class="resume-section">
+        <h3 class="section-title">Skills</h3>
+        <div class="skills-container">
+            {% for skill in profile.skills.split|slice:":20" %}
+            <span class="skill-tag">{{ skill }}</span>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+    
+    <!-- Experience -->
+    {% if profile.experience %}
+    <section class="resume-section">
+        <h3 class="section-title">Work Experience</h3>
+        <div class="experience-content">
+            {{ profile.experience|linebreaks }}
+        </div>
+    </section>
+    {% endif %}
+    
+    <!-- Education -->
+    {% if profile.education %}
+    <section class="resume-section">
+        <h3 class="section-title">Education</h3>
+        <div class="education-content">
+            {{ profile.education|linebreaks }}
+        </div>
+    </section>
+    {% endif %}
+    
+    <!-- Footer -->
+    <div class="text-center mt-5">
+        <button class="btn btn-outline-dark" onclick="window.print()">
+            <i class="fas fa-print"></i> Print / Save as PDF
+        </button>
+    </div>
+</div>
+
+<style>
+/* Resume Styles */
+#resume {
+    background: #fff;
+    padding: 40px;
+    max-width: 900px;
+    margin: auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+.resume-header .name {
+    font-size: 2.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.resume-header .contact {
+    font-size: 0.95rem;
+    color: #555;
+}
+.resume-header .links a {
+    margin: 0 10px;
+    font-size: 0.9rem;
+    color: #0d6efd;
+    text-decoration: none;
+}
+.resume-header .links a:hover {
+    text-decoration: underline;
+}
+.resume-section {
+    margin-bottom: 25px;
+}
+.section-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-bottom: 2px solid #0d6efd;
+    padding-bottom: 4px;
+    margin-bottom: 12px;
+    color: #0d6efd;
+}
+.skills-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.skill-tag {
+    background-color: #e9ecef;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+.experience-content, .education-content {
+    white-space: pre-line;
+}
+/* Print optimization */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    #resume, #resume * {
+        visibility: visible;
+    }
+    #resume {
+        margin: 0;
+        width: 100%;
+        box-shadow: none;
+        border: none;
+    }
+    button {
+        display: none;
+    }
+}
+</style>
+{% endblock %}

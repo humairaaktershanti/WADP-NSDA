@@ -1,0 +1,65 @@
+{% extends "master.html" %}
+
+{% block body %}
+
+<style>
+    #customers {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    }
+
+    #customers td, #customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    }
+
+    #customers tr:nth-child(even){background-color: #f2f2f2;}
+
+    #customers tr:hover {background-color: #ddd;}
+
+    #customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #04AA6D;
+    color: white;
+    }
+</style>
+
+<h1>Pending Student List</h1>
+
+<table id="customers">
+  <tr>
+    <th>User Name</th>
+    <th>Email</th>
+    <th>Student Name</th>
+    <th>Phone Number</th>
+    <th>Profile Image</th>
+    <th>Action</th>
+  </tr>
+
+  {% for i in data %} 
+  <tr> 
+    <td>{{i.username}}</td>
+    <td>{{i.email}}</td>
+    <td>{{i.studentName}}</td>
+    <td>{{i.phoneNumber}}</td>
+    <td><img src="/{{i.profileImage}}" alt="" height="50px"></td>
+    {% if user.userType == 'Admin' %}
+    <td><a href="{% url 'approved' i.id %}">Approved</a></td>
+    {% endif %}
+    {% if user.userType == 'Teacher' %}
+    <td>
+        <a href="">Edit</a> |
+        <a href="">Delete</a>
+    </td>
+    {% endif %}
+  </tr>
+  {% endfor %}
+</table>
+
+
+
+
+{% endblock body %}

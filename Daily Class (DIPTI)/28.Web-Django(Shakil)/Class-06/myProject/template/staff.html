@@ -1,0 +1,25 @@
+{% extends 'master.html' %}
+
+
+{% block content %}
+<h1>This is Staff Data</h1>
+<table id="customers">
+    <tr>
+      <th>Staff Name</th>
+      <th>Age</th>
+      <th>Address</th>
+    </tr>
+   
+    {% for i in stadata %}
+    <tr>
+      <td>{{i.staffname}}</td>
+      <td>{{i.staffage}}</td>
+      <td>{{i.address}}</td>
+
+    </tr>
+  
+    {% endfor %}
+    
+  </table>
+    
+{% endblock content %}

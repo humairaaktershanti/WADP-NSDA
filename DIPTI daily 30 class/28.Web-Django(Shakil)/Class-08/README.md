@@ -1,1 +1,0 @@
-# Written Exam Day

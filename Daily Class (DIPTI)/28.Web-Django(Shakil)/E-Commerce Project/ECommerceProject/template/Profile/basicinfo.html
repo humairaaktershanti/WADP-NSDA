@@ -1,0 +1,26 @@
+{% extends 'Profile/profile.html' %}
+
+
+{% block profilecontent %}
+<h1><strong>User Basic Information:</strong></h1>
+<hr>
+<p><strong>Full Name: </strong>{{user.FullName}}</p>
+<p><strong>Username: </strong>{{user.username}}</p>
+<p><strong>Gender: </strong>{{user.Gender}}</p>
+<p><strong>User Type: </strong>{{user.UserType}}</p>
+
+
+{% if user.UserType == 'Seller' %}
+<p><strong>Company Name: </strong>{{user.sellerinfomodel.CompanyName}}</p>
+<p><strong>Company Address: </strong>{{user.sellerinfomodel.CompanyAddress}}</p>
+<p><strong>Selling Experience: </strong>{{user.sellerinfomodel.SellingExperience}} Years</p>
+
+{% elif user.UserType == 'Customer' %}
+<p><strong>Interested Product: </strong>{{user.customerinfomodel.InterestedProduct}}</p>
+<p><strong>Reference ID: </strong>{{user.customerinfomodel.ReferenceID}}</p>
+{% endif %}
+    
+
+    
+{% endblock profilecontent %}
+    

@@ -1,0 +1,56 @@
+{% extends "master/master.html" %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="mb-4 text-center">Pending Accounts</h2>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>User Type</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for account in pending_accounts %}
+                <tr>
+                    <td>{{ account.username }}</td>
+                    <td>{{ account.email }}</td>
+                    <td>{{ account.phone }}</td>
+                    <td class="text-capitalize">{{ account.user_type }}</td>
+                    <td>
+                        <span class="badge bg-warning text-dark">{{ account.pending_status }}</span>
+                    </td>
+                    <td>
+                        
+                        {% if account.pending_status != 'rejected' %}
+                            <form method="POST" action="{% url 'accept_account' account.id %}" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-success btn-sm me-1">Accept</button>
+                            </form>
+                             <form method="POST" action="{% url 'reject_account' account.id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">Reject</button>
+                        </form>
+                        {% endif %}
+
+                       
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center text-muted">No pending accounts found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}
+
+    

@@ -1,0 +1,32 @@
+{% extends 'master.html' %}
+{% block body %}
+
+<style>
+    .mehedi{
+        color: green;
+        text-align: center;
+        margin-top: 100px;
+    }
+</style>
+
+<form action="" method="POST" class="mehedi">
+    {% csrf_token %}
+    <label for="title">Title</label>
+    <input type="text" name="title" value="{{ editTask.title }}">
+
+    <label for="description">Description</label>
+    <textarea name="description">{{ editTask.description }}</textarea>
+
+    <label for="status">Status</label>
+    <select name="status" id="">
+        <option value="pending" {% if editTask.status == 'pending' %} selected{% endif %}>Pending</option>
+        <option value="in_prograss"{% if editTask.status == 'in_prograss' %} selected{% endif %}>In Progress</option>
+        <option value="completed"{% if editTask.status == 'completed' %} selected{% endif %}>Completed</option>
+    </select>
+
+    <label for="due_date">Due Date</label>
+    <input type="date" name="due_date" value="{{editTask.due_date | date:'Y-m-d'}}"> 
+
+    <button type="submit">Add Task</button>
+</form>
+{% endblock body %}

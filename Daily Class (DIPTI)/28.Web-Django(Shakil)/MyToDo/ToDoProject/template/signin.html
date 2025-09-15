@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Page</title>
+    <link rel="stylesheet" href="{% static 'assets/css/signupsignin.css' %}">   
+</head>
+<body>
+    <div class="container">
+        <div class="signup-box">
+            <h2>Signin</h2>
+            <form action="" method="POST">
+                {% csrf_token %}
+
+                {{signinform}}
+                
+                <button type="submit">Sign In</button>
+                <a href="{% url 'signupPage' %}">Don't have any account?</a>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

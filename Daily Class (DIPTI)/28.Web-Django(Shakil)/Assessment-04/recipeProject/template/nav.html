@@ -1,0 +1,15 @@
+<div class="topnav">
+    <a class="active" href="{% url 'dashboard' %}">Dashboard</a>
+    <a href="{% url 'profileView' %}">Profile</a>
+    <a href="{% url 'recipelistPage' %}">Recipe List</a>
+    
+
+    
+    {% if user.UserType == 'Chef' %}
+    <a href="{% url 'addrecipePage' %}">Add Recipe</a>
+        
+    {% endif %}
+        
+    <a href="{% url 'logoupPage' %}">LogOut</a>
+  </div>
+  

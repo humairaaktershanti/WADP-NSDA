@@ -1,0 +1,90 @@
+{% extends 'master.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Edit Resume</h1>
+    <form action="{% url 'updateresume' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h3><strong>Personal Info:</strong></h3>
+        <hr>
+        <div class="mb-3">
+          <label for="fullname" class="form-label">Full Name</label>
+          <input type="text" class="form-control" value="{{infodata.FullName}}" name="fullname" id="fullname" required>  
+          <input type="hidden" class="form-control" value="{{infodata.id}}" name="resumeid">  
+        </div>
+        <div class="mb-3">
+          <label for="address" class="form-label">Address</label>
+          <input type="text" class="form-control" value="{{infodata.Address}}"name="address" id="address" required>  
+        </div>
+        <div class="mb-3">
+          <label for="phonenumber" class="form-label">Phone Number</label>
+          <input type="text" class="form-control" value="{{infodata.PhoneNumber}}"name="phonenumber" id="phonenumber" required>  
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">Email Address</label>
+          <input type="text" class="form-control" value="{{infodata.EmailAddress}}"name="email" id="email" required>  
+        </div>
+        <div class="mb-3">
+          <label for="careerobj" class="form-label">Career Objective</label>
+          <input type="text" class="form-control" value="{{infodata.CareerObjective}}"name="careerobj" id="careerobj" required>
+        </div>
+        <h3><strong>Educational History:</strong></h3>
+        <hr>
+        <div class="mb-3">
+          <label for="degree" class="form-label">Degree</label>
+          <input type="text" class="form-control" value="{{educationdata.Degree}}"name="degree" id="degree" required>  
+        </div>
+        <div class="mb-3">
+          <label for="institute" class="form-label">Institute</label>
+          <input type="text" class="form-control" value="{{educationdata.institute}}"name="institute" id="institute" required>  
+        </div>
+        <div class="mb-3">
+          <label for="graduation" class="form-label">Graduation Year</label>
+          <input type="text" class="form-control" value="{{educationdata.graduation}}"name="graduation" id="graduation" required>  
+        </div>
+        <h3><strong>Work Experience:</strong></h3>
+        <hr>
+        <div class="mb-3">
+          <label for="company" class="form-label">Company</label>
+          <input type="text" class="form-control" value="{{workdata.Company}}"name="company" id="company" required>  
+        </div>
+        <div class="mb-3">
+          <label for="position" class="form-label">Postion</label>
+          <input type="text" class="form-control" value="{{workdata.Position}}"name="position" id="position" required>  
+        </div>
+        <div class="mb-3">
+          <label for="startdate" class="form-label">Start Date</label>
+          <input type="text" class="form-control" value="{{workdata.StartDate}}"name="startdate" id="startdate" required>  
+        </div>
+        <div class="mb-3">
+          <label for="enddate" class="form-label">End Date</label>
+          <input type="text" class="form-control" value="{{workdata.EndDate}}"name="enddate" id="enddate" required>  
+        </div>
+        <div class="mb-3">
+          <label for="skills" class="form-label">Skills</label>
+          <input type="text" class="form-control" value="{{infodata.Skills}}"name="skills" id="skills" required>  
+        </div>
+        <div class="mb-3">
+          <label for="project" class="form-label">Project</label>
+          <input type="text" class="form-control" value="{{infodata.Projects}}"name="project" id="project" required>  
+        </div>
+        <div class="mb-3">
+          <label for="certifications" class="form-label">Certifications</label>
+          <input type="text" class="form-control" value="{{infodata.Certifications}}"name="certifications" id="certifications" required>  
+        </div>
+        <div class="mb-3">
+          <label for="references" class="form-label">References</label>
+          <input type="text" class="form-control" value="{{infodata.References}}"name="references" id="references" required>  
+        </div>
+        <div class="mb-3">
+          <label for="profileimage" class="form-label">Profile Image</label>
+          <input type="file" class="form-control" name="profileimage" id="profileimage">  
+          <input type="hidden" class="form-control" value="{{infodata.ProfileImage}}" name="previmage" id="previmage">  
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+</div>
+    
+{% endblock content %}
+    

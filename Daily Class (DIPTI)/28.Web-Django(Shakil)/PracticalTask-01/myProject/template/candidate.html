@@ -1,0 +1,51 @@
+{% extends 'master.html' %}
+
+{% block content %}
+    <h1>Candidate List</h1>
+    <table id="customers">
+        <tr>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Address</th>
+            <th>Job Title</th>
+            <th>Linkedin Profile</th>
+            <th>University</th>
+            <th>Degree</th>
+            <th>Language</th>
+            <th>Years of Experience</th>
+            <th>Action</th>
+        </tr>
+        
+        {% for i in candidate %}
+        <tr>
+            <td> {{i.full_name}} </td>
+            <td> {{i.email}} </td>
+            <td> {{i.phone_number}} </td>
+            <td> {{i.address}} </td>
+            <td> {{i.job_title}} </td>
+            <td> {{i.linkedin_profile}} </td>
+            <td> {{i.university}} </td>
+            <td> {{i.degree}} </td>
+            <td> {{i.languages}} </td>
+            <td> {{i.years_of_experience}} </td>
+            <td>
+                <a href="{% url 'deleteCandidate' i.id %}">Delete</a>
+                <a href="{% url 'editCandidate' i.id %}">Edit</a>
+                <a href="{% url 'viewCandidate' i.id %}">View</a>
+                <div class="dropdown">
+                    <button>Profile</button>
+                    <div class="dropdown-options">
+                      <a href="#">Dashboard</a>
+                      <a href="#">Setting</a>
+                      <a href="#">Logout</a>
+                    </div>
+                  </div>
+            </td>
+        </tr>
+            
+        {% endfor %}
+            
+    </table>
+{% endblock content %}
+    
