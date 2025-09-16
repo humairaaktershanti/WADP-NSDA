@@ -1,0 +1,84 @@
+{% extends "master/base.html" %}
+{% load static %}
+{% block content %}
+<div class="page-wrapper" style="min-height: 543px;">
+			
+                <!-- Page Content -->
+                <div class="content container-fluid">
+				
+					<!-- Page Header -->
+					<div class="page-header">
+						<div class="row">
+							<div class="col-sm-12">
+								<h3 class="page-title">Payments Report</h3>
+								<ul class="breadcrumb">
+									<li class="breadcrumb-item"><a href="admin-dashboard.html">Dashboard</a></li>
+									<li class="breadcrumb-item active">Payments Report</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- /Page Header -->
+					
+					<!-- Search Filter -->
+					<div class="row filter-row">
+						
+						<div class="col-sm-6 col-md-3">  
+							<div class="input-block mb-3 form-focus">
+								<div class="cal-icon">
+									<input class="form-control floating datetimepicker" type="text">
+								</div>
+								<label class="focus-label">From</label>
+							</div>
+						</div>
+						<div class="col-sm-6 col-md-3">  
+							<div class="input-block mb-3 form-focus">
+								<div class="cal-icon">
+									<input class="form-control floating datetimepicker" type="text">
+								</div>
+								<label class="focus-label">To</label>
+							</div>
+						</div>
+						<div class="col-sm-6 col-md-3">  
+							<a href="#" class="btn btn-success w-100"> Search </a>  
+						</div>     
+                    </div>
+					<!-- /Search Filter -->
+					
+					<div class="row">
+						<div class="col-md-12">
+							<div class="table-responsive">
+								<div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="DataTables_Table_0_length"><label>Show <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"></div></div><div class="row"><div class="col-sm-12"><table class="table table-striped custom-table mb-0 datatable dataTable no-footer" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+									<thead>
+										<tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="#: activate to sort column descending" style="width: 36.0375px;">#</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Transaction ID: activate to sort column ascending" style="width: 169.825px;">Transaction ID</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Date: activate to sort column ascending" style="width: 154.525px;">Date</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Client Name: activate to sort column ascending" style="width: 149.35px;">Client Name</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Payment Method: activate to sort column ascending" style="width: 197.262px;">Payment Method</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Invoice: activate to sort column ascending" style="width: 102.162px;">Invoice</th><th class="text-center sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Amount: activate to sort column ascending" style="width: 142.837px;">Amount</th></tr>
+									</thead>
+									<tbody>
+										
+										
+									<tr class="odd">
+											<td class="sorting_1">1</td>
+											<td><a href="#">834521</a></td>
+											<td>2nd Dec 2020</td>
+											<td>Dreams</td>
+											<td>Online</td>
+											<td><a href="#">INV0001</a></td>
+											<td class="text-center">$4,329,970.7</td>
+										</tr><tr class="even">
+											<td class="sorting_1">2</td>
+											<td><a href="#">834521</a></td>
+											<td>2nd Dec 2020</td>
+											<td>Dreams</td>
+											<td>Online</td>
+											<td><a href="#">INV0001</a></td>
+											<td class="text-center">$4,329,970.7</td>
+										</tr></tbody>
+								</table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to 2 of 2 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item next disabled" id="DataTables_Table_0_next"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
+							</div>
+						</div>
+					</div>
+                </div>
+				<!-- /Page Content -->
+				
+				
+            </div>
+{% endblock content %}

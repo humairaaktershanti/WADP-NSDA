@@ -1,0 +1,72 @@
+{% extends "master/base.html" %}
+{% load static %}
+{% block content %}
+<div class="page-wrapper">
+    <div class="content container-fluid">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Edit Profile: {{ profile.full_name }}</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'employeeList' %}">Employee</a></li>
+                        <li class="breadcrumb-item active">Edit Profile</li>
+                    </ul>
+                </div>
+                <div class="col-auto ms-auto">
+                    <a href="{% url 'employeeList' %}" class="btn btn-light">
+                        <i class="fa fa-arrow-left"></i> Back to List
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Header -->
+
+        <!-- Form Card -->
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="card shadow-sm">
+                    <div class="card-body text-center">
+
+                        <!-- Current Profile Image -->
+                        <div class="profile-img mb-4">
+                            {% if profile.profile_image %}
+                                <img src="{{ profile.profile_image.url }}" alt="{{ profile.full_name }}" class="rounded-circle" style="width:120px; height:120px; object-fit:cover;">
+                            {% else %}
+                                <img src="{% static 'assets/img/default-avatar.png' %}" alt="Default Avatar" class="rounded-circle" style="width:120px; height:120px; object-fit:cover;">
+                            {% endif %}
+                        </div>
+
+                        <!-- Edit Form -->
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                {% for field in form %}
+                                    <div class="col-md-6 mb-3">
+                                        <div class="form-floating">
+                                            {{ field }}
+                                            <label>{{ field.label }}</label>
+                                        </div>
+                                        {% for error in field.errors %}
+                                            <div class="text-danger">{{ error }}</div>
+                                        {% endfor %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <div class="text-center mt-3">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa-solid fa-save"></i> Save Changes
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Form Card -->
+
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,66 @@
+{% extends "master/base.html" %}
+{% load static %}
+{% block content %}
+<!-- Page Wrapper -->
+            <div class="page-wrapper">
+			
+				<!-- Page Content -->
+                <div class="content">
+					
+					<!-- Page Header -->
+					<div class="page-header">
+						<div class="row">
+							<div class="col-sm-12">
+								<h3 class="page-title">Activities</h3>
+								<ul class="breadcrumb">
+									<li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+									<li class="breadcrumb-item active">Activities</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- /Page Header -->
+					
+					<div class="row">
+        <div class="col-md-12">
+            <div class="activity">
+                <div class="activity-box">
+                    <ul class="activity-list">
+                        {% for activity in activities %}
+                        <li>
+                            <div class="activity-user">
+                                <a href="#" data-bs-toggle="tooltip" class="avatar" aria-label="{{ activity.user.username }}">
+                                    <img src="{% static 'assets/img/profiles/avatar-01.jpg' %}" alt="User Image">
+                                </a>
+                            </div>
+                            <div class="activity-content">
+                                <div class="timeline-content">
+                                    <a href="#" class="name">{{ activity.user.username }}</a>
+                                    {{ activity.action }} 
+                                    <a href="#">{{ activity.model_name }}</a> 
+                                    <span class="text-muted">({{ activity.object_repr }})</span>
+                                    <span class="time">{{ activity.timestamp|timesince }} ago</span>
+                                    <div><small class="text-muted">IP: {{ activity.ip_address }}</small></div>
+                                </div>
+                            </div>
+                        </li>
+                        {% empty %}
+                        <li>
+                            <div class="activity-content">
+                                <div class="timeline-content">
+                                    <span>No activities recorded</span>
+                                </div>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+                </div>
+				<!-- /Page Content -->
+
+            </div>
+			<!-- /Page Wrapper -->
+{% endblock content %}

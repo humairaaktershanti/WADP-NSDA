@@ -1,0 +1,175 @@
+{% extends "master/base.html" %}
+{% load static %}
+{% block title %}Update Profile{% endblock %}
+
+{% block content %}
+<!-- Page Wrapper -->
+<div class="page-wrapper">
+    <div class="content container-fluid">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Update Profile</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'my_profile' %}">Profile</a></li>
+                        <li class="breadcrumb-item active">Update</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Header -->
+        
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Update Profile Information</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            
+                            <!-- Profile Image -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="profile-img-wrap edit-img">
+                                        <div class="profile-img">
+                                            <img id="profile-preview" 
+                                                src="{% if profile.profile_image %}{{ profile.profile_image.url }}{% else %}https://avatar.iran.liara.run/username?username={{ request.user.username|urlencode }}{% endif %}" 
+                                                alt="User Image"
+                                                style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover;"
+                                            >
+                                        </div>
+                                        <div class="fileupload btn">
+                                            <span class="btn-text">edit</span>
+                                            <input type="file" name="profile_image" id="profile_image" accept="image/*">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Full Name & Position -->
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label">Full Name</label>
+                                        <input type="text" class="form-control" name="full_name" value="{{ profile.full_name }}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label">Position</label>
+                                        <select class="form-control" name="position" required>
+                                            <option value="">Select Position</option>
+                                            {% for position in positions %}
+                                                <option value="{{ position.id }}" {% if profile.position and profile.position.id == position.id %}selected{% endif %}>
+                                                    {{ position.title }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Birthday & Gender -->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label">Birthday</label>
+                                        <input type="date" class="form-control" name="birthday" value="{% if profile.birthday %}{{ profile.birthday|date:'Y-m-d' }}{% endif %}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label">Gender</label>
+                                        <select class="form-control" name="gender">
+                                            <option value="">Select Gender</option>
+                                            <option value="male" {% if profile.gender == 'male' %}selected{% endif %}>Male</option>
+                                            <option value="female" {% if profile.gender == 'female' %}selected{% endif %}>Female</option>
+                                            <option value="other" {% if profile.gender == 'other' %}selected{% endif %}>Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Date of Joining & Phone -->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label">Date of Joining</label>
+                                        <input type="date" class="form-control" name="date_of_joining" value="{% if profile.date_of_joining %}{{ profile.date_of_joining|date:'Y-m-d' }}{% endif %}" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-form-label">Phone</label>
+                                        <input type="text" class="form-control" name="phone" value="{{ profile.phone }}">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Address -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="col-form-label">Address</label>
+                                        <textarea class="form-control" name="address" rows="3">{{ profile.address }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Reports To (not for Admin) -->
+                            {% if request.user.user_types != 'Admin' %}
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="col-form-label">Reports To</label>
+                                        <select class="form-control" name="reports_to">
+                                            <option value="">-</option>
+                                            {% for manager in managers %}
+                                                <option value="{{ manager.id }}" {% if profile.reports_to and profile.reports_to.id == manager.id %}selected{% endif %}>
+                                                    {{ manager.full_name }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            
+                            <!-- Form Buttons -->
+                            <div class="submit-section mt-3">
+                                <button type="submit" class="btn btn-primary submit-btn">Save Changes</button>
+                                <a href="{% url 'my_profile' %}" class="btn btn-secondary">Cancel</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Page Wrapper -->
+
+<!-- Profile Image Preview Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const profileImageInput = document.querySelector('#profile_image');
+    const profilePreview = document.querySelector('#profile-preview');
+    
+    if (profileImageInput) {
+        profileImageInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    profilePreview.src = e.target.result;
+                }
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

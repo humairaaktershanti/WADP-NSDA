@@ -1,0 +1,160 @@
+{% extends "master/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="page-wrapper">
+    <div class="content container-fluid">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Holidays {{ current_year }}</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Holidays</li>
+                    </ul>
+                </div>
+                <div class="col-auto float-end ms-auto">
+                    <div class="btn-group me-2">
+                        <button type="button" class="btn btn-white dropdown-toggle" data-bs-toggle="dropdown">
+                            {{ current_year }} <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            {% for y in years %}
+                                <a class="dropdown-item {% if y == current_year %}active{% endif %}" href="{% url 'holiday_list' %}?year={{ y }}">{{ y }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% if request.user.user_types == 'Admin' %}
+                    <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#add_holiday">
+                        <i class="fa-solid fa-plus"></i> Add Holiday
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <!-- /Page Header -->
+
+        <!-- Holidays List -->
+        <div class="table-responsive mt-3">
+            <table class="table table-striped custom-table mb-0">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Title</th>
+                        <th>Date</th>
+                        <th>Day</th>
+                        {% if request.user.user_types == 'Admin' %}<th class="text-end">Actions</th>{% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for holiday in holidays %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ holiday.title }}</td>
+                        <td>{{ holiday.date|date:"d M Y" }}</td>
+                        <td>{{ holiday.date|date:"l" }}</td>
+                        {% if request.user.user_types == 'Admin' %}
+                        <td class="text-end">
+                            <div class="dropdown dropdown-action">
+                                <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown"><i class="material-icons">more_vert</i></a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#edit_holiday_{{ holiday.id }}">
+                                        <i class="fa-solid fa-pencil me-1"></i> Edit
+                                    </a>
+                                    <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#delete_holiday_{{ holiday.id }}">
+                                        <i class="fa-regular fa-trash-can me-1"></i> Delete
+                                    </a>
+                                </div>
+                            </div>
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="5" class="text-center">No holidays found</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+
+<!-- Add Holiday Modal -->
+{% if request.user.user_types == 'Admin' %}
+<div class="modal fade" id="add_holiday" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Holiday</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{% url 'add_holiday' %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Holiday Name</label>
+                        <input type="text" name="title" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Holiday Date</label>
+                        <input type="date" name="date" class="form-control" required>
+                    </div>
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary">Add Holiday</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit/Delete Modals -->
+{% for holiday in holidays %}
+<div class="modal fade" id="edit_holiday_{{ holiday.id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Holiday</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{% url 'edit_holiday' holiday.id %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Holiday Name</label>
+                        <input type="text" name="title" class="form-control" value="{{ holiday.title }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Holiday Date</label>
+                        <input type="date" name="date" class="form-control" value="{{ holiday.date|date:'Y-m-d' }}" required>
+                    </div>
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="delete_holiday_{{ holiday.id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <h5>Delete Holiday</h5>
+                <p>Are you sure you want to delete "{{ holiday.title }}"?</p>
+                <form method="POST" action="{% url 'delete_holiday' holiday.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger me-2">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endif %}
+
+{% endblock %}

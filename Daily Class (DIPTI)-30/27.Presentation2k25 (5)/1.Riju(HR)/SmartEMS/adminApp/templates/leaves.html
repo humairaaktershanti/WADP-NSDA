@@ -1,0 +1,115 @@
+{% extends "master/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="page-wrapper">
+  <div class="content container-fluid">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="row align-items-center">
+        <div class="col">
+          <h3 class="page-title">Leaves</h3>
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+            <li class="breadcrumb-item active">Leaves</li>
+          </ul>
+        </div>
+        <div class="col-auto float-end ms-auto">
+          <a href="#" class="btn add-btn" data-bs-toggle="modal" data-bs-target="#add_leave">
+            <i class="fa-solid fa-plus"></i> Add Leave
+          </a>
+        </div>
+      </div>
+    </div>
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <!-- Leave Statistics -->
+    <div class="row">
+      <div class="col-md-3 d-flex"><div class="stats-info w-100"><h6>Today Presents</h6><h4>{{ today_present }} / {{ total_employees }}</h4></div></div>
+      <div class="col-md-3 d-flex"><div class="stats-info w-100"><h6>Planned Leaves</h6><h4>{{ planned_leaves }} <span>Today</span></h4></div></div>
+      <div class="col-md-3 d-flex"><div class="stats-info w-100"><h6>Unplanned Leaves</h6><h4>{{ unplanned_leaves }} <span>Today</span></h4></div></div>
+      <div class="col-md-3 d-flex"><div class="stats-info w-100"><h6>Pending Requests</h6><h4>{{ pending_requests }}</h4></div></div>
+    </div>
+
+    <!-- Table -->
+    <div class="row">
+      <div class="col-md-12">
+        <div class="table-responsive">
+          <table class="table table-striped custom-table mb-0 datatable">
+            <thead>
+              <tr>
+                <th>Employee</th>
+                <th>Leave Type</th>
+                <th>From</th>
+                <th>To</th>
+                <th>No of Days</th>
+                <th>Reason</th>
+                <th class="text-center">Status</th>
+                <th class="text-end">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for leave in leave_requests %}
+              <tr>
+                <td>
+                  <h2 class="table-avatar">
+                    <a href="#" class="avatar">
+                      {% if leave.employee.profile_image %}
+                        <img src="{{ leave.employee.profile_image.url }}" alt="User Image" />
+                      {% else %}
+                        <img src="{% static 'default-profile.png' %}" alt="User Image" />
+                      {% endif %}
+                    </a>
+                    <a href="#">{{ leave.employee.full_name }}
+                      {% if leave.employee.position %}
+                        <span>{{ leave.employee.position.title }}</span>
+                      {% endif %}
+                    </a>
+                  </h2>
+                </td>
+                <td>{{ leave.leave_type }}</td>
+                <td>{{ leave.start_date }}</td>
+                <td>{{ leave.end_date }}</td>
+                <td>{{ leave.duration }}</td>
+                <td>{{ leave.reason }}</td>
+                <td class="text-center">
+                  <span class="badge 
+                      {% if leave.status == 'approved' %}bg-success
+                      {% elif leave.status == 'rejected' %}bg-danger
+                      {% else %}bg-warning text-dark{% endif %}">
+                      {{ leave.status|capfirst }}
+                  </span>
+                </td>
+                <td class="text-end">
+                  {% if leave.status == 'pending' %}
+                  <form method="POST" action="{% url 'admin_leave_requests' %}" class="d-inline">
+                    {% csrf_token %}
+                    <input type="hidden" name="leave_id" value="{{ leave.id }}">
+                    <button type="submit" name="action" value="approved" class="btn btn-sm btn-success">Approve</button>
+                    <button type="submit" name="action" value="rejected" class="btn btn-sm btn-danger">Reject</button>
+                  </form>
+                  {% endif %}
+                </td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="8" class="text-center">No leave requests found.</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,634 @@
+{% extends "master/base.html" %}
+{% load static %}
+{% block content %}
+<div class="page-wrapper">
+    <div class="content container-fluid">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">My Leave Requests</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'employee_dashboard' %}">Dashboard</a></li>
+                        <li class="breadcrumb-item active">My Leaves</li>
+                    </ul>
+                </div>
+                <div class="col-auto">
+                    <a href="{% url 'add_leave' %}" class="btn btn-primary">
+                        <i class="fa-solid fa-plus me-2"></i> New Request
+					</a>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Header -->
+
+		{% if messages %}
+    	{% for message in messages %}
+        	<div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+            	{{ message }}
+            	<button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    	    	</div>
+    	{% endfor %}
+		{% endif %}
+        
+        <!-- Leave Stats Cards -->
+        <div class="row mb-4">
+            <div class="col-md-3 col-sm-6">
+                <div class="card stats-card">
+                    <div class="card-body text-center">
+                        <div class="stats-icon">
+                            <i class="fa-solid fa-calendar-days text-primary"></i>
+                        </div>
+                        <h5>Annual Leave</h5>
+                        <h3 class="text-primary">{{ annual }}</h3>
+                        <p class="text-muted mb-0">Days taken</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card stats-card">
+                    <div class="card-body text-center">
+                        <div class="stats-icon">
+                            <i class="fa-solid fa-kit-medical text-danger"></i>
+                        </div>
+                        <h5>Sick Leave</h5>
+                        <h3 class="text-danger">{{ sick }}</h3>
+                        <p class="text-muted mb-0">Days taken</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card stats-card">
+                    <div class="card-body text-center">
+                        <div class="stats-icon">
+                            <i class="fa-solid fa-umbrella-beach text-warning"></i>
+                        </div>
+                        <h5>Casual Leave</h5>
+                        <h3 class="text-warning">{{ casual }}</h3>
+                        <p class="text-muted mb-0">Days taken</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="card stats-card">
+                    <div class="card-body text-center">
+                        <div class="stats-icon">
+                            <i class="fa-solid fa-hourglass-half text-success"></i>
+                        </div>
+                        <h5>Remaining</h5>
+                        <h3 class="text-success">{{ remaining }}</h3>
+                        <p class="text-muted mb-0">of {{ total_allowed }} days</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Leave Stats -->
+        
+        <!-- Progress Bar -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h5 class="mb-0">Leave Balance</h5>
+                            <span class="badge bg-info">{{ percent_used }}% Used</span>
+                        </div>
+                        <div class="progress" style="height: 25px;">
+                            <div class="progress-bar bg-info" role="progressbar"
+                                 style="width: {{ percent_used }}%;"
+                                 aria-valuenow="{{ total_taken }}" aria-valuemin="0" aria-valuemax="{{ total_allowed }}">
+                                {{ total_taken }} / {{ total_allowed }} Days Used
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Progress Bar -->
+        
+        <!-- Leave Requests Table -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">My Leave Requests</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped custom-table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Leave Type</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th>No of Days</th>
+                                        <th>Reason</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for leave in leaves %}
+                                    <tr>
+                                        <td>
+                                            <span class="badge bg-{% if leave.leave_type == 'annual' %}primary{% elif leave.leave_type == 'sick' %}danger{% else %}warning{% endif %}">
+                                                {{ leave.get_leave_type_display }}
+                                            </span>
+                                        </td>
+                                        <td>{{ leave.start_date|date:"M d, Y" }}</td>
+                                        <td>{{ leave.end_date|date:"M d, Y" }}</td>
+                                        <td>
+                                            {% if leave.start_date and leave.end_date %}
+                                                {{ leave.duration }} days
+                                            {% else %}
+                                                N/A
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <div class="text-truncate" style="max-width: 200px;" title="{{ leave.reason }}">
+                                                {{ leave.reason|truncatewords:5 }}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {% if leave.status == 'pending' %}
+                                                <span class="badge bg-warning">Pending</span>
+                                            {% elif leave.status == 'approved' %}
+                                                <span class="badge bg-success">Approved</span>
+                                            {% elif leave.status == 'rejected' %}
+                                                <span class="badge bg-danger">Rejected</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            <div class="btn-group">
+                                                {% if leave.status == 'pending' %}
+                                                    <button class="btn btn-sm btn-outline-primary edit-btn" 
+                                                            data-id="{{ leave.id }}"
+                                                            data-type="{{ leave.leave_type }}"
+                                                            data-start="{{ leave.start_date|date:'Y-m-d' }}"
+                                                            data-end="{{ leave.end_date|date:'Y-m-d' }}"
+                                                            data-reason="{{ leave.reason }}">
+                                                        <i class="fa-solid fa-pencil"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-danger cancel-btn" 
+                                                            data-id="{{ leave.id }}"
+                                                            data-bs-toggle="modal" 
+                                                            data-bs-target="#cancelModal">
+                                                        <i class="fa-solid fa-times"></i>
+                                                    </button>
+                                                {% endif %}
+                                                <button class="btn btn-sm btn-outline-info view-btn" 
+                                                        data-id="{{ leave.id }}"
+                                                        data-type="{{ leave.get_leave_type_display }}"
+                                                        data-start="{{ leave.start_date|date:'F d, Y' }}"
+                                                        data-end="{{ leave.end_date|date:'F d, Y' }}"
+                                                        data-reason="{{ leave.reason }}"
+                                                        data-status="{{ leave.status|title }}"
+                                                        data-applied="{{ leave.applied_at|date:'F d, Y' }}">
+                                                    <i class="fa-solid fa-eye"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="7" class="text-center py-4">
+                                            <div class="text-muted">
+                                                <i class="fa-solid fa-calendar-times fa-3x mb-3 d-block"></i>
+                                                No leave requests found
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Leave Requests Table -->
+    </div>
+</div>
+
+<!-- Add Leave Modal -->
+<div class="modal fade" id="addLeaveModal" tabindex="-1" aria-labelledby="addLeaveModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addLeaveModalLabel">New Leave Request</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="addLeaveForm">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="leaveType" class="form-label">Leave Type <span class="text-danger">*</span></label>
+                        <select class="form-select" id="leaveType" name="leave_type" required>
+                            <option value="">Select Leave Type</option>
+                            <option value="annual">Annual Leave</option>
+                            <option value="sick">Sick Leave</option>
+                            <option value="casual">Casual Leave</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="startDate" class="form-label">Start Date <span class="text-danger">*</span></label>
+                        <input type="date" class="form-control" id="startDate" name="start_date" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="endDate" class="form-label">End Date <span class="text-danger">*</span></label>
+                        <input type="date" class="form-control" id="endDate" name="end_date" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="daysCount" class="form-label">Number of Days</label>
+                        <input type="text" class="form-control" id="daysCount" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="leaveReason" class="form-label">Reason <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="leaveReason" name="reason" rows="3" required></textarea>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Submit Request</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Leave Modal -->
+<div class="modal fade" id="editLeaveModal" tabindex="-1" aria-labelledby="editLeaveModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editLeaveModalLabel">Update Leave Request</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editLeaveForm">
+                    {% csrf_token %}
+                    <input type="hidden" id="editLeaveId" name="leave_id">
+                    <div class="mb-3">
+                        <label for="editLeaveType" class="form-label">Leave Type <span class="text-danger">*</span></label>
+                        <select class="form-select" id="editLeaveType" name="leave_type" required>
+                            <option value="">Select Leave Type</option>
+                            <option value="annual">Annual Leave</option>
+                            <option value="sick">Sick Leave</option>
+                            <option value="casual">Casual Leave</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editStartDate" class="form-label">Start Date <span class="text-danger">*</span></label>
+                        <input type="date" class="form-control" id="editStartDate" name="start_date" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editEndDate" class="form-label">End Date <span class="text-danger">*</span></label>
+                        <input type="date" class="form-control" id="editEndDate" name="end_date" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editDaysCount" class="form-label">Number of Days</label>
+                        <input type="text" class="form-control" id="editDaysCount" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editLeaveReason" class="form-label">Reason <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="editLeaveReason" name="reason" rows="3" required></textarea>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Update Request</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- View Leave Modal -->
+<div class="modal fade" id="viewLeaveModal" tabindex="-1" aria-labelledby="viewLeaveModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewLeaveModalLabel">Leave Request Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <h6>Leave Type</h6>
+                    <p id="viewLeaveType" class="fw-bold"></p>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <h6>Start Date</h6>
+                        <p id="viewStartDate"></p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>End Date</h6>
+                        <p id="viewEndDate"></p>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <h6>Duration</h6>
+                        <p id="viewDaysCount"></p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Status</h6>
+                        <p id="viewStatus"></p>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <h6>Applied Date</h6>
+                        <p id="viewAppliedDate"></p>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <h6>Reason</h6>
+                    <p id="viewReason"></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Cancel Leave Modal -->
+<div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cancelModalLabel">Cancel Leave Request</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to cancel this leave request?</p>
+                <form id="cancelLeaveForm" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" id="cancelLeaveId" name="leave_id">
+                    <div class="mb-3">
+                        <label for="cancelReason" class="form-label">Reason for Cancellation (Optional)</label>
+                        <textarea class="form-control" id="cancelReason" name="cancel_reason" rows="3"></textarea>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-danger">Yes, Cancel</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// Add CSRF Token for AJAX
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+const csrftoken = getCookie('csrftoken');
+
+// Add New Leave
+document.getElementById('addLeaveForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const form = this;
+    const formData = {
+        leave_type: form.leave_type.value,
+        start_date: form.start_date.value,
+        end_date: form.end_date.value,
+        reason: form.reason.value
+    };
+
+    fetch('{% url "add_leave" %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Leave request submitted!');
+            location.reload(); // Refresh to show new leave
+        } else {
+            alert('Error: ' + (data.message || 'Unknown error'));
+        }
+    })
+    .catch(err => {
+        console.error('Error:', err);
+        alert('Network error. Please try again.');
+    });
+});
+
+// View Leave Modal
+document.querySelectorAll('.view-btn').forEach(btn => {
+    btn.addEventListener('click', function () {
+        const modal = new bootstrap.Modal(document.getElementById('viewLeaveModal'));
+        document.getElementById('viewLeaveType').textContent = this.dataset.type;
+        document.getElementById('viewStartDate').textContent = this.dataset.start;
+        document.getElementById('viewEndDate').textContent = this.dataset.end;
+        const days = Math.abs(new Date(this.dataset.end) - new Date(this.dataset.start)) / (1000 * 60 * 60 * 24) + 1;
+        document.getElementById('viewDaysCount').textContent = days + " days";
+        document.getElementById('viewStatus').textContent = this.dataset.status;
+        document.getElementById('viewAppliedDate').textContent = this.dataset.applied;
+        document.getElementById('viewReason').textContent = this.dataset.reason;
+        modal.show();
+    });
+});
+
+// Edit Leave Modal
+document.querySelectorAll('.edit-btn').forEach(btn => {
+    btn.addEventListener('click', function () {
+        const modal = new bootstrap.Modal(document.getElementById('editLeaveModal'));
+        document.getElementById('editLeaveId').value = this.dataset.id;
+        document.getElementById('editLeaveType').value = this.dataset.type.toLowerCase();
+        document.getElementById('editStartDate').value = this.dataset.start;
+        document.getElementById('editEndDate').value = this.dataset.end;
+        document.getElementById('editLeaveReason').value = this.dataset.reason;
+        modal.show();
+    });
+});
+
+// Cancel Leave Modal
+document.querySelectorAll('.cancel-btn').forEach(btn => {
+    btn.addEventListener('click', function () {
+        document.getElementById('cancelLeaveId').value = this.dataset.id;
+    });
+});
+
+// Calculate Days Count (Add & Edit)
+['#startDate', '#endDate', '#editStartDate', '#editEndDate'].forEach(selector => {
+    document.querySelectorAll(selector).forEach(input => {
+        input.addEventListener('change', function () {
+            const start = document.querySelector('#startDate')?.value || document.querySelector('#editStartDate')?.value;
+            const end = document.querySelector('#endDate')?.value || document.querySelector('#editEndDate')?.value;
+            const output = document.querySelector('#daysCount') || document.querySelector('#editDaysCount');
+
+            if (start && end) {
+                const diff = Math.floor((new Date(end) - new Date(start)) / (1000 * 60 * 60 * 24)) + 1;
+                output.value = diff > 0 ? diff + " day(s)" : "Invalid";
+            }
+        });
+    });
+});
+// Handle Edit Leave Form Submit
+document.getElementById('editLeaveForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const form = this;
+
+    const formData = {
+        leave_type: form.leave_type.value,
+        start_date: form.start_date.value,
+        end_date: form.end_date.value,
+        reason: form.reason.value
+    };
+
+    const leaveId = document.getElementById('editLeaveId').value;
+
+    fetch(`/leaves/${leaveId}/edit/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert(data.message || 'Leave updated!');
+            location.reload(); // Refresh to see changes
+        } else {
+            alert('Error: ' + (data.message || 'Unknown error'));
+            console.error(data);
+        }
+    })
+    .catch(err => {
+        console.error('Fetch error:', err);
+        alert('Network error. Please try again.');
+    });
+});
+function updateDaysCount(startId, endId, outputId) {
+    const start = document.querySelector(startId)?.value;
+    const end = document.querySelector(endId)?.value;
+    const output = document.querySelector(outputId);
+
+    if (start && end) {
+        const startDate = new Date(start);
+        const endDate = new Date(end);
+
+        if (endDate < startDate) {
+            output.value = "End date cannot be before start";
+            return false;
+        }
+
+        const diff = Math.floor((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+        output.value = diff + " day(s)";
+        return true;
+    }
+    output.value = "";
+    return false;
+}
+
+// Attach to inputs
+['#startDate', '#endDate', '#editStartDate', '#editEndDate'].forEach(() => {
+    document.querySelectorAll('#startDate, #endDate, #editStartDate, #editEndDate').forEach(input => {
+        input.addEventListener('change', function () {
+            updateDaysCount('#startDate', '#endDate', '#daysCount');
+            updateDaysCount('#editStartDate', '#editEndDate', '#editDaysCount');
+        });
+    });
+});
+</script>
+
+<style>
+.stats-card {
+    border: none;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    transition: transform 0.3s ease;
+}
+
+.stats-card:hover {
+    transform: translateY(-5px);
+}
+
+.stats-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.stats-card h3 {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.stats-card h5 {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.progress {
+    height: 25px;
+    border-radius: 10px;
+}
+
+.progress-bar {
+    border-radius: 10px;
+    font-weight: 600;
+}
+
+.table th {
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.btn-group .btn {
+    margin: 0 2px;
+}
+
+.modal-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.modal-title {
+    font-weight: 600;
+}
+
+.form-label {
+    font-weight: 600;
+    color: #495057;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: #80bdff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.badge {
+    font-weight: 500;
+    padding: 0.5em 0.75em;
+}
+
+.text-truncate {
+    cursor: pointer;
+}
+</style>
+{% endblock content %}

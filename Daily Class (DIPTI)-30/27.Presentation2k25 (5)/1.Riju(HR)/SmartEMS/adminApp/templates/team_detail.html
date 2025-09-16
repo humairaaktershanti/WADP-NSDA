@@ -1,0 +1,108 @@
+{% extends "master/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="page-wrapper">
+    <div class="content container-fluid">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3 class="page-title">Team: {{ team.name }}</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'team_list' %}">Teams</a></li>
+                        <li class="breadcrumb-item active">{{ team.name }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Header -->
+
+        <!-- Team Info Card -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h4 class="card-title">Team Information</h4>
+                <p><strong>Description:</strong> {{ team.description|default:"No description provided" }}</p>
+                {% if team.department %}
+                    <p><strong>Department:</strong> {{ team.department.name }}</p>
+                {% endif %}
+                <p><strong>Created At:</strong> {{ team.created_at|date:"M d, Y" }}</p>
+            </div>
+        </div>
+
+        <!-- Members Card -->
+        <div class="card">
+            <!-- Add Member Form -->
+                <div class="mt-4 mx-4">
+                    <h5>Add New Member</h5>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="row g-2">
+                            <div class="col-md-5">
+                                {{ form.member }}
+                            </div>
+                            <div class="col-md-3">
+                                {{ form.role }}
+                            </div>
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fa fa-plus"></i> Add Member
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            <div class="card-body">
+                <h4 class="card-title mb-3">Team Members</h4>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Member</th>
+                                <th>Role</th>
+                                <th>Joined At</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for member in members %}
+                            <tr>
+                                <td>{{ member.member.full_name }}</td>
+                                <td>
+                                    <form method="post" action="{% url 'update_member_role' member.id %}">
+                                        {% csrf_token %}
+                                        <select name="role" class="form-select form-select-sm" onchange="this.form.submit()">
+                                            <option value="Lead" {% if member.role == "Lead" %}selected{% endif %}>Lead</option>
+                                            <option value="Member" {% if member.role == "Member" %}selected{% endif %}>Member</option>
+                                        </select>
+                                    </form>
+                                </td>
+                                <td>{{ member.joined_at|date:"M d, Y" }}</td>
+                                <td class="text-end">
+                                    <form method="post" action="{% url 'delete_member' member.id %}" class="d-inline">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            <i class="fa fa-trash"></i> Remove
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center">No members yet.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            
+
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,52 @@
+{% extends "master/base.html" %}
+
+{% block content %}
+<div class="page-wrapper" style="min-height: 506px;">
+
+    <!-- Page Content -->
+    <div class="content container-fluid">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Add New Notice</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'notice_list' %}">Notices</a></li>
+                        <li class="breadcrumb-item active">Add Notice</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Header -->
+
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="card">
+                    <div class="card-body">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Title <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="title" name="title" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="content" class="form-label">Content <span class="text-danger">*</span></label>
+                                <textarea class="form-control" id="content" name="content" rows="6" required></textarea>
+                            </div>
+                            <div class="submit-section">
+                                <button type="submit" class="btn btn-primary submit-btn">Publish Notice</button>
+                                <a href="{% url 'notice_list' %}" class="btn btn-light">Cancel</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /Page Content -->
+
+</div>
+{% endblock %}

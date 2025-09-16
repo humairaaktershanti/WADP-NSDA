@@ -1,0 +1,283 @@
+{% extends "master/base.html" %}
+{% load static %}
+
+{% block content %}
+
+<div class="page-wrapper" style="min-height: 543px;">
+    <div class="content container-fluid">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3 class="page-title">Profile</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Profile</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Header -->
+
+        <!-- Profile Card -->
+        <div class="card mb-0">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="profile-view">
+
+                            <!-- Profile Image -->
+                            <div class="profile-img-wrap">
+                                <div class="profile-img">
+                                    <a href="#">
+                                        <img 
+                                            src="{% if profile.profile_image %}{{ profile.profile_image.url }}{% elif profile.full_name %}https://avatar.iran.liara.run/username?username={{ profile.full_name|urlencode }}{% else %}https://avatar.iran.liara.run/username?username={{ request.user.username|urlencode }}{% endif %}" 
+                                            alt="User Image"
+                                            style="width: 100px; height: 100px; border-radius: 50%;"
+                                        >
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Basic Info -->
+                            <div class="profile-basic">
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="profile-info-left">
+                                            <h3 class="user-name m-t-0 mb-0">{{ profile.full_name }}</h3>
+                                            <h6 class="text-muted">{% if profile.position %}{{ profile.position.title }}{% else %}N/A{% endif %}</h6>
+                                            <small class="text-muted">{% if profile.position and profile.position.department %}{{ profile.position.department.name }}{% else %}N/A{% endif %}</small>
+                                            <div class="staff-id">Employee ID : {{ profile.employee_id }}</div>
+                                            <div class="small doj text-muted">Date of Join : {{ profile.date_of_joining }}</div>
+                                            <div class="staff-msg"><a class="btn btn-custom" href="#">Send Message</a></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-7">
+                                        <ul class="personal-info">
+                                            <li>
+                                                <div class="title">Phone:</div>
+                                                <div class="text"><a href="tel:{{ profile.phone }}">{{ profile.phone }}</a></div>
+                                            </li>
+                                            <li>
+                                                <div class="title">Email:</div>
+                                                <div class="text"><a href="mailto:{{ request.user.email }}">{{ request.user.email }}</a></div>
+                                            </li>
+                                            <li>
+                                                <div class="title">Birthday:</div>
+                                                <div class="text">{{ profile.birthday }}</div>
+                                            </li>
+                                            <li>
+                                                <div class="title">Address:</div>
+                                                <div class="text">{{ profile.address }}</div>
+                                            </li>
+                                            <li>
+                                                <div class="title">Gender:</div>
+                                                <div class="text">{{ profile.gender|capfirst }}</div>
+                                            </li>
+                                            {% if profile.reports_to %}
+                                            <li>
+                                                <div class="title">Reports to:</div>
+                                                <div class="text">
+                                                    <div class="avatar-box d-inline-block">
+                                                        <div class="avatar avatar-xs">
+                                                            <a href="#" data-bs-toggle="modal" data-bs-target="#reportsToModal">
+                                                                <img 
+                                                                    src="{% if profile.reports_to.profile_image %}{{ profile.reports_to.profile_image.url }}{% else %}https://avatar.iran.liara.run/username?username={{ profile.reports_to.full_name|urlencode }}{% endif %}" 
+                                                                    alt="User Image"
+                                                                    style="width: 24px; height: 24px; border-radius: 50%;"
+                                                                >
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <a href="#" data-bs-toggle="modal" data-bs-target="#reportsToModal">{{ profile.reports_to.full_name }}</a>
+                                                </div>
+                                            </li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="pro-edit">
+                                <a class="edit-icon" href="{% url 'update_profile' %}"><i class="fa-solid fa-pencil"></i></a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /Profile Card -->
+
+        <!-- Tabs Card -->
+        <div class="card tab-box">
+            <div class="row user-tabs">
+                <div class="col-lg-12 col-md-12 col-sm-12 line-tabs">
+                    <ul class="nav nav-tabs nav-tabs-bottom" role="tablist">
+                        <li class="nav-item">
+                            <a href="#emp_profile" data-bs-toggle="tab" class="nav-link active" role="tab">Experience Info</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content">
+
+            <!-- Experience Info Tab with timeline -->
+            <div id="emp_profile" class="pro-overview tab-pane fade show active" role="tabpanel">
+                {% if certificate_url %}
+                <div class="timeline mt-4">
+                    <ul class="timeline-list">
+                        <li class="timeline-item">
+                            <div class="timeline-badge bg-primary"><i class="fa fa-certificate text-white"></i></div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h5 class="timeline-title">Experience Certificate</h5>
+                                    <p><small class="text-muted">{{ profile.date_of_joining }} - {{ profile.date_of_leaving|default:"Present" }}</small></p>
+                                </div>
+                                <div class="timeline-body">
+                                    <p><strong>Name:</strong> {{ profile.full_name }}</p>
+                                    <p><strong>Position:</strong> {% if profile.position %}{{ profile.position.title }}{% else %}N/A{% endif %}</p>
+                                    <p><strong>Department:</strong> {% if profile.position and profile.position.department %}{{ profile.position.department.name }}{% else %}N/A{% endif %}</p>
+                                    <p><strong>Employee ID:</strong> {{ profile.employee_id }}</p>
+                                    <p>
+                                        <strong>Certificate:</strong>
+                                        <a href="{{ certificate_url }}" target="_blank" class="btn btn-sm btn-outline-primary">View PDF</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                {% else %}
+                <p>No experience certificate available.</p>
+                {% endif %}
+            </div>
+
+        </div>
+        <!-- /Tabs Content -->
+
+    </div>
+</div>
+
+<!-- Reports To Modal -->
+{% if profile.reports_to %}
+<div class="modal fade" id="reportsToModal" tabindex="-1" aria-labelledby="reportsToModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="reportsToModalLabel">{{ profile.reports_to.full_name }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body text-center">
+        <img 
+            src="{% if profile.reports_to.profile_image %}{{ profile.reports_to.profile_image.url }}{% else %}https://avatar.iran.liara.run/username?username={{ profile.reports_to.full_name|urlencode }}{% endif %}" 
+            alt="User Image"
+            class="img-fluid rounded-circle mb-3"
+            style="width: 100px; height: 100px; object-fit: cover;"
+        >
+        <p><strong>Position:</strong> {% if profile.reports_to.position %}{{ profile.reports_to.position.title }}{% else %}N/A{% endif %}</p>
+        <p><strong>Department:</strong> {% if profile.reports_to.position and profile.reports_to.position.department %}{{ profile.reports_to.position.department.name }}{% else %}N/A{% endif %}</p>
+        <p><strong>Email:</strong> <a href="mailto:{{ profile.reports_to.user.email }}">{{ profile.reports_to.user.email }}</a></p>
+        <p><strong>Phone:</strong> {{ profile.reports_to.phone }}</p>
+        <p><strong>Birthday:</strong> {{ profile.reports_to.birthday }}</p>
+        <p><strong>Gender:</strong> {{ profile.reports_to.gender|capfirst }}</p>
+        <p><strong>Date of Joining:</strong> {{ profile.reports_to.date_of_joining }}</p>
+        <p><strong>Address:</strong> {{ profile.reports_to.address }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<!-- JS for Download -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+
+    async function downloadFile(url, filename) {
+        try {
+            const response = await fetch(url);
+            const blob = await response.blob();
+            const link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } catch (error) {
+            alert("Failed to download file.");
+            console.error(error);
+        }
+    }
+
+    // Certificate tab download
+    const downloadBtn = document.getElementById('downloadCertificate');
+    if (downloadBtn) {
+        downloadBtn.addEventListener('click', function() {
+            downloadFile("{{ certificate_url }}", "{{ profile.full_name|slugify }}-certificate.pdf");
+        });
+    }
+
+    // Timeline download button
+    const timelineDownloadBtn = document.getElementById('downloadCertificateTimeline');
+    if (timelineDownloadBtn) {
+        timelineDownloadBtn.addEventListener('click', function() {
+            downloadFile("{{ certificate_url }}", "{{ profile.full_name|slugify }}-certificate.pdf");
+        });
+    }
+});
+</script>
+
+<style>
+/* Professional timeline styling */
+.timeline-list {
+    list-style: none;
+    padding-left: 0;
+    position: relative;
+}
+.timeline-list::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #007bff;
+}
+.timeline-item {
+    position: relative;
+    margin-bottom: 30px;
+    padding-left: 50px;
+}
+.timeline-badge {
+    position: absolute;
+    left: 10px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #007bff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.timeline-badge i {
+    color: white;
+    font-size: 12px;
+}
+.timeline-panel {
+    background: #f9f9f9;
+    padding: 15px 20px;
+    border-radius: 6px;
+    border-left: 3px solid #007bff;
+    box-shadow: 0px 2px 6px rgba(0,0,0,0.08);
+}
+.timeline-title {
+    margin: 0 0 5px 0;
+    font-weight: bold;
+}
+</style>
+
+{% endblock content %}

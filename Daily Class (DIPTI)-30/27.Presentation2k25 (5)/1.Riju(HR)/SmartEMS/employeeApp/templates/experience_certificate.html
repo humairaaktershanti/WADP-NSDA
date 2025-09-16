@@ -1,0 +1,239 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Experience Certificate</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Montserrat:wght@400;500&display=swap');
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .certificate-container {
+      width: 210mm;
+      height: 297mm;
+      background: #fff;
+      padding: 40px 60px;
+      box-sizing: border-box;
+      position: relative;
+      border: 12px solid #1a237e;
+      background-image: url("https://www.transparenttextures.com/patterns/paper-fibers.png");
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .certificate-container::before {
+      content: '';
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      right: 20px;
+      bottom: 20px;
+      border: 6px solid #cfa72f;
+      pointer-events: none;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 10px;
+      position: relative;
+    }
+
+    .header img {
+      max-height: 90px;
+      margin-bottom: 10px;
+    }
+
+    .download-btn {
+      position: absolute;
+      right: 0;
+      top: 0;
+      background: #1a237e;
+      border-radius: 50%;
+      padding: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .download-btn:hover {
+      background: #cfa72f;
+    }
+
+    .download-btn img {
+      width: 24px;
+      height: 24px;
+      filter: invert(1);
+    }
+
+    .title {
+      font-family: 'Playfair Display', serif;
+      font-size: 42px;
+      font-weight: 600;
+      color: #1a237e;
+      margin: 0;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      color: #444;
+      margin-top: 5px;
+    }
+
+    .content {
+      text-align: center;
+      padding: 0 10px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .recipient {
+      font-family: 'Playfair Display', serif;
+      font-size: 28px;
+      font-weight: 600;
+      color: #cfa72f;
+      margin: 20px 0;
+    }
+
+    .content p {
+      font-size: 16px;
+      line-height: 1.7;
+      color: #222;
+      margin-bottom: 16px;
+      text-align: justify;
+    }
+
+    .highlight {
+      font-weight: 600;
+      color: #1a237e;
+    }
+
+    .signature-section {
+      margin-top: 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 40px;
+    }
+
+    .signature {
+      text-align: center;
+      width: 40%;
+    }
+
+    .signature img {
+      max-height: 60px;
+      margin-bottom: 5px;
+    }
+
+    .signature-line {
+      border-top: 2px solid #1a237e;
+      width: 200px;
+      margin: 8px auto 4px;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: #555;
+      border-top: 1px solid #ccc;
+      padding-top: 6px;
+      letter-spacing: 0.5px;
+    }
+
+    @media print {
+      body {
+        background: none;
+        margin: 0;
+        padding: 0;
+      }
+      .certificate-container {
+        margin: 0;
+        border: 10px solid #000;
+        box-shadow: none;
+      }
+      .download-btn {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="certificate-container" id="certificate">
+    <div class="header">
+      <img src="{% static 'assets/img/logo2.png' %}" alt="SmartEMS">
+      <div class="download-btn" onclick="downloadCertificate()">
+        <img src="https://cdn-icons-png.flaticon.com/512/724/724933.png" alt="Download">
+      </div>
+      <h1 class="title">Certificate of Experience</h1>
+      <div class="subtitle">This certificate is proudly presented to</div>
+    </div>
+
+    <div class="content">
+      <div class="recipient">{{ profile.full_name }}</div>
+      <p>
+        This is to certify that <span class="highlight">{{ profile.full_name }}</span> 
+        was employed with <span class="highlight">SmartEMS</span> as a 
+        <span class="highlight">{{ profile.position.title }}</span> in the 
+        <span class="highlight">{{ profile.position.department.name }}</span> department 
+        from <span class="highlight">{{ profile.date_of_joining }}</span> 
+        to <span class="highlight">{{ resignation.resignation_date|default:"Present" }}</span>.
+      </p>
+
+      <p>
+        During this period, <span class="highlight">{{ profile.full_name }}</span> 
+        demonstrated professionalism, dedication, and contributed significantly 
+        to the success of our organization.
+      </p>
+
+      <p>
+        We sincerely thank <span class="highlight">{{ profile.full_name }}</span> 
+        for their valuable contributions and wish them success in their future endeavors.
+      </p>
+    </div>
+
+    <div class="signature-section">
+      <div class="signature">
+        <img src="{% static 'assets/img/sig.png' %}" alt="Authorized Signatory">
+        <div class="signature-line"></div>
+        <div>Authorized Signatory</div>
+      </div>
+      <div class="signature">
+        <img src="{% static 'assets/img/sig.png' %}" alt="HR Manager">
+        <div class="signature-line"></div>
+        <div>HR Manager</div>
+      </div>
+    </div>
+
+    <div class="footer">
+      SmartEMS | 123 Business Park, Dhaka, Bangladesh | +880 1234 567890 | www.smartems.com
+    </div>
+  </div>
+
+  <!-- html2canvas library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script>
+    function downloadCertificate() {
+      const certificate = document.getElementById("certificate");
+      html2canvas(certificate, { scale: 2 }).then(canvas => {
+        const link = document.createElement("a");
+        link.download = "experience_certificate.png";
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      });
+    }
+  </script>
+</body>
+</html>

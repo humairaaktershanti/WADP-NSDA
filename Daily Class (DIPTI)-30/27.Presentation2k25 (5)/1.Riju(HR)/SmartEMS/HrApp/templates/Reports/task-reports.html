@@ -1,0 +1,128 @@
+{% extends "master/base.html" %}
+{% load static %}
+{% block content %}
+<div class="page-wrapper" style="min-height: 543px;">
+			
+				<!-- Page Content -->
+                <div class="content container-fluid">
+					
+					<!-- Page Header -->
+					<div class="page-header">
+						<div class="row">
+							<div class="col-sm-12">
+								<h3 class="page-title">Task Reports</h3>
+								<ul class="breadcrumb">
+									<li class="breadcrumb-item"><a href="admin-dashboard.html">Dashboard</a></li>
+									<li class="breadcrumb-item active">Task Reports</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- /Page Header -->
+					
+						<!-- Content Starts -->
+						<!-- Search Filter -->
+					<div class="row filter-row">
+						
+						<div class="col-sm-6 col-md-3">  
+							<div class="input-block mb-3 form-focus focused">
+								<select class="form-control floating select select2-hidden-accessible" data-select2-id="select2-data-1-x5eg" tabindex="-1" aria-hidden="true">
+									<option data-select2-id="select2-data-3-7ueg">
+										Name1
+									</option>
+									<option>
+										Name2
+									</option>
+								</select><span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="select2-data-2-9z79" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-6xg6-container" aria-controls="select2-6xg6-container"><span class="select2-selection__rendered" id="select2-6xg6-container" role="textbox" aria-readonly="true" title="
+										Name1
+									">
+										Name1
+									</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+								<label class="focus-label">Project Name</label>
+							</div>
+						</div>
+						<div class="col-sm-6 col-md-3">  
+							<div class="input-block mb-3 form-focus focused">
+								<select class="form-control floating select select2-hidden-accessible" data-select2-id="select2-data-4-uhyx" tabindex="-1" aria-hidden="true">
+									<option data-select2-id="select2-data-6-lxzy">
+										All
+									</option>
+									<option>
+										Pending
+									</option>
+									<option>
+										Completed
+									</option>
+								</select><span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="select2-data-5-46ss" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-ev1b-container" aria-controls="select2-ev1b-container"><span class="select2-selection__rendered" id="select2-ev1b-container" role="textbox" aria-readonly="true" title="
+										All
+									">
+										All
+									</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+								<label class="focus-label">Status</label>
+							</div>
+						</div>
+						<div class="col-sm-6 col-md-3">  
+							<a href="#" class="btn btn-success w-100"> Search </a>  
+						</div>     
+                    </div>
+					<!-- /Search Filter -->
+					
+					<div class="row">
+						<div class="col-md-12">
+							<div class="table-responsive">
+								<div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="DataTables_Table_0_length"><label>Show <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"></div></div><div class="row"><div class="col-sm-12"><table class="table table-striped custom-table mb-0 datatable dataTable no-footer" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+									<thead>
+										<tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="#: activate to sort column descending" style="width: 47.65px;">#</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Task Name: activate to sort column ascending" style="width: 294.075px;">Task Name</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Start Date: activate to sort column ascending" style="width: 164.9px;">Start Date</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="End Date: activate to sort column ascending" style="width: 159.438px;">End Date</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 154.562px;">Status</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Assigned To: activate to sort column ascending" style="width: 173.375px;">Assigned To</th></tr>
+									</thead>
+									<tbody>
+										
+										
+									<tr class="odd">
+											<td class="sorting_1">1</td>
+											<td>Hospital Administration</td>
+											<td>26 Mar 2019</td>
+											<td>26 Apr 2021</td>
+											<td>
+												<div class="dropdown action-label">
+													<a href="#" class="btn btn-white btn-sm btn-rounded"><i class="fa-regular fa-circle-dot text-success"></i> Active </a>
+													
+												</div>
+											</td>
+											<td>
+												<ul class="team-members">
+													<li>
+														<a href="#" data-bs-toggle="tooltip" title="" data-original-title="Jeffery Lalor"><img src="assets/img/profiles/avatar-16.jpg" alt="User Image"></a>
+													</li>
+												</ul>
+											</td>
+										</tr><tr class="even">
+											<td class="sorting_1">2</td>
+											<td>Hospital Administration</td>
+											<td>26 Mar 2019</td>
+											<td>26 Apr 2021</td>
+											<td>
+												<div class="dropdown action-label">
+													<a href="#" class="btn btn-white btn-sm btn-rounded"><i class="fa-regular fa-circle-dot text-success"></i> Active </a>
+													
+												</div>
+											</td>
+											<td>
+												<ul class="team-members">
+													<li>
+														<a href="#" data-bs-toggle="tooltip" title="" data-original-title="Jeffery Lalor"><img src="assets/img/profiles/avatar-16.jpg" alt="User Image"></a>
+													</li>
+												</ul>
+											</td>
+										</tr></tbody>
+								</table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to 2 of 2 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item next disabled" id="DataTables_Table_0_next"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
+							</div>
+						</div>
+					</div>
+                
+					<!-- /Content End -->
+					
+                </div>
+				<!-- /Page Content -->
+				
+            </div>
+{% endblock content %}

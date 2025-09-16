@@ -1,0 +1,164 @@
+{% extends "master/base.html" %}
+{% load static %}
+{% block content %}
+<div class="page-wrapper" style="min-height: 543px;">
+			
+				<!-- Page Content -->
+                <div class="content container-fluid">
+					
+					<!-- Page Header -->
+					<div class="page-header">
+						<div class="row">
+							<div class="col-sm-12">
+								<h3 class="page-title">Payslip Reports</h3>
+								<ul class="breadcrumb">
+									<li class="breadcrumb-item"><a href="admin-dashboard.html">Dashboard</a></li>
+									<li class="breadcrumb-item active">Payslip Reports</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- /Page Header -->
+					
+						<!-- Content Starts -->
+						<!-- Search Filter -->
+					<div class="row filter-row">
+						
+						<div class="col-sm-6 col-md-3">  
+							<div class="input-block mb-3 form-focus">
+								<input type="text" class="form-control floating">
+								<label class="focus-label">Employee Name</label>
+							</div>
+						</div>
+						<div class="col-sm-6 col-md-3">  
+							<div class="input-block mb-3 form-focus focused">
+								<select class="form-control floating select select2-hidden-accessible" data-select2-id="select2-data-1-gqa9" tabindex="-1" aria-hidden="true">
+									<option data-select2-id="select2-data-3-4ws1">
+										Jan
+									</option>
+									<option>
+										Feb
+									</option>
+									<option>
+										Mar
+									</option>
+								</select><span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="select2-data-2-p4sz" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-g203-container" aria-controls="select2-g203-container"><span class="select2-selection__rendered" id="select2-g203-container" role="textbox" aria-readonly="true" title="
+										Jan
+									">
+										Jan
+									</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+								<label class="focus-label">Month</label>
+							</div>
+						</div>
+						<div class="col-sm-6 col-md-3">  
+							<div class="input-block mb-3 form-focus focused">
+								<select class="form-control floating select select2-hidden-accessible" data-select2-id="select2-data-4-h8f6" tabindex="-1" aria-hidden="true">
+									<option data-select2-id="select2-data-6-hfbl">
+										2018
+									</option>
+									<option>
+										2019
+									</option>
+									<option>
+										2020
+									</option>
+								</select><span class="select2 select2-container select2-container--default" dir="ltr" data-select2-id="select2-data-5-rx3b" style="width: 100%;"><span class="selection"><span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-disabled="false" aria-labelledby="select2-lzpo-container" aria-controls="select2-lzpo-container"><span class="select2-selection__rendered" id="select2-lzpo-container" role="textbox" aria-readonly="true" title="
+										2018
+									">
+										2018
+									</span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span></span></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>
+								<label class="focus-label">Year</label>
+							</div>
+						</div>
+						<div class="col-sm-6 col-md-3">  
+							<a href="#" class="btn btn-success w-100"> Search </a>  
+						</div>     
+                    </div>
+					<!-- /Search Filter -->
+					
+					<div class="row">
+						<div class="col-md-12">
+							<div class="table-responsive">
+								<div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4 no-footer"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="DataTables_Table_0_length"><label>Show <select name="DataTables_Table_0_length" aria-controls="DataTables_Table_0" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"></div></div><div class="row"><div class="col-sm-12"><table class="table table-striped custom-table mb-0 datatable dataTable no-footer" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+									<thead>
+										<tr role="row"><th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="#: activate to sort column descending" style="width: 33.0625px;">#</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Employee Name: activate to sort column ascending" style="width: 375.55px;">Employee Name</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Paid Amount: activate to sort column ascending" style="width: 146.488px;">Paid Amount</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Payment Month: activate to sort column ascending" style="width: 175.613px;">Payment Month</th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Payment Year: activate to sort column ascending" style="width: 154.325px;">Payment Year</th><th class="text-center sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Actions: activate to sort column ascending" style="width: 93.7625px;">Actions</th></tr>
+									</thead>
+									<tbody>
+										
+										
+										
+										
+										
+									<tr class="odd">
+											<td class="sorting_1">1</td>
+											<td>
+												<h2 class="table-avatar">
+													<a href="profile.html" class="avatar"><img src="assets/img/profiles/avatar-13.jpg" alt="User Image"></a>
+													<a href="profile.html">Bernardo Galaviz <span>Web Developer</span></a>
+												</h2>
+											</td>
+											<td>$200</td>
+											<td>Apr</td>
+											<td>2019</td>
+											<td class="text-center"> <a href="#" class="btn btn-sm btn-primary">PDF</a></td>
+										</tr><tr class="even">
+											<td class="sorting_1">2</td>
+											<td>
+												<h2 class="table-avatar">
+													<a href="profile.html" class="avatar"><img src="assets/img/profiles/avatar-12.jpg" alt="User Image"></a>
+													<a href="profile.html">Jeffrey Warden <span>Web Developer</span></a>
+												</h2>
+											</td>
+											<td>$300</td>
+											<td>Dec</td>
+											<td>2020</td>
+											<td class="text-center"> <a href="#" class="btn btn-sm btn-primary">PDF</a></td>
+										</tr><tr class="odd">
+											<td class="sorting_1">3</td>
+											<td>
+												<h2 class="table-avatar">
+													<a href="profile.html" class="avatar"><img src="assets/img/profiles/avatar-02.jpg" alt="User Image"></a>
+													<a href="profile.html">John Doe <span>Web Designer</span></a>
+												</h2>
+											</td>
+											<td>$400</td>
+											<td>Jun</td>
+											<td>2020</td>
+											<td class="text-center"> <a href="#" class="btn btn-sm btn-primary">PDF</a></td>
+										</tr><tr class="even">
+											<td class="sorting_1">4</td>
+											<td>
+												<h2 class="table-avatar">
+													<a href="profile.html" class="avatar"><img src="assets/img/profiles/avatar-10.jpg" alt="User Image"></a>
+													<a href="profile.html">John Smith <span>Android Developer</span></a>
+												</h2>
+											</td>
+											<td>$500</td>
+											<td>Feb</td>
+											<td>2020</td>
+											<td class="text-center"> <a href="#" class="btn btn-sm btn-primary">PDF</a></td>
+										</tr><tr class="odd">
+											<td class="sorting_1">5</td>
+											<td>
+												<h2 class="table-avatar">
+													<a href="profile.html" class="avatar"><img src="assets/img/profiles/avatar-05.jpg" alt="User Image"></a>
+													<a href="profile.html">Mike Litorus <span>IOS Developer</span></a>
+												</h2>
+											</td>
+											<td>$600</td>
+											<td>Jan</td>
+											<td>2020</td>
+											<td class="text-center"> <a href="#" class="btn btn-sm btn-primary">PDF</a></td>
+										</tr></tbody>
+								</table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">Showing 1 to 5 of 5 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="DataTables_Table_0_previous"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item next disabled" id="DataTables_Table_0_next"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
+							</div>
+						</div>
+					</div>
+                
+					<!-- /Content End -->
+					
+                </div>
+				<!-- /Page Content -->
+				
+            </div>
+{% endblock content %}

@@ -1,0 +1,49 @@
+{% extends "master/base.html" %}
+
+{% block content %}
+<div class="page-wrapper">
+    <div class="content container-fluid">
+
+        <!-- Page Header -->
+        <div class="page-header d-flex justify-content-between align-items-center mb-4">
+            <h3 class="page-title">Task Detail</h3>
+           
+        </div>
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">{{ task.title }}</h4>
+        </div>
+        <div class="card-body">
+            <p><strong>Description:</strong> {{ task.description|default:"No description provided." }}</p>
+            <p><strong>Assigned To:</strong> {{ task.assigned_to.full_name }}</p>
+            <p><strong>Status:</strong> 
+                <span class="badge 
+                    {% if task.status == 'pending' %}bg-danger
+                    {% elif task.status == 'in_progress' %}bg-warning
+                    {% elif task.status == 'completed' %}bg-success
+                    {% endif %}">
+                    {{ task.get_status_display }}
+                </span>
+            </p>
+            <p><strong>Due Date:</strong> {{ task.due_date }}</p>
+            <p><strong>Assigned By:</strong> {{ task.assigned_by.full_name }}</p>
+        </div>
+        <div class="card-footer d-flex justify-content-between">
+            <a href="{% url 'task_list' %}" class="btn btn-secondary">Back to Task List</a>
+            {% if task.assigned_by == request.user.profile %}
+            <div>
+                <a href="{% url 'edit_task' task.id %}" class="btn btn-warning">Edit</a>
+                <form action="{% url 'delete_task' task.id %}" method="post" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+</div>
+</div>
+{% endblock %}
+

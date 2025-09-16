@@ -1,0 +1,167 @@
+{% extends "master/base.html" %}
+{% load static %}
+{% block content %}
+<div class="page-wrapper">
+    <div class="content container-fluid">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3 class="page-title">Leave Requests</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Leave Requests</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Header -->
+        <!-- Leave Requests Table -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h4 class="card-title mb-0">All Leave Requests</h4>
+                        <div class="filter-options">
+                            <select class="form-select" id="statusFilter">
+                                <option value="">All Statuses</option>
+                                <option value="pending">Pending</option>
+                                <option value="approved">Approved</option>
+                                <option value="rejected">Rejected</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped custom-table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Employee</th>
+                                        <th>Leave Type</th>
+                                        <th>Start Date</th>
+                                        <th>End Date</th>
+                                        <th>Duration</th>
+                                        <th>Reason</th>
+                                        <th>Status</th>
+                                        <th>Actioned By</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for leave in leave_requests %}
+                                    <tr>
+                                        <td>{{ leave.employee.full_name|default:"Unknown" }}</td>
+                                        <td>{{ leave.get_leave_type_display|default:"N/A" }}</td>
+                                        <td>{{ leave.start_date|date:"M d, Y"|default:"N/A" }}</td>
+                                        <td>{{ leave.end_date|date:"M d, Y"|default:"N/A" }}</td>
+                                        <td title="{{ leave.start_date|date:'Y-m-d' }} to {{ leave.end_date|date:'Y-m-d' }}">
+                                            {{ leave.duration|default:"N/A" }} days
+                                        </td>
+                                        <td>{{ leave.reason|truncatewords:10|default:"No reason provided" }}</td>
+                                        <td>
+                                            {% if leave.status == 'pending' %}
+                                                <span class="badge bg-warning">Pending</span>
+                                            {% elif leave.status == 'approved' %}
+                                                <span class="badge bg-success">Approved</span>
+                                            {% elif leave.status == 'rejected' %}
+                                                <span class="badge bg-danger">Rejected</span>
+                                            {% else %}
+                                                <span class="badge bg-secondary">Unknown</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if leave.status != 'pending' %}
+                                                {% if leave.actioned_by %}
+                                                    {{ leave.actioned_by.full_name|default:"Admin" }}
+                                                {% else %}
+                                                    Admin
+                                                {% endif %}
+                                            {% else %}
+                                                -
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if leave.status == 'pending' %}
+                                                <form method="post" action="" style="display:inline-block;">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="leave_id" value="{{ leave.id }}">
+                                                    <button type="submit" name="action" value="approved" class="btn btn-success btn-sm" aria-label="Approve leave request for {{ leave.employee.full_name|default:'Unknown' }}">Approve</button>
+                                                    <button type="submit" name="action" value="rejected" class="btn btn-danger btn-sm" aria-label="Reject leave request for {{ leave.employee.full_name|default:'Unknown' }}">Reject</button>
+                                                </form>
+                                            {% else %}
+                                                <span class="text-muted">No actions</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="9" class="text-center">No leave requests found</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- Pagination -->
+                        {% if is_paginated %}
+                        <div class="pagination justify-content-center mt-4">
+                            <span class="step-links">
+                                {% if page_obj.has_previous %}
+                                    <a href="?page=1{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}" class="btn btn-outline-primary btn-sm">&laquo; first</a>
+                                    <a href="?page={{ page_obj.previous_page_number }}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}" class="btn btn-outline-primary btn-sm">previous</a>
+                                {% endif %}
+                                
+                                <span class="current btn btn-sm" disabled>
+                                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                                </span>
+                                
+                                {% if page_obj.has_next %}
+                                    <a href="?page={{ page_obj.next_page_number }}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}" class="btn btn-outline-primary btn-sm">next</a>
+                                    <a href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}" class="btn btn-outline-primary btn-sm">last &raquo;</a>
+                                {% endif %}
+                            </span>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript for filtering and confirmation -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Status filter
+    const statusFilter = document.getElementById('statusFilter');
+    if (statusFilter) {
+        statusFilter.addEventListener('change', function() {
+            const url = new URL(window.location);
+            if (this.value) {
+                url.searchParams.set('status', this.value);
+            } else {
+                url.searchParams.delete('status');
+            }
+            window.location = url;
+        });
+        
+        // Set current filter value
+        const currentStatus = new URLSearchParams(window.location.search).get('status');
+        if (currentStatus) {
+            statusFilter.value = currentStatus;
+        }
+    }
+    
+    // Confirmation dialogs
+    document.querySelectorAll('form').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            const action = this.querySelector('button[type="submit"][name="action"]').value;
+            const actionText = action === 'approved' ? 'approve' : 'reject';
+            if (!confirm(`Are you sure you want to ${actionText} this leave request?`)) {
+                e.preventDefault();
+            }
+        });
+    });
+});
+</script>
+{% endblock content %}

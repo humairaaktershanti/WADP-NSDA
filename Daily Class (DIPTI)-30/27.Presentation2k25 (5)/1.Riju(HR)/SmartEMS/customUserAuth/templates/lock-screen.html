@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" data-layout="vertical" data-topbar="light" data-sidebar="dark" data-sidebar-size="lg" data-sidebar-image="none">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lock Screen - SmartEMS</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/img/favicon.png' %}">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'assets/plugins/fontawesome/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+</head>
+<body class="account-page">
+
+<div class="main-wrapper">
+    <div class="account-content">
+        <div class="container">
+
+            <!-- Account Logo -->
+            <div class="account-logo">
+                <a href="{% url 'dashboard' %}"><img src="{% static 'assets/img/logo2.png' %}" alt="SmartEMS"></a>
+            </div>
+
+            <div class="account-box">
+                <div class="account-wrapper">
+
+                    <!-- Lock User Img -->
+                    <div class="lock-user text-center mb-3">
+                        {% if request.user.profile.profile_image %}
+                            <img src="{{ request.user.profile.profile_image.url }}" alt="User Image" class="rounded-circle" width="100">
+                        {% else %}
+                            <img src="{% static 'assets/img/profiles/avatar-02.jpg' %}" alt="User Image" class="rounded-circle" width="100">
+                        {% endif %}
+                        <h4 class="mt-2">{{ request.user.get_full_name }}</h4>
+                    </div>
+
+                    <!-- Error Messages -->
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-danger">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <!-- Lock Form -->
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <div class="input-block mb-3">
+                            <label class="col-form-label">Password</label>
+                            <input name="password" class="form-control" type="password" required>
+                        </div>
+                        <div class="input-block mb-3 text-center">
+                            <button class="btn btn-primary account-btn" type="submit">Enter</button>
+                        </div>
+                        <div class="account-footer text-center">
+                            <p>Sign in as a different user? <a href="{% url 'logIn' %}">Login</a></p>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- JS -->
+<script src="{% static 'assets/js/jquery-3.7.0.min.js' %}"></script>
+<script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'assets/js/app.js' %}"></script>
+
+</body>
+</html>

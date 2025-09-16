@@ -1,0 +1,167 @@
+{% extends "master/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="page-wrapper">
+  <div class="content container-fluid">
+
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="row align-items-center">
+        <div class="col-sm-6">
+          <h3 class="page-title">Promotion List</h3>
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="{% url 'dashboard' %}">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">Promotion List</li>
+          </ul>
+        </div>
+        <div class="col-sm-6 text-end">
+          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addPromotionModal">
+            <i class="fa-solid fa-plus"></i> Add Promotion
+          </a>
+        </div>
+      </div>
+    </div>
+    <!-- /Page Header -->
+    {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endfor %}
+    {% endif %}
+    <!-- Promotion Table -->
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table table-striped custom-table mb-0">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Promoted Employee</th>
+                <th>Department</th>
+                <th>Promotion From</th>
+                <th>Promotion To</th>
+                <th>Promotion Date</th>
+                <th class="text-end">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for promo in promotions %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>
+                    <h2 class="table-avatar blue-link">
+                      <a href="#" class="avatar">
+                        {% if promo.employee.avatar %}
+                          <img src="{{ promo.employee.avatar.url }}" alt="User Image">
+                        {% else %}
+                          <img src="{% static 'images/default-avatar.png' %}" alt="User Image">
+                        {% endif %}
+                      </a>
+                      <a href="#">{{ promo.employee.full_name }}</a>
+                    </h2>
+                  </td>
+                  <td>{% if promo.department %}{{ promo.department.name }}{% else %}N/A{% endif %}</td>
+                  <td>{% if promo.designation_from %}{{ promo.designation_from.name }}{% else %}N/A{% endif %}</td>
+                  <td>{% if promo.designation_to %}{{ promo.designation_to.name }}{% else %}N/A{% endif %}</td>
+                  <td>{{ promo.promotion_date|date:"d M Y" }}</td>
+                  <td class="text-end">
+                    <div class="dropdown dropdown-action">
+                      <a href="#" class="action-icon dropdown-toggle" data-bs-toggle="dropdown">
+                        <i class="material-icons">more_vert</i>
+                      </a>
+                      <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#editPromotionModal{{ promo.id }}">
+                          <i class="fa-solid fa-pencil m-r-5"></i> Edit
+                        </a>
+                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#deletePromotionModal{{ promo.id }}">
+                          <i class="fa-regular fa-trash-can m-r-5"></i> Delete
+                        </a>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Edit Promotion Modal -->
+                <div class="modal fade" id="editPromotionModal{{ promo.id }}" tabindex="-1" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title">Edit Promotion</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                      </div>
+                      <div class="modal-body">
+                        <form method="POST" action="{% url 'edit_promotion' promo.id %}">
+                          {% csrf_token %}
+                          {{ promo.form.as_p }}
+                          <div class="text-end">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- /Edit Promotion Modal -->
+
+                <!-- Delete Promotion Modal -->
+                <div class="modal fade" id="deletePromotionModal{{ promo.id }}" tabindex="-1" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                      <div class="modal-body text-center">
+                        <h5>Are you sure you want to delete this promotion?</h5>
+                        <form method="POST" action="{% url 'delete_promotion' promo.id %}">
+                          {% csrf_token %}
+                          <div class="mt-4 d-flex justify-content-center">
+                            <button type="submit" class="btn btn-danger me-2">Delete</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- /Delete Promotion Modal -->
+
+              {% empty %}
+                <tr>
+                  <td colspan="7" class="text-center">No promotions found</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- /Promotion Table -->
+
+  </div>
+</div>
+
+<!-- Add Promotion Modal -->
+<div class="modal fade" id="addPromotionModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Add Promotion</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="{% url 'add_promotion' %}">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <div class="text-end">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /Add Promotion Modal -->
+
+{% endblock content %}

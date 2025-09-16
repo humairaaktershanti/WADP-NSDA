@@ -1,0 +1,234 @@
+{% extends 'master/base.html' %}
+
+{% block content %}
+<div class="page-wrapper">
+    <div class="content container-fluid">
+
+        <!-- Page Header -->
+        <div class="page-header d-flex justify-content-between align-items-center mb-4">
+            <h3 class="page-title">Attendance Dashboard</h3>
+            <div>
+                <a href="{% url 'add_attendance' %}" class="btn btn-success me-2">
+                    <i class="fa fa-plus-circle"></i> Add Today Attendance
+                </a>
+
+                <a href="{% url 'attendance_list' %}" class="btn btn-primary">
+                    <i class="fa fa-list"></i> Attendance List
+                </a>
+            </div>
+        </div>
+
+        <!-- Top Cards Row -->
+        <div class="row g-3">
+            {% for att in attendances %}
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100 border-primary rounded-3">
+                    <div class="card-body">
+                        <h5 class="card-title d-flex justify-content-between align-items-center">
+                            Timesheet
+                            <small class="text-muted">{{ att.date|date:"d M Y" }}</small>
+                        </h5>
+                        <div class="punch-det mb-2">
+                            <h6>Punch In</h6>
+                            <p>{{ att.check_in|time:"h:i A"|default:"-" }}</p>
+                        </div>
+                        <div class="punch-det mb-2">
+                            <h6>Punch Out</h6>
+                            <p>{{ att.check_out|time:"h:i A"|default:"-" }}</p>
+                        </div>
+                        <div class="punch-info mb-2">
+                            <div class="punch-hours text-success">
+                                <strong>{{ att.work_duration|default:"0" }} hrs</strong>
+                            </div>
+                        </div>
+                        {% if not att.check_out %}
+                        <a href="{% url 'punch_out' att.pk %}" class="btn btn-sm btn-primary punch-btn">
+                            <i class="fa fa-sign-out-alt"></i> Punch Out
+                        </a>
+                        {% endif %}
+                        <div class="statistics mt-3">
+                            <div class="row">
+                                <div class="col-6 text-center">
+                                    <div class="stats-box">
+                                        <p class="text-muted small">Break</p>
+                                        <h6 class="text-warning">{{ att.break_duration|default:"0" }} hrs</h6>
+                                    </div>
+                                </div>
+                                <div class="col-6 text-center">
+                                    <div class="stats-box">
+                                        <p class="text-muted small">Overtime</p>
+                                        <h6 class="text-danger">{{ att.overtime|default:"0" }} hrs</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-center text-muted">No attendance records found.</p>
+            {% endfor %}
+
+            <!-- Stats Card -->
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100 border-success rounded-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Statistics</h5>
+                        {% for stat in stats %}
+                        <div class="stats-info mb-2">
+                            <p>{{ stat.label }} <strong>{{ stat.hours }} <small>/ {{ stat.max_hours }} hrs</small></strong></p>
+                            <div class="progress" style="height: 6px; border-radius: 3px;">
+                                {% if stat.label == "Today" %}
+                                <div class="progress-bar bg-primary" style="width: {{ stat.percentage }}%; border-radius: 3px;"></div>
+                                {% elif stat.label == "This Week" %}
+                                <div class="progress-bar bg-warning" style="width: {{ stat.percentage }}%; border-radius: 3px;"></div>
+                                {% elif stat.label == "This Month" %}
+                                <div class="progress-bar bg-success" style="width: {{ stat.percentage }}%; border-radius: 3px;"></div>
+                                {% else %}
+                                <div class="progress-bar bg-danger" style="width: {{ stat.percentage }}%; border-radius: 3px;"></div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Today Activity Card -->
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100 border-info rounded-3">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">Today Activity</h5>
+                        <ul class="timeline">
+                            {% for att in attendances %}
+                                {% if att.date == today_date %}
+                                    {% if att.check_in %}
+                                    <li class="timeline-item">
+                                        <span class="timeline-badge bg-success"><i class="fa fa-sign-in-alt"></i></span>
+                                        <span class="timeline-text">Punch In - {{ att.check_in|time:"h:i A" }}</span>
+                                    </li>
+                                    {% endif %}
+                                    {% if att.check_out %}
+                                    <li class="timeline-item">
+                                        <span class="timeline-badge bg-danger"><i class="fa fa-sign-out-alt"></i></span>
+                                        <span class="timeline-text">Punch Out - {{ att.check_out|time:"h:i A" }}</span>
+                                    </li>
+                                    {% endif %}
+                                {% endif %}
+                            {% empty %}
+                                <li class="text-center text-muted">No activity today.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Monthly Summary Card -->
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100 border-warning rounded-3">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Monthly Summary</h5>
+                        <div class="row">
+                            <div class="col-4">
+                                <h6 class="text-success">{{ present_summary }}</h6>
+                                <p class="text-muted small">Present</p>
+                            </div>
+                            <div class="col-4">
+                                <h6 class="text-danger">{{ absent_summary }}</h6>
+                                <p class="text-muted small">Absent</p>
+                            </div>
+                            <div class="col-4">
+                                <h6 class="text-warning">{{ late_summary }}</h6>
+                                <p class="text-muted small">Late</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Row -->
+        <div class="row g-3 mt-4">
+            <!-- Pie Chart -->
+            <div class="col-md-6">
+                <div class="card shadow-sm h-100 border-primary rounded-3 p-3">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        <h5 class="card-title mb-0">Monthly Attendance Summary</h5>
+                        <i class="fa fa-chart-pie text-primary"></i>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="monthlySummaryChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Line Chart -->
+            <div class="col-md-6">
+                <div class="card shadow-sm h-100 border-secondary rounded-3 p-3">
+                    <div class="card-header d-flex align-items-center justify-content-between">
+                        <h5 class="card-title mb-0">Daily Work Hours (This Month)</h5>
+                        <i class="fa fa-chart-line text-secondary"></i>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="dailyHoursChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<style>
+.timeline { list-style: none; padding: 0; margin: 0; }
+.timeline-item { display: flex; align-items: center; margin-bottom: 10px; }
+.timeline-badge { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; color: #fff; font-size: 13px; margin-right: 8px; }
+.timeline-text { font-size: 14px; color: #333; }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Pie Chart
+    const ctxPie = document.getElementById('monthlySummaryChart').getContext('2d');
+    new Chart(ctxPie, {
+        type: 'pie',
+        data: {
+            labels: ['Present', 'Absent', 'Late'],
+            datasets: [{
+                data: [{{ total_present }}, {{ total_absent }}, {{ total_late }}],
+                backgroundColor: ['#28a745', '#dc3545', '#ffc107'],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { position: 'bottom' } }
+        }
+    });
+
+    // Line Chart
+    const ctxLine = document.getElementById('dailyHoursChart').getContext('2d');
+    new Chart(ctxLine, {
+        type: 'line',
+        data: {
+            labels: [{% for att in attendances %}'{{ att.date|date:"d M" }}',{% endfor %}],
+            datasets: [{
+                label: 'Work Hours',
+                data: [{% for att in attendances %}{{ att.work_duration|default:"0" }},{% endfor %}],
+                borderColor: '#007bff',
+                backgroundColor: 'rgba(0,123,255,0.2)',
+                fill: true,
+                tension: 0.3,
+                pointBackgroundColor: '#007bff',
+                pointRadius: 4,
+                pointHoverRadius: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: { y: { beginAtZero: true }, x: { ticks: { maxRotation: 0, minRotation: 0 } } },
+            plugins: { legend: { display: false } }
+        }
+    });
+</script>
+{% endblock %}

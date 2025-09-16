@@ -1,0 +1,133 @@
+{% extends "master/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="page-wrapper">
+  <div class="content container-fluid">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="row">
+        <div class="col-sm-12">
+          <h3 class="page-title">Attendance Dashboard</h3>
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href="{% url 'employee_dashboard' %}">Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active">Attendance</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- /Page Header -->
+
+    <!-- Stats -->
+    <div class="row">
+      {% for stat in stats %}
+      <div class="col-md-3">
+        <div class="card text-center">
+          <div class="card-body">
+            <h5>{{ stat.label }}</h5>
+            <h3>{{ stat.hours }} hrs</h3>
+            <div class="progress mb-2" style="height: 8px;">
+              <div class="progress-bar" role="progressbar" style="width: {{ stat.percentage }}%;" aria-valuenow="{{ stat.percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <small>{{ stat.percentage|floatformat:0 }}% of max</small>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <!-- /Stats -->
+
+    <!-- Monthly Summary -->
+    <div class="row mt-4">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="card-title">Monthly Attendance Summary ({{ today_date|date:"F Y" }})</h5>
+          </div>
+          <div class="card-body">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>Status</th>
+                  <th>Days</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Present</td>
+                  <td>{{ present_summary }}</td>
+                </tr>
+                <tr>
+                  <td>Absent</td>
+                  <td>{{ absent_summary }}</td>
+                </tr>
+                <tr>
+                  <td>Late</td>
+                  <td>{{ late_summary }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /Monthly Summary -->
+
+    <!-- Attendance List -->
+    <div class="row mt-4">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header d-flex justify-content-between">
+            <h5 class="card-title">Recent Attendance</h5>
+            <a href="{% url 'add_attendance' %}" class="btn btn-primary btn-sm">Add Attendance</a>
+          </div>
+          <div class="card-body table-responsive">
+            <table class="table table-striped table-nowrap mb-0">
+              <thead>
+                <tr>
+                  <th>Employee</th>
+                  <th>Date</th>
+                  <th>Check In</th>
+                  <th>Check Out</th>
+                  <th>Hours Worked</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for att in attendances %}
+                <tr>
+                  <td>{{ att.employee.full_name }}</td>
+                  <td>{{ att.date|date:"d M, Y" }}</td>
+                  <td>{{ att.check_in|time:"h:i A" }}</td>
+                  <td>
+                    {% if att.check_out %}
+                      {{ att.check_out|time:"h:i A" }}
+                    {% else %}
+                      <a href="{% url 'punch_out' att.id %}" class="btn btn-sm btn-success">Punch Out</a>
+                    {% endif %}
+                  </td>
+                  <td>{{ att.work_duration|default:0 }} hrs</td>
+                  <td>{{ att.status }}</td>
+                  <td>
+                    <a href="{% url 'edit_attendance' att.id %}" class="btn btn-sm btn-warning">Edit</a>
+                    <a href="{% url 'delete_attendance' att.id %}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this attendance?');">Delete</a>
+                  </td>
+                </tr>
+                {% empty %}
+                <tr>
+                  <td colspan="7" class="text-center">No attendance records found.</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /Attendance List -->
+  </div>
+</div>
+{% endblock content %}

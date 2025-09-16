@@ -1,0 +1,138 @@
+{% extends "master/base.html" %}
+
+{% block content %}
+<div class="page-wrapper" style="min-height: 506px;">
+
+    <!-- Page Content -->
+    <div class="content container-fluid">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Notices</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Notices</li>
+                    </ul>
+                </div>
+                {% if request.user.user_types == 'Admin' %}
+                <div class="col-auto float-end ms-auto">
+                    <a href="{% url 'add_notice' %}" class="btn add-btn">
+                        <i class="fa-solid fa-plus"></i> Add Notice
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <!-- /Page Header -->
+
+        <!-- Full Notice List -->
+        <div class="row">
+            <div class="col-md-12">
+                {% for notice in notices %}
+                <div class="card shadow-sm mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title mb-2">{{ notice.title }}</h5>
+                        <p class="card-text text-truncate" style="max-height: 3em; overflow: hidden;">
+                            {{ notice.content|truncatewords:30 }}
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">
+                                Posted by <strong>{{ notice.created_by.username }}</strong> 
+                                on {{ notice.created_at|date:"M d, Y" }}
+                            </small>
+                            <div class="d-flex gap-1">
+                                {% if request.user.user_types == 'Admin' %}
+                                <a href="{% url 'edit_notice' notice.id %}" class="btn btn-sm btn-primary">
+                                    Edit
+                                </a>
+                                <form action="{% url 'delete_notice' notice.id %}" method="post" class="d-inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?');">
+                                        Delete
+                                    </button>
+                                </form>
+                                {% endif %}
+                                <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#noticeModal{{ notice.id }}">
+                                    Read More
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal for each Notice -->
+                <div class="modal fade" id="noticeModal{{ notice.id }}" tabindex="-1" aria-labelledby="noticeModalLabel{{ notice.id }}" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="noticeModalLabel{{ notice.id }}">{{ notice.title }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p>{{ notice.content }}</p>
+                                <small class="text-muted">
+                                    Posted by <strong>{{ notice.created_by.username }}</strong> 
+                                    on {{ notice.created_at|date:"M d, Y H:i" }}
+                                </small>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <p class="text-muted text-center">No notices available.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Recent Notices Modal (top 3 only) -->
+        <div class="text-center mt-4">
+            <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#recentNoticeModal">
+                View Recent Notices
+            </button>
+        </div>
+
+        <div class="modal fade" id="recentNoticeModal" tabindex="-1" aria-labelledby="recentNoticeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="recentNoticeModalLabel">Recent Notices</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {% if recent_notices %}
+                            <div class="list-group">
+                                {% for notice in recent_notices|slice:":3" %}
+                                    <div class="list-group-item list-group-item-action">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <h5 class="mb-1">{{ notice.title }}</h5>
+                                            <small class="text-muted">{{ notice.created_at|date:"M d, Y" }}</small>
+                                        </div>
+                                        <p class="mb-1">{{ notice.content|truncatewords:30 }}</p>
+                                        <small class="text-muted">Posted by {{ notice.created_by.username }}</small>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="text-center py-4">
+                                <i class="fa-solid fa-clipboard-list fa-3x text-muted mb-3"></i>
+                                <p class="text-muted">No recent notices found</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- /Page Content -->
+
+</div>
+{% endblock %}

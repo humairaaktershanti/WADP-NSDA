@@ -1,0 +1,132 @@
+{% extends "master/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="page-wrapper">
+  <div class="content container-fluid">
+
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="row align-items-center">
+        <div class="col-sm-6">
+          <h3 class="page-title">Resignation Requests</h3>
+          <ul class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+            <li class="breadcrumb-item active">Resignation Requests</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!-- /Page Header -->
+
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+          {{ message }}
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    <!-- Resignation Table -->
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table table-striped custom-table mb-0">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Employee</th>
+                <th>Department</th>
+                <th>Reason</th>
+                <th>Notice Date</th>
+                <th>Resignation Date</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for res in resignations %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ res.employee.full_name }}</td>
+                <td>{% if res.department %}{{ res.department.name }}{% else %}N/A{% endif %}</td>
+                
+                <!-- Reason with modal -->
+                <td>
+                  {% if res.reason %}
+                    <span>{{ res.reason|truncatechars:10 }}</span>
+                    <a href="#" class="small text-primary" style="font-size: 0.8rem;" data-bs-toggle="modal" data-bs-target="#reasonModal{{ res.id }}">See More</a>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="reasonModal{{ res.id }}" tabindex="-1" aria-labelledby="reasonModalLabel{{ res.id }}" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="reasonModalLabel{{ res.id }}">Resignation Reason</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body" style="white-space: pre-wrap; word-wrap: break-word;">
+                            {{ res.reason }}
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  {% else %}
+                    N/A
+                  {% endif %}
+                </td>
+
+                <td>{{ res.notice_date|date:"d M Y" }}</td>
+                <td>{{ res.resignation_date|date:"d M Y" }}</td>
+
+                <td>
+                  {% if res.status %}
+                    <span class="badge 
+                        {% if res.status == 'approved' %}bg-success
+                        {% elif res.status == 'denied' %}bg-danger
+                        {% else %}bg-warning{% endif %}">
+                      {{ res.status|capfirst }}
+                    </span>
+                  {% else %}
+                    <span class="badge bg-warning">Pending</span>
+                  {% endif %}
+                </td>
+
+                <td class="text-end">
+                  {% if user.user_types == "Admin" %}
+                  <div class="d-flex gap-2">
+                    {% if res.status != "approved" %}
+                    <form method="POST" action="{% url 'approve_resignation' res.id %}">
+                      {% csrf_token %}
+                      <button class="btn btn-success btn-sm">Approve</button>
+                    </form>
+                    {% endif %}
+                    {% if res.status != "denied" %}
+                    <form method="POST" action="{% url 'deny_resignation' res.id %}">
+                      {% csrf_token %}
+                      <button class="btn btn-danger btn-sm">Deny</button>
+                    </form>
+                    {% endif %}
+                  </div>
+                  {% endif %}
+                </td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="8" class="text-center">No resignation requests found</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- /Resignation Table -->
+
+  </div>
+</div>
+{% endblock content %}

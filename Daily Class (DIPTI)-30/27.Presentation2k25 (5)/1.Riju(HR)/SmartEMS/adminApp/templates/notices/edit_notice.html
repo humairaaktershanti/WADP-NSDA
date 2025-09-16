@@ -1,0 +1,45 @@
+{% extends "master/base.html" %}
+
+{% block content %}
+<div class="page-wrapper" style="min-height: 506px;">
+
+    <!-- Page Content -->
+    <div class="content container-fluid">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Notices</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Update Notices</li>
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+<div class="container mt-4">
+  <div class="card shadow">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">Edit Notice</h5>
+    </div>
+    <div class="card-body">
+      <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label class="form-label">Title</label>
+          <input type="text" class="form-control" name="title" value="{{ notice.title }}" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Content</label>
+          <textarea class="form-control" name="content" rows="5" required>{{ notice.content }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-success">Update</button>
+        <a href="{% url 'notice_list' %}" class="btn btn-secondary">Cancel</a>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends "master/base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="page-wrapper">
+    <div class="content container-fluid">
+
+        <!-- Page Header -->
+        <div class="page-header d-flex justify-content-between align-items-center mb-4">
+            <h3 class="page-title">My Activities</h3>
+        </div>
+        <!-- /Page Header -->
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="activity">
+                    <div class="activity-box">
+                        <ul class="activity-list">
+                            {% for activity in activities %}
+                            <li class="mb-3">
+                                <div class="d-flex align-items-start">
+                                    <!-- User Avatar -->
+                                    <div class="activity-user me-3">
+                                        <a href="#" class="avatar" data-bs-toggle="tooltip" title="{{ activity.user.username }}">
+                                            <img src="{{ request.user.profile.profile_image.url }}" 
+                                                    alt="User Image" class="rounded-circle" width="40" height="40">
+                                        </a>
+                                    </div>
+                                    <!-- Activity Details -->
+                                    <div class="activity-content flex-grow-1">
+                                        <div class="timeline-content">
+                                            <a href="#" class="fw-bold">{{ activity.user.username }}</a> 
+                                            {{ activity.action|capfirst }} 
+                                            <a href="#">{{ activity.model_name }}</a> 
+                                            <span class="text-muted">({{ activity.object_repr }})</span>
+                                            <div class="text-muted small">{{ activity.timestamp|timesince }} ago</div>
+                                            {% if activity.ip_address %}
+                                            <div class="text-muted small">IP: {{ activity.ip_address }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            {% empty %}
+                            <li>
+                                <div class="text-center text-muted py-3">
+                                    No activities recorded
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+
+                        <!-- Pagination -->
+                        {% if activities.has_other_pages %}
+                        <div class="mt-3 d-flex justify-content-center">
+                            <nav>
+                                <ul class="pagination pagination-sm">
+                                    {% if activities.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ activities.previous_page_number }}">Previous</a>
+                                    </li>
+                                    {% endif %}
+                                    {% for num in activities.paginator.page_range %}
+                                        {% if activities.number == num %}
+                                        <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                                        {% else %}
+                                        <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if activities.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ activities.next_page_number }}">Next</a>
+                                    </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        </div>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Optional CSS -->
+<style>
+.activity-list {
+    list-style: none;
+    padding-left: 0;
+}
+.activity-list li {
+    border-left: 2px solid #dee2e6;
+    padding-left: 15px;
+    margin-bottom: 15px;
+    position: relative;
+}
+.activity-user .avatar {
+    display: inline-block;
+}
+.timeline-content a {
+    text-decoration: none;
+}
+</style>
+{% endblock content %}

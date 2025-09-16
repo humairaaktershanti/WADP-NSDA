@@ -1,0 +1,606 @@
+{% extends "master/base.html" %}
+{% load static %}
+{% block content %}
+
+<!-- Page Wrapper -->
+<div class="page-wrapper">
+    <!-- Page Content -->
+    <div class="content container-fluid">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3 class="page-title">Welcome {{request.user.profile.full_name}}!</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item active">Dashboard</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Header -->
+        
+        {% if today_holiday %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-info">
+                    <i class="fa-solid fa-calendar-check me-2"></i>
+                    Today is <strong>{{ today_holiday.title }}</strong> holiday.
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3 d-flex align-items-center justify-content-center mb-3">
+                <a href="{% url 'add_admin' %}" class="btn btn-warning w-100 py-4 d-flex flex-column align-items-center justify-content-center">
+                    <i class="fa-solid fa-user-plus fa-2x"></i> Add Admin
+                </a>
+            </div>
+            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3 d-flex align-items-center justify-content-center mb-3">
+                <a href="{% url 'add_employee' %}" class="btn btn-primary w-100 py-4 d-flex flex-column align-items-center justify-content-center">
+                    <i class="fa-solid fa-user-plus fa-2x"></i> Add Employee
+                </a>
+            </div>
+            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3 d-flex align-items-center justify-content-center mb-3">
+                <a href="{% url 'team_list' %}" class="btn btn-success w-100 py-4 d-flex flex-column align-items-center justify-content-center">
+                    <i class="fa-solid fa-users fa-2x"></i> Add Team
+                </a>
+            </div>
+
+            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3 d-flex align-items-center justify-content-center mb-3">
+                <a href="{% url 'add_designation' %}" class="btn btn-info w-100 py-4 d-flex flex-column align-items-center justify-content-center">
+                    <i class="fa-solid fa-briefcase fa-2x"></i> Add Designation
+                </a>
+            </div>
+
+            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                <div class="card dash-widget">
+                    <div class="card-body">
+                        <span class="dash-widget-icon"><i class="fa-solid fa-users"></i></span>
+                        <div class="dash-widget-info">
+                            <h3>{{ total_employees }}</h3>
+                            <span>Total Employees</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                <div class="card dash-widget">
+                    <div class="card-body">
+                        <span class="dash-widget-icon"><i class="fa-solid fa-building"></i></span>
+                        <div class="dash-widget-info">
+                            <h3>{{ total_departments }}</h3>
+                            <span>Total Departments</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                <div class="card dash-widget">
+                    <div class="card-body">
+                        <span class="dash-widget-icon"><i class="fa-solid fa-briefcase"></i></span>
+                        <div class="dash-widget-info">
+                            <h3>{{ total_designations }}</h3>
+                            <span>Total Designations</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
+                <div class="card dash-widget">
+                    <div class="card-body">
+                        <span class="dash-widget-icon"><i class="fa-solid fa-calendar-days"></i></span>
+                        <div class="dash-widget-info">
+                            <h3>{{ upcoming_holidays|length }}</h3>
+                            <span>Upcoming Holidays</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <!-- Organization Overview Chart -->
+    <div class="row mt-5">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h4 class="card-title mb-0">Organization Overview</h4>
+                    <button class="btn btn-sm btn-outline-primary" onclick="toggleOrgChartType()">Switch Chart</button>
+                </div>
+                <div class="card-body">
+                    <canvas id="orgChart" height="100"></canvas>
+                </div>
+            </div>
+        </div>
+
+         <!-- Task Status Breakdown -->
+            <div class="col-md-6">
+                <div class="card shadow-sm">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h4 class="card-title mb-0">Task Status Breakdown</h4>
+                        <button class="btn btn-sm btn-outline-primary" onclick="toggleTaskChartType()">Switch Chart</button>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="taskStatusChart" height="100"></canvas>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+    <div class="row mt-5">
+    <!-- Leave Overview -->
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h4 class="card-title mb-0">Leave Overview</h4>
+                <button class="btn btn-sm btn-outline-primary" onclick="toggleLeaveChartType()">Switch Chart</button>
+            </div>
+            <div class="card-body">
+                <canvas id="leaveChart" height="100"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Attendance Today -->
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h4 class="card-title mb-0">Attendance Today</h4>
+                <button class="btn btn-sm btn-outline-primary" onclick="toggleAttendanceChartType()">Switch Chart</button>
+            </div>
+            <div class="card-body">
+                <canvas id="attendanceChart" height="100"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+        
+        <!-- Additional Dashboard Widgets -->
+        <div class="row">
+            <!-- Recent Notices -->
+            <div class="col-md-6 d-flex">
+                <div class="card flex-fill">
+                    <div class="card-header">
+                        <h4 class="card-title">Recent Notices</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table custom-table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Posted</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for notice in recent_notices %}
+                                    <tr>
+                                        <td>
+                                            <a href="#" class="text-dark">{{ notice.title }}</a>
+                                        </td>
+                                        <td>{{ notice.created_at|date:"M d, Y" }}</td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="2" class="text-center">No notices found</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'notice_list' %}">View all notices</a>
+                    </div>
+                </div>
+            </div>
+
+            
+            
+            <!-- Upcoming Holidays -->
+            <div class="col-md-6 d-flex">
+                <div class="card flex-fill">
+                    <div class="card-header">
+                        <h4 class="card-title">Upcoming Holidays</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table custom-table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Holiday</th>
+                                        <th>Date</th>
+                                        <th>Day</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for holiday in upcoming_holidays %}
+                                    <tr>
+                                        <td>{{ holiday.title }}</td>
+                                        <td>{{ holiday.date|date:"M d, Y" }}</td>
+                                        <td>{{ holiday.day_name }}</td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="3" class="text-center">No upcoming holidays</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'holiday_list' %}">View all holidays</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+       <!-- Employee Tasks Section -->
+<div class="card shadow-sm mt-5">
+    <div class="card-header text-center bg-light">
+        <h4 class="mb-0">Employee Tasks</h4>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-success text-center">
+                    <tr>
+                        <th>Title</th>
+                        <th>Assigned To</th>
+                        <th>Assigned By</th>
+                        <th>Status</th>
+                        <th>Due Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for task in assigned_tasks %}
+                    <tr>
+                        <td class="fw-bold">{{ task.title }}</td>
+                        <td>{{ task.assigned_to.full_name }}</td>
+                        <td>{{ task.assigned_by.full_name }}</td>
+                        <td>
+                            {% if task.assigned_to == request.user.profile %}
+                            <form action="{% url 'update_task_status' task.id %}" method="post" class="d-inline">
+                                {% csrf_token %}
+                                <select name="status" class="form-select form-select-sm" onchange="this.form.submit()">
+                                    <option value="pending" {% if task.status == 'pending' %}selected{% endif %}>Pending</option>
+                                    <option value="in_progress" {% if task.status == 'in_progress' %}selected{% endif %}>In Progress</option>
+                                    <option value="completed" {% if task.status == 'completed' %}selected{% endif %}>Completed</option>
+                                </select>
+                            </form>
+                            {% else %}
+                            <span class="badge 
+                                {% if task.status == 'pending' %}bg-warning
+                                {% elif task.status == 'in_progress' %}bg-info
+                                {% elif task.status == 'completed' %}bg-success
+                                {% else %}bg-secondary{% endif %}">
+                                {{ task.get_status_display }}
+                            </span>
+                            {% endif %}
+                        </td>
+                        <td>{{ task.due_date|date:"M d, Y" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center text-muted py-4">
+                            No tasks assigned to employees
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+    
+        <!-- Department Statistics -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Department Statistics</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            {% for dept in department_stats %}
+                            <div class="col-md-3 col-sm-6">
+                                <div class="stats-box">
+                                    <h4>{{ dept.name }}</h4>
+                                    <h3>{{ dept.employee_count }}</h3>
+                                    <p>Employees</p>
+                                </div>
+                            </div>
+                            {% empty %}
+                            <div class="col-12 text-center">
+                                <p>No department data available</p>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activities -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Recent Activities</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table custom-table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>User</th>
+                                        <th>Action</th>
+                                        <th>Object</th>
+                                        <th>Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for activity in recent_activities %}
+                                    <tr>
+                                        <td>{{ activity.user.username }}</td>
+                                        <td>
+                                            <span class="badge bg-{% if activity.action == 'create' %}success{% elif activity.action == 'update' %}warning{% elif activity.action == 'delete' %}danger{% else %}info{% endif %}">
+                                                {{ activity.action|title }}
+                                            </span>
+                                        </td>
+                                        <td>{{ activity.object_repr }}</td>
+                                        <td>{{ activity.timestamp|date:"M d, Y H:i" }}</td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="4" class="text-center">No recent activities</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{% url 'activity_log' %}">View all activities</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- New Employees Card -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card-group m-b-30">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-3">
+                                <div>
+                                    <span class="d-block">New Employees</span>
+                                </div>
+                                <div>
+                                    <span class="text-success">+{{ new_employee_percentage }}%</span>
+                                </div>
+                            </div>
+                            <h3 class="mb-3">{{ new_employees }}</h3>
+                            <div class="progress height-five mb-2">
+                                <div class="progress-bar bg-primary w-{{ new_employee_percentage }}" role="progressbar" aria-valuenow="{{ new_employee_percentage }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <p class="mb-0">Overall Employees {{ total_employees }}</p>
+                        </div>
+                    </div>
+                    <!-- Placeholder for other financial cards -->
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-3">
+                                <div>
+                                    <span class="d-block">Earnings</span>
+                                </div>
+                                <div>
+                                    <span class="text-success">+12.5%</span>
+                                </div>
+                            </div>
+                            <h3 class="mb-3">$1,42,300</h3>
+                            <div class="progress height-five mb-2">
+                                <div class="progress-bar bg-primary w-70" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <p class="mb-0">Previous Month <span class="text-muted">$1,15,852</span></p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-3">
+                                <div>
+                                    <span class="d-block">Expenses</span>
+                                </div>
+                                <div>
+                                    <span class="text-danger">-2.8%</span>
+                                </div>
+                            </div>
+                            <h3 class="mb-3">$8,500</h3>
+                            <div class="progress height-five mb-2">
+                                <div class="progress-bar bg-primary w-70" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <p class="mb-0">Previous Month <span class="text-muted">$7,500</span></p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-3">
+                                <div>
+                                    <span class="d-block">Profit</span>
+                                </div>
+                                <div>
+                                    <span class="text-danger">-75%</span>
+                                </div>
+                            </div>
+                            <h3 class="mb-3">$1,12,000</h3>
+                            <div class="progress height-five mb-2">
+                                <div class="progress-bar bg-primary w-70" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <p class="mb-0">Previous Month <span class="text-muted">$1,42,000</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Page Content -->
+</div>
+<!-- /Page Wrapper -->
+
+    <!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // ================= Organization Overview Chart =================
+    let orgCtx = document.getElementById('orgChart').getContext('2d');
+
+    let orgData = {
+        labels: ['Employees', 'Departments', 'Designations', 'Holidays'],
+        datasets: [{
+            label: 'Count',
+            data: [
+                {{ total_employees|default:0 }},
+                {{ total_departments|default:0 }},
+                {{ total_designations|default:0 }},
+                {{ upcoming_holidays|length|default:0 }}
+            ],
+            backgroundColor: ['#0d6efd', '#198754', '#ffc107', '#fd7e14']
+        }]
+    };
+
+    let currentOrgType = 'bar';
+    let orgChart = new Chart(orgCtx, {
+        type: currentOrgType,
+        data: orgData,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false },
+                tooltip: { enabled: true }
+            },
+            scales: { y: { beginAtZero: true } }
+        }
+    });
+
+    function toggleOrgChartType() {
+        currentOrgType = currentOrgType === 'bar' ? 'pie' : 'bar';
+        orgChart.destroy();
+        orgChart = new Chart(orgCtx, {
+            type: currentOrgType,
+            data: orgData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: true },
+                    tooltip: { enabled: true }
+                }
+            }
+        });
+    }
+
+    let taskStatusCtx = document.getElementById('taskStatusChart').getContext('2d');
+
+    let taskStatusData = {
+        labels: ['Pending', 'In Progress', 'Completed'],
+        datasets: [{
+            label: 'Tasks',
+            data: [
+                {{ task_status_counts.pending|default:0 }},
+                {{ task_status_counts.in_progress|default:0 }},
+                {{ task_status_counts.completed|default:0 }}
+            ],
+            backgroundColor: ['#ffc107', '#0d6efd', '#198754']
+        }]
+    };
+
+    let currentTaskType = 'bar';
+    let taskStatusChart = new Chart(taskStatusCtx, {
+        type: currentTaskType,
+        data: taskStatusData,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'top' },
+                tooltip: { enabled: true }
+            }
+        }
+    });
+
+    function toggleTaskChartType() {
+        currentTaskType = currentTaskType === 'doughnut' ? 'bar' : 'doughnut';
+        taskStatusChart.destroy();
+        taskStatusChart = new Chart(taskStatusCtx, {
+            type: currentTaskType,
+            data: taskStatusData,
+            options: {
+                responsive: true,
+                plugins: { legend: { position: 'top' } },
+                scales: currentTaskType === 'bar' ? { y: { beginAtZero: true } } : {}
+            }
+        });
+    }
+
+    // ================= Leave Overview Chart =================
+let leaveCtx = document.getElementById('leaveChart').getContext('2d');
+
+let leaveData = {
+    labels: ['Approved', 'Pending', 'Rejected'],
+    datasets: [{
+        label: 'Leaves',
+        data: [
+            {{ leave_counts.approved|default:0 }},
+            {{ leave_counts.pending|default:0 }},
+            {{ leave_counts.rejected|default:0 }}
+        ],
+        backgroundColor: ['#198754', '#ffc107', '#dc3545']
+    }]
+};
+
+let currentLeaveType = 'bar';
+let leaveChart = new Chart(leaveCtx, {
+    type: currentLeaveType,
+    data: leaveData,
+    options: { responsive: true, plugins: { legend: { position: 'top' } } }
+});
+
+function toggleLeaveChartType() {
+    currentLeaveType = currentLeaveType === 'bar' ? 'doughnut' : 'bar';
+    leaveChart.destroy();
+    leaveChart = new Chart(leaveCtx, { type: currentLeaveType, data: leaveData });
+}
+
+// ================= Attendance Today Chart =================
+let attendanceCtx = document.getElementById('attendanceChart').getContext('2d');
+
+let attendanceData = {
+    labels: ['Present', 'Absent'],
+    datasets: [{
+        label: 'Employees',
+        data: [{{ present_count|default:0 }}, {{ absent_count|default:0 }}],
+        backgroundColor: ['#0d6efd', '#dc3545']
+    }]
+};
+
+let currentAttendanceType = 'bar';
+let attendanceChart = new Chart(attendanceCtx, {
+    type: currentAttendanceType,
+    data: attendanceData,
+    options: { responsive: true, plugins: { legend: { position: 'top' } } }
+});
+
+function toggleAttendanceChartType() {
+    currentAttendanceType = currentAttendanceType === 'bar' ? 'pie' : 'bar';
+    attendanceChart.destroy();
+    attendanceChart = new Chart(attendanceCtx, { type: currentAttendanceType, data: attendanceData });
+}
+
+</script>
+
+{% endblock content %}

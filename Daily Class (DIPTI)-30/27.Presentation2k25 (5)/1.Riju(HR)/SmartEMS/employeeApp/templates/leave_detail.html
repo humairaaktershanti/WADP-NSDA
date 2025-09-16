@@ -1,0 +1,33 @@
+{% extends "master/base.html" %}
+{% block content %}
+<div class="page-wrapper">
+    <div class="content container-fluid">
+        <div class="page-header">
+            <h3 class="page-title">Leave Detail</h3>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+<div class="container mt-4">
+  <div class="card shadow">
+    <div class="card-header bg-info text-white">
+      <h5 class="mb-0">Leave Details</h5>
+    </div>
+    <div class="card-body">
+      <p><strong>Leave Type:</strong> {{ leave.get_leave_type_display }}</p>
+      <p><strong>Start Date:</strong> {{ leave.start_date }}</p>
+      <p><strong>End Date:</strong> {{ leave.end_date }}</p>
+      <p><strong>Status:</strong> {{ leave.status }}</p>
+      <p><strong>Reason:</strong> {{ leave.reason }}</p>
+      <a href="{% url 'employee_dashboard' %}" class="btn btn-secondary">Back</a>
+    </div>
+  </div>
+</div>
+</div>
+{% endblock %}

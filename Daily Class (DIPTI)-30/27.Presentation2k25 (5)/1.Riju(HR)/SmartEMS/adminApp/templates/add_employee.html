@@ -1,0 +1,125 @@
+{% extends "master/base.html" %}
+
+{% block content %}
+<div class="page-wrapper">
+    <div class="content container-fluid">
+        <!-- Page Header -->
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col">
+                    <h3 class="page-title">Add Employee</h3>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Add Employee</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- /Page Header -->
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <div class="alert alert-danger">{{ message }}</div>
+                                {% endfor %}
+                            {% endif %}
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="full_name" class="form-label">Full Name *</label>
+                                    <input type="text" class="form-control" id="full_name" name="full_name" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="employee_id" class="form-label">Employee ID *</label>
+                                    <input type="text" class="form-control" id="employee_id" name="employee_id" value="{{ next_employee_id }}" readonly>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <label for="email" class="form-label">Email *</label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="position" class="form-label">Position</label>
+                                    <select class="form-select" id="position" name="position">
+                                        <option value="">Select Position</option>
+                                        {% for position in positions %}
+                                            <option value="{{ position.id }}">{{ position.title }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mt-3">
+                                    <label for="password" class="form-label">Password *</label>
+                                    <input type="text" class="form-control" id="password" name="password" value="{{ auto_password }}" readonly>
+                                    <small class="text-muted">Auto-generated password. Copy it for your records.</small>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <label for="date_of_joining" class="form-label">Date of Joining *</label>
+                                    <input type="date" class="form-control" id="date_of_joining" name="date_of_joining" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="phone" class="form-label">Phone</label>
+                                    <input type="text" class="form-control" id="phone" name="phone">
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <label for="gender" class="form-label">Gender</label>
+                                    <select class="form-select" id="gender" name="gender">
+                                        <option value="">Select Gender</option>
+                                        <option value="male">Male</option>
+                                        <option value="female">Female</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="birthday" class="form-label">Birthday</label>
+                                    <input type="date" class="form-control" id="birthday" name="birthday">
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <label for="reports_to" class="form-label">Reports To</label>
+                                    <select class="form-select" id="reports_to" name="reports_to">
+                                        <option value="">-</option>
+                                        {% for manager in managers %}
+                                            <option value="{{ manager.id }}">{{ manager.full_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="profile_image" class="form-label">Profile Image</label>
+                                    <input type="file" class="form-control" id="profile_image" name="profile_image" accept="image/*">
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-md-12">
+                                    <label for="address" class="form-label">Address</label>
+                                    <textarea class="form-control" id="address" name="address" rows="3"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="mt-4">
+                                <button type="submit" class="btn btn-primary">Add Employee</button>
+                                <a href="{% url 'employeeList' %}" class="btn btn-light">Cancel</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
