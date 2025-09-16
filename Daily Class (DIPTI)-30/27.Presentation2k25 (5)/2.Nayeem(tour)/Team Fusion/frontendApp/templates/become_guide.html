@@ -1,0 +1,188 @@
+{% extends 'frontend_base.html' %}
+{% load static %}
+{% block title %}Become a Guide{% endblock title %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<div class="container-fluid bg-primary py-5 mb-5 hero-header">
+    <div class="container py-5">
+        <div class="row justify-content-center py-5">
+            <div class="col-lg-8 text-center">
+                <h1 class="display-3 text-white animated slideInDown">Become a Guide</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item text-white active" aria-current="page">Become a Guide</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Guide Registration Form -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 wow fadeInUp" data-wow-delay="0.2s">
+                <div class="bg-light rounded shadow p-5">
+                    <h3 class="text-center mb-4">Join as a Professional Guide</h3>
+                    <form method="POST" enctype="multipart/form-data" action="{% url 'become_guide' %}">
+                        {% csrf_token %}
+                        <div class="row g-3">
+
+                            <!-- Personal Info -->
+                            <div class="col-md-6">
+                                <label class="form-label">First Name <span class="text-danger">*</span></label>
+                                <input type="text" name="first_name" class="form-control" placeholder="Enter your first name" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Last Name <span class="text-danger">*</span></label>
+                                <input type="text" name="last_name" class="form-control" placeholder="Enter your last name" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Email <span class="text-danger">*</span></label>
+                                <input type="email" name="email" class="form-control" placeholder="Enter your email address" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Phone <span class="text-danger">*</span></label>
+                                <input type="text" name="phone" class="form-control" placeholder="Enter your phone number" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Location <span class="text-danger">*</span></label>
+                                <input type="text" name="location" class="form-control" placeholder="Enter your city or area" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Gender <span class="text-danger">*</span></label>
+                                <select name="gender" class="form-control" required>
+                                    <option value="">Select your gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Experience (Years) </label>
+                                <input type="number" name="experience_years" class="form-control" placeholder="Enter years of experience" min="0">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Languages <span class="text-danger">*</span></label>
+                                <input type="text" name="languages" class="form-control" placeholder="English, Bangla, etc." required>
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label">Bio <span class="text-danger">*</span></label>
+                                <textarea name="bio" class="form-control" rows="3" placeholder="Write a short bio about yourself" required></textarea>
+                            </div>
+
+                            <!-- Achievements -->
+                            <div class="col-md-12">
+                                <label class="form-label">Specialties</label>
+                                <textarea name="specialties" class="form-control" rows="2" placeholder="Enter specialties, separated by commas"></textarea>
+                            </div>
+
+                            <!-- Documents -->
+                            <h5 class="mt-4">Upload Documents</h5>
+                            <div class="col-md-6">
+                                <label class="form-label">Profile Photo <span class="text-danger">*</span></label>
+                                <input type="file" name="photo" class="form-control" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">NID <span class="text-danger">*</span></label>
+                                <input type="file" name="nid" class="form-control" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Passport</label>
+                                <input type="file" name="passport" class="form-control">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Driving License</label>
+                                <input type="file" name="driving_license" class="form-control">
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label">Tour Guide License Number</label>
+                                <input type="text" name="license_number" class="form-control" placeholder="Enter your tour guide license number" >
+                            </div>
+
+                            <!-- Certifications (Dynamic Fields) -->
+                            <h5 class="mt-4">Certifications</h5>
+                            <div id="certifications-wrapper" class="col-md-12"></div>
+                            <button type="button" class="btn btn-success btn-sm mt-2" onclick="addCertification()">+ Add Certification</button>
+
+                            <!-- Achievements (Dynamic Fields) -->
+                            <h5 class="mt-4">Achievements</h5>
+                            <div id="achievements-wrapper" class="col-md-12"></div>
+                            <button type="button" class="btn btn-success btn-sm mt-2" onclick="addAchievement()">+ Add Achievement</button>
+
+                            <!-- Social Links -->
+                            <h5 class="mt-4">Social Links</h5>
+                            <div class="col-md-4">
+                                <label class="form-label">Facebook</label>
+                                <input type="url" name="fb_link" class="form-control" placeholder="https://facebook.com/yourprofile">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">Instagram</label>
+                                <input type="url" name="instagram_link" class="form-control" placeholder="https://instagram.com/yourprofile">
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">LinkedIn</label>
+                                <input type="url" name="linkedin_link" class="form-control" placeholder="https://linkedin.com/in/yourprofile">
+                            </div>
+
+                            <!-- Terms -->
+                            <div class="col-md-12 mt-3">
+                                <div class="form-check">
+                                    <input type="checkbox" name="accept_terms" class="form-check-input" required>
+                                    <label class="form-check-label">I accept the <a href="/terms/">terms & conditions</a> <span class="text-danger">*</span></label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-primary rounded-pill">Submit Application</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- JS for Dynamic Fields -->
+<script>
+function addCertification() {
+    let wrapper = document.getElementById("certifications-wrapper");
+    let div = document.createElement("div");
+    div.classList.add("row", "g-2", "mb-2");
+    div.innerHTML = `
+        <div class="col-md-5">
+            <input type="text" name="certification_name[]" class="form-control" placeholder="Certification Name">
+        </div>
+        <div class="col-md-5">
+            <input type="file" name="certification_image[]" class="form-control">
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-danger" onclick="this.parentElement.parentElement.remove()">Remove</button>
+        </div>
+    `;
+    wrapper.appendChild(div);
+}
+
+function addAchievement() {
+    let wrapper = document.getElementById("achievements-wrapper");
+    let div = document.createElement("div");
+    div.classList.add("row", "g-2", "mb-2");
+    div.innerHTML = `
+        <div class="col-md-10">
+            <input type="text" name="achievement_name[]" class="form-control" placeholder="Achievement">
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-danger" onclick="this.parentElement.parentElement.remove()">Remove</button>
+        </div>
+    `;
+    wrapper.appendChild(div);
+}
+</script>
+
+{% endblock content %}

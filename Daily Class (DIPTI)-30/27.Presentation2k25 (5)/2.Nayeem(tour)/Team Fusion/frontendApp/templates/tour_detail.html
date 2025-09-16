@@ -1,0 +1,145 @@
+{% extends 'frontend_base.html' %}
+{% load static %}
+
+{% block title %}{{ tour.title }} - Tour Details{% endblock %}
+
+{% block content %}
+
+<!-- Hero -->
+<section class="hero-section position-relative">
+  <div class="container-fluid bg-dark text-white py-5 mb-5 hero-header"
+       style="background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)), url('{{ tour.tour_featured_image.url }}') center/cover no-repeat;">
+    <div class="container text-center py-5">
+      <h1 class="display-4 fw-bold">{{ tour.title }}</h1>
+      <p class="lead">{{ tour.city.name }}, {{ tour.country.name }}</p>
+      <div>
+        <span class="badge bg-primary me-2">{{ tour.category.name }}</span>
+        {% if tour.is_featured %}
+        <span class="badge bg-warning text-dark">Featured</span>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container my-5">
+  <div class="row g-5">
+    <!-- Left Column -->
+    <div class="col-lg-8">
+
+      <!-- Image Gallery -->
+      <div class="mb-5">
+        <div id="tourCarousel" class="carousel slide shadow rounded" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            {% if tour.tour_featured_image %}
+              <div class="carousel-item active">
+                <img src="{{ tour.tour_featured_image.url }}" class="d-block w-100 rounded" alt="{{ tour.title }}">
+              </div>
+            {% endif %}
+            {% for img in tour.images.all %}
+              <div class="carousel-item {% if not tour.tour_featured_image and forloop.first %}active{% endif %}">
+                <img src="{{ img.image.url }}" class="d-block w-100 rounded" alt="Image of {{ tour.title }}">
+              </div>
+            {% endfor %}
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#tourCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#tourCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Tour Description -->
+      <div class="mb-5">
+        <h3 class="fw-bold mb-3">About This Tour</h3>
+        <p class="text-muted">{{ tour.description|linebreaks }}</p>
+      </div>
+
+      <!-- Tour Details -->
+      <div class="mb-5">
+        <h3 class="fw-bold mb-3">Tour Information</h3>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="border rounded p-3 h-100">
+              <i class="bi bi-clock-history text-primary me-2"></i>
+              <strong>Duration:</strong> {{ tour.duration_days }} days
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="border rounded p-3 h-100">
+              <i class="bi bi-geo-alt text-danger me-2"></i>
+              <strong>Location:</strong> {{ tour.city.name }}, {{ tour.country.name }}
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="border rounded p-3 h-100">
+              <i class="bi bi-star-fill text-warning me-2"></i>
+              <strong>Rating:</strong> {{ tour.average_rating }} / 5 ({{ tour.review_count }} reviews)
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="border rounded p-3 h-100">
+              <i class="bi bi-tags text-success me-2"></i>
+              <strong>Category:</strong> {{ tour.category.name }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reviews -->
+      <div class="mb-5">
+        <h3 class="fw-bold mb-3">Reviews</h3>
+        {% if tour.reviews.exists %}
+          {% for review in tour.reviews.all %}
+            <div class="border rounded p-3 mb-3 shadow-sm">
+              <p class="mb-1"><strong>User #{{ review.id }}</strong></p>
+              <p class="text-warning mb-1">{% for i in "12345"|slice:":review.rating" %}★{% endfor %}</p>
+              <p class="text-muted mb-0">{{ review.comment }}</p>
+            </div>
+          {% endfor %}
+        {% else %}
+          <p class="text-muted">No reviews yet. Be the first to review!</p>
+        {% endif %}
+      </div>
+
+    </div>
+
+    <!-- Right Column (Booking Card) -->
+    <div class="col-lg-4">
+      <div class="card shadow-lg border-0 p-4 sticky-top" style="top: 100px;">
+        <h4 class="fw-bold mb-3">Book This Tour</h4>
+        <div class="mb-3">
+          {% if tour.offer_price %}
+            <p class="fs-4 fw-bold text-primary mb-0">${{ tour.offer_price }}</p>
+            <p class="text-muted text-decoration-line-through mb-0">${{ tour.regular_price }}</p>
+            <span class="badge bg-danger">{{ tour.offer_percentage }}% Off</span>
+          {% else %}
+            <p class="fs-4 fw-bold text-primary">${{ tour.regular_price }}</p>
+          {% endif %}
+        </div>
+        <form method="post" action="">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label class="form-label">Select Date</label>
+            <input type="date" class="form-control" name="date" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Group Size</label>
+            <input type="number" class="form-control" name="group_size" min="1" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Message</label>
+            <textarea class="form-control" name="message" rows="3"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary w-100 py-2">Request Booking</button>
+        </form>
+        <hr>
+        <p class="text-muted small mb-0"><i class="bi bi-shield-check text-success me-1"></i> Secure Booking - No extra fees</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

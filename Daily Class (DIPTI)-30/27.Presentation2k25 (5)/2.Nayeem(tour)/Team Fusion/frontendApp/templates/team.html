@@ -1,0 +1,111 @@
+{% extends 'frontend_base.html' %}
+{% load static %}
+{% block title %}About Us{% endblock title %}
+{% block content %}
+
+        <div class="container-fluid bg-primary py-5 mb-5 hero-header">
+            <div class="container py-5">
+                <div class="row justify-content-center py-5">
+                    <div class="col-lg-10 pt-lg-5 mt-lg-5 text-center">
+                        <h1 class="display-3 text-white animated slideInDown">Guides</h1>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb justify-content-center">
+                                <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+
+                                <li class="breadcrumb-item text-white active" aria-current="page">Guides</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!-- Navbar & Hero End -->
+
+
+    <!-- Team Start -->
+      <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title bg-white text-center text-primary px-3">Travel Guide</h6>
+                <h1 class="mb-5">Meet Our Guide</h1>
+            </div>
+           <div class="row g-4">
+    {% for guide in page_obj %}
+    <div class="col-md-4">
+        <div class="card shadow-sm border rounded-3 text-center p-3 h-100">
+            
+            <!-- Guide Photo -->
+             {% if guide.photo %}
+            <img src="{{ guide.photo.url }}" 
+                 class="rounded-circle mx-auto mb-3" 
+                 alt="{{ guide.full_name }}" 
+                 style="width: 100px; height: 100px; object-fit: cover;">
+             {% endif %}
+
+            <!-- Guide Name -->
+            <h5 class="fw-bold mb-1">{{ guide.full_name }}</h5>
+            
+            <!-- Location -->
+            <p class="text-muted mb-2">
+                <i class="fa fa-map-marker-alt text-danger me-1"></i>{{ guide.location }}
+            </p>
+
+            <!-- Rating -->
+            <p class="mb-2">
+                <span class="text-warning fs-5">★ {{ guide.rating }}</span>
+                <small class="text-muted">({{ guide.total_tours }} tours)</small>
+            </p>
+            
+            <!-- Languages -->
+            <p class="mb-1 fw-semibold">Languages:</p>
+            <div class="mb-2">
+
+                    <span class="badge bg-light text-dark border me-1">{{ guide.languages }}</span>
+
+            </div>
+            
+            <!-- Specialties -->
+            <p class="mb-1 fw-semibold">Specialties:</p>
+            <div class="mb-3">
+                
+                    <span class="badge bg-light text-dark border me-1">{{ guide.specialties }}</span>
+
+            </div>
+
+
+            <a href="{% url 'guide_detail' guide.id %}" class="btn btn-primary  rounded-pill py-1 px-5">View Profile</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+  <nav aria-label="Page navigation" class="mt-4">
+          <ul class="pagination justify-content-center">
+            {% if page_obj.has_previous %}
+              <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+            {% else %}
+              <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+            {% endif %}
+
+            {% for num in page_obj.paginator.page_range %}
+              {% if page_obj.number == num %}
+                <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+              {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+              {% endif %}
+            {% endfor %}
+
+            {% if page_obj.has_next %}
+              <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+            {% else %}
+              <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+            {% endif %}
+          </ul>
+        </nav>
+    </div>
+</div>
+
+        </div>
+    </div>
+    <!-- Team End -->
+   {% endblock content %}

@@ -1,0 +1,145 @@
+{% extends 'frontend_base.html' %}
+{% load static %}
+{% block title %}Register{% endblock title %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<div class="container-fluid bg-primary py-5 mb-5 hero-header">
+    <div class="container py-5">
+        <div class="row justify-content-center py-5">
+            <div class="col-lg-8 text-center">
+                <h1 class="display-3 text-white animated slideInDown">Create Account</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item text-white active" aria-current="page">Register</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Register Form Section -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.2s">
+                <div class="bg-light rounded shadow-lg p-5 border border-2 border-white">
+                    <h3 class="text-center mb-4 fw-bold text-primary">Join Us Today</h3>
+                    <p class="text-center text-muted mb-4">Sign up to explore, travel, and guide with confidence.</p>
+
+                    <!-- Google Sign-Up -->
+                    <div id="g_id_onload"
+                         data-client_id="YOUR_GOOGLE_CLIENT_ID"
+                         data-context="signup"
+                         data-ux_mode="popup"
+                         data-callback="handleCredentialResponse"
+                         data-auto_prompt="false">
+                    </div>
+                    <div class="g_id_signin d-flex justify-content-center mb-3" data-type="standard"></div>
+
+                    <div class="divider text-center my-4">
+                        <span class="px-3 text-muted">Or sign up with email</span>
+                    </div>
+
+                    <form action="{% url 'frontend_signup' %}" method="POST">
+                        
+                        {% csrf_token %}
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control rounded-pill" name="first_name" id="first_name" placeholder="First Name" required>
+                                    <label for="first_name">First Name</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control rounded-pill" name="last_name" id="last_name" placeholder="Last Name" required>
+                                    <label for="last_name">Last Name</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-floating mt-3">
+                            <input type="email" class="form-control rounded-pill" name="email" id="email" placeholder="Email" required>
+                            <label for="email">Email Address</label>
+                        </div>
+
+                        <div class="form-floating mt-3">
+                            <input type="password" class="form-control rounded-pill" id="password" name="password" placeholder="Password" required>
+                            <label for="password">Password</label>
+                        </div>
+
+                        <div class="form-floating mt-3">
+                            <input type="password" class="form-control rounded-pill" id="confirm_password" name="confirm_password" placeholder="Confirm Password" required>
+                            <label for="confirm_password">Confirm Password</label>
+                        </div>
+
+                        <div class="form-check mt-3">
+                            <input class="form-check-input" type="checkbox" id="terms_accepted" name="terms_accepted" required>
+                            <label class="form-check-label small" for="terms">
+                                I agree to the <a href="/terms/" class="text-primary fw-semibold">Terms & Conditions</a>
+                            </label>
+                        </div>
+
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg rounded-pill shadow-sm">
+                                <i class="fas fa-user-plus me-2"></i> Register
+                            </button>
+                        </div>
+
+                        <p class="text-center small mt-3 mb-0">
+                            Already have an account?
+                            <a href="{% url 'frontend_login' %}" class="text-primary fw-bold">Login</a>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Become a Guide CTA -->
+<div class="container-fluid  bg-light">
+    <div class="container">
+        <div class="text-center">
+            <div class="text-dark rounded p-5 ">
+                <h2 class="mb-3">Want to Share Your Knowledge?</h2>
+                <p class="mb-4">
+                    Apply now to become a professional guide and help travelers explore the world with your expertise. 
+                    Once approved by our team, you’ll be able to share your guidance with travelers.
+                </p>
+                <a href="{% url 'become_guide' %}" class="btn btn-primary btn-lg rounded-pill px-4">
+                    Apply to Become a Guide
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Google JS -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+
+<script>
+  function handleCredentialResponse(response) {
+    fetch("/google-register/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": "{{ csrf_token }}",
+      },
+      body: JSON.stringify({ credential: response.credential }),
+    }).then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          window.location.href = data.redirect_url;
+        } else {
+          alert("Google registration failed!");
+        }
+      });
+  }
+</script>
+
+{% endblock content %}

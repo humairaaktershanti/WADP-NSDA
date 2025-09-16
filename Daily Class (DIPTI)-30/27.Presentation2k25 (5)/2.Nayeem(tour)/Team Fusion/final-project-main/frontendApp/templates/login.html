@@ -1,0 +1,120 @@
+{% extends 'frontend_base.html' %}
+{% load static %}
+{% block title %}Login{% endblock title %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<div class="container-fluid bg-primary py-5 mb-5 hero-header">
+    <div class="container py-5">
+        <div class="row justify-content-center py-5">
+            <div class="col-lg-8 text-center">
+                <h1 class="display-3 text-white animated slideInDown">Login</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item text-white active" aria-current="page">Login</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Login Form Section -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.2s">
+                <div class="bg-light rounded shadow p-5">
+                    <h3 class="text-center mb-4">Sign In to Your Account</h3>
+
+                    <!-- Google Sign-In -->
+                    <div id="g_id_onload"
+                         data-client_id="YOUR_GOOGLE_CLIENT_ID"
+                         data-context="signin"
+                         data-ux_mode="popup"
+                         data-callback="handleCredentialResponse"
+                         data-auto_prompt="false">
+                    </div>
+                    <div class="g_id_signin d-flex justify-content-center mb-3" data-type="standard"></div>
+
+                    <div class="divider text-center my-3">
+                        <span class="bg-light px-3 text-muted">Or continue with</span>
+                    </div>
+
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <div class="form-floating mb-3">
+                            <input type="email" class="form-control" name="email" id="email" placeholder="Email" required>
+                            <label for="email">Email address</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                            <label for="password">Password</label>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="remember" name="remember">
+                                <label class="form-check-label" for="remember">Remember me</label>
+                            </div>
+                            <a href="/forgot-password/" class="text-primary">Forgot password?</a>
+                        </div>
+
+                        <div class="d-grid mb-3">
+                            <button type="submit" class="btn btn-primary btn-lg rounded-pill">Login</button>
+                        </div>
+                        <p class="text-center small mb-0">
+                            Don’t have an account? <a href="{% url 'frontend_signup' %}" class="text-primary fw-bold">Register</a>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Become a Guide CTA -->
+<div class="container-fluid  bg-light">
+    <div class="container">
+        <div class="text-center">
+            <div class="text-dark rounded p-5 ">
+                <h2 class="mb-3">Want to Share Your Knowledge?</h2>
+                <p class="mb-4">
+                    Apply now to become a professional guide and help travelers explore the world with your expertise. 
+                    Once approved by our team, you’ll be able to share your guidance with travelers.
+                </p>
+                <a href="{% url 'become_guide' %}" class="btn btn-primary btn-lg rounded-pill px-4">
+                    Apply to Become a Guide
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Google JS -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+
+<script>
+  function handleCredentialResponse(response) {
+    fetch("/google-login/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": "{{ csrf_token }}",
+      },
+      body: JSON.stringify({ credential: response.credential }),
+    }).then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          window.location.href = data.redirect_url;
+        } else {
+          alert("Google login failed!");
+        }
+      });
+  }
+</script>
+
+{% endblock content %}

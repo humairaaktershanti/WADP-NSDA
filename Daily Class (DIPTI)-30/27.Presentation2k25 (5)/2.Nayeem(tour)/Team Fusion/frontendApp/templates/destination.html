@@ -1,0 +1,171 @@
+{% extends 'frontend_base.html' %}
+{% load static %}
+{% block title %}About Us{% endblock title %}
+{% block content %}
+
+        <div class="container-fluid bg-primary py-5 mb-5 hero-header">
+            <div class="container py-5">
+                <div class="row justify-content-center py-5">
+                    <div class="col-lg-10 pt-lg-5 mt-lg-5 text-center">
+                        <h1 class="display-3 text-white animated slideInDown">Destination</h1>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb justify-content-center">
+                                <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'tours' %}">Tours</a></li>
+                                <li class="breadcrumb-item text-white active" aria-current="page">Destination</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!-- Navbar & Hero End -->
+
+
+    <!-- Destination Start -->
+   <div class="container-xxl py-5 destination">
+    <div class="container">
+     <h3 class=" mb-4 text-center">Categories</h3>
+        <div class="row g-3">
+            {% for category in categories %}
+                <div class="col-3 wow zoomIn" data-wow-delay="0.{{ forloop.counter0|add:"1" }}s">
+                    <a class="position-relative d-block overflow-hidden" href="{% url 'category_tours' category.name %}">
+                        {% if category.catalog_image %}
+                            <img class="img-fluid w-100" src="{{ category.catalog_image.url }}" alt="{{ category.name }}" style="object-fit: cover; height:200px;">
+                        {% else %}
+                            <img class="img-fluid w-100" src="{% static 'img/default.jpg' %}" alt="{{ category.name }}" style="object-fit: cover; height:200px;">
+                        {% endif %}
+                        <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-2 py-1 px-2">
+                            {{ category.total_tours }} Tours
+                        </div>
+                        <div class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-2 py-1 px-2">
+                            {{ category.name }}
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+        <nav aria-label="Page navigation" class="mt-4">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                {% endif %}
+            </ul>
+        </nav>
+        <!-- Country Section -->
+        <h3 class="mt-5 mb-4 text-center">Countries</h3>
+        <div class="row g-3">
+            {% for country in page_obj %}
+                <div class="col-3 wow zoomIn" data-wow-delay="0.{{ forloop.counter0|add:"1" }}s">
+                    <a class="position-relative d-block overflow-hidden" href="{% url 'country_tours' country.name %}">
+                        {% if country.catalog_image %}
+                            <img class="img-fluid w-100" src="{{ country.catalog_image.url }}" alt="{{ country.name }}" style="object-fit: cover; height:200px;">
+                        {% else %}
+                            <img class="img-fluid w-100" src="{% static 'img/default.jpg' %}" alt="{{ country.name }}" style="object-fit: cover; height:200px;">
+                        {% endif %}
+
+                        <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">
+                            {{ country.total_tours }} Tours
+                        </div>
+                        <div class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">
+                            {{ country.name }}
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        <nav aria-label="Page navigation" class="mt-4">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                {% endif %}
+            </ul>
+        </nav>
+
+        <!-- City Section -->
+        <h3 class="mt-5 mb-4 text-center">Cities</h3>
+        <div class="row g-3">
+            {% for city in cities %}
+                <div class="col-3 wow zoomIn" data-wow-delay="0.{{ forloop.counter0|add:"1" }}s">
+                    <a class="position-relative d-block overflow-hidden" href="{% url 'city_tours' city.name %}">
+                        {% if city.catalog_image %}
+                            <img class="img-fluid w-100" src="{{ city.catalog_image.url }}" alt="{{ city.name }}" style="object-fit: cover; height:200px;">
+                        {% else %}
+                            <img class="img-fluid w-100" src="{% static 'img/default.jpg' %}" alt="{{ city.name }}" style="object-fit: cover; height:200px;">
+                        {% endif %}
+                        <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-2 py-1 px-2">
+                            {{ city.total_tours }} Tours
+                        </div>
+                        <div class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-2 py-1 px-2">
+                            {{ city.name }}
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+        <nav aria-label="Page navigation" class="mt-4">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                {% endif %}
+            </ul>
+        </nav>
+
+        <!-- Category Section -->
+        
+
+    </div>
+</div>
+
+{% endblock content %}

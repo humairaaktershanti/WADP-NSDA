@@ -1,0 +1,185 @@
+{% extends 'frontend_base.html' %}
+{% load static %}
+{% block title %}My Account{% endblock title %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<div class="container-fluid bg-primary py-5 mb-5 hero-header">
+    <div class="container py-5">
+        <div class="row justify-content-center py-5">
+            <div class="col-lg-8 text-center">
+                <h1 class="display-3 text-white animated slideInDown">My Profile</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item text-white active" aria-current="page">My Profile</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="row">
+
+            <!-- Sidebar -->
+            <div class="col-lg-3 mb-4">
+                <div class="card shadow-sm rounded">
+                    <div class="card-body p-0">
+                        <div class="list-group list-group-flush" id="sidebarMenu">
+                            <a href="#" class="list-group-item list-group-item-action active" data-page="profile">
+                                Account Details
+                            </a>
+
+                            {% if request.user.user_type == 'traveler' %}
+                                <a href="#" class="list-group-item list-group-item-action" data-page="bookings">
+                                    My Bookings
+                                </a>
+                            {% elif request.user.user_type == 'tourguide' %}
+                                <a href="#" class="list-group-item list-group-item-action" data-page="travelers">
+                                    My Travelers
+                                </a>
+                            {% endif %}
+
+                            <hr class="my-2">
+                            <a href="{% url 'logout' %}" class="list-group-item list-group-item-action text-danger">
+                                Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-9">
+                <div class="card shadow-sm rounded">
+                    <div class="card-body">
+
+                        <h4 class="mb-4">Welcome, {{ request.user.get_full_name }}</h4>
+
+                        <!-- Account Details Section -->
+                        <div id="profileSection">
+                            <h5 class="mb-3">Account Details</h5>
+                            <p><strong>Name:</strong> {{ request.user.get_full_name }}</p>
+                            <p><strong>Email:</strong> {{ request.user.email }}</p>
+                            <p><strong>User Type:</strong> {{ request.user.user_type|capfirst }}</p>
+                            <p><strong>Phone:</strong> +8801234567890</p>
+                            <p><strong>Address:</strong> Dhaka, Bangladesh</p>
+                        </div>
+
+                        <!-- Sample Traveler Bookings Section -->
+                        {% if request.user.user_type == 'traveler' %}
+                        <div id="bookingsSection" style="display:none;">
+                            <h5 class="mb-3">My Bookings</h5>
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Booking ID</th>
+                                            <th>Destination</th>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>101</td>
+                                            <td>Paris</td>
+                                            <td>2025-09-10</td>
+                                            <td><span class="badge bg-success">Completed</span></td>
+                                            <td><a href="#" class="btn btn-sm btn-outline-primary">View</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>102</td>
+                                            <td>Tokyo</td>
+                                            <td>2025-10-05</td>
+                                            <td><span class="badge bg-warning">Pending</span></td>
+                                            <td><a href="#" class="btn btn-sm btn-outline-primary">View</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        <!-- Sample Guide Travelers Section -->
+                        {% if request.user.user_type == 'tourguide' %}
+                        <div id="travelersSection" style="display:none;">
+                            <h5 class="mb-3">Assigned Travelers</h5>
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Traveler Name</th>
+                                            <th>Destination</th>
+                                            <th>Date</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>John Doe</td>
+                                            <td>London</td>
+                                            <td>2025-09-15</td>
+                                            <td><span class="badge bg-success">Confirmed</span></td>
+                                            <td><a href="#" class="btn btn-sm btn-outline-info">Manage</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Jane Smith</td>
+                                            <td>Rome</td>
+                                            <td>2025-10-20</td>
+                                            <td><span class="badge bg-warning">Pending</span></td>
+                                            <td><a href="#" class="btn btn-sm btn-outline-info">Manage</a></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Sidebar JS -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const sidebarItems = document.querySelectorAll("#sidebarMenu .list-group-item");
+    const profileSection = document.getElementById("profileSection");
+    const bookingsSection = document.getElementById("bookingsSection");
+    const travelersSection = document.getElementById("travelersSection");
+
+    sidebarItems.forEach(item => {
+        item.addEventListener("click", function() {
+            sidebarItems.forEach(i => i.classList.remove("active"));
+            this.classList.add("active");
+
+            const page = this.dataset.page;
+
+            // Hide all sections
+            profileSection.style.display = "none";
+            if(bookingsSection) bookingsSection.style.display = "none";
+            if(travelersSection) travelersSection.style.display = "none";
+
+            // Show selected section
+            if(page === "profile") profileSection.style.display = "block";
+            if(page === "bookings" && bookingsSection) bookingsSection.style.display = "block";
+            if(page === "travelers" && travelersSection) travelersSection.style.display = "block";
+        });
+    });
+
+    // Show profile by default
+    profileSection.style.display = "block";
+});
+</script>
+
+{% endblock content %}

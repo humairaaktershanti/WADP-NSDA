@@ -1,0 +1,250 @@
+{% extends 'frontend_base.html' %}
+{% load static %}
+
+{% block title %}{{ package.name }} - Package Details{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<div class="container-fluid bg-primary py-5 mb-5 hero-header">
+    <div class="container py-5">
+        <div class="row justify-content-center py-5">
+            <div class="col-lg-10 pt-lg-5 mt-lg-5 text-center">
+                <h1 class="display-3 text-white animated slideInDown">{{ package.name }}</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center">
+                        <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'packages' %}">Packages</a></li>
+                        <li class="breadcrumb-item text-white active" aria-current="page">{{ package.name }}</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Package Details -->
+<div class="container-xxl py-5">
+    <div class="row g-5">
+
+        <!-- Left Column -->
+        <div class="col-lg-8">
+
+            <!-- Package Gallery -->
+            <div class="package-gallery mb-5">
+                <div class="row g-3">
+                    <div class="col-md-8">
+                        {% if package.package_featured_image %}
+                        <img src="{{ package.package_featured_image.url }}" 
+                             class="img-fluid w-100 rounded shadow-sm" 
+                             style="height: 400px; object-fit: cover;" 
+                             alt="{{ package.name }}">
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4">
+                        <div class="row g-3">
+                            {% for tour in package.tours.all %}
+                                {% if tour.tour_featured_image %}
+                                <div class="col-12">
+                                    <img src="{{ tour.tour_featured_image.url }}" 
+                                         class="img-fluid w-100 rounded shadow-sm" 
+                                         style="height: 195px; object-fit: cover;" 
+                                         alt="{{ tour.title }}">
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <ul class="nav nav-tabs mb-4" id="packageTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="overview-tab" data-bs-toggle="tab" 
+                            data-bs-target="#overview" type="button">Overview</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="tours-tab" data-bs-toggle="tab" 
+                            data-bs-target="#tours" type="button">Tours</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="guides-tab" data-bs-toggle="tab" 
+                            data-bs-target="#guides" type="button">Guides</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" 
+                            data-bs-target="#reviews" type="button">Reviews</button>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="packageTabsContent">
+
+                <!-- Overview Tab -->
+                <div class="tab-pane fade show active" id="overview" role="tabpanel">
+                    <h4 class="mb-3">{{ package.name }}</h4>
+                    <p>{{ package.description }}</p>
+
+                    <div class="row g-3 mt-4">
+                        <div class="col-md-6">
+                            <p><i class="bi bi-cash-coin text-primary me-2"></i> 
+                               <strong>Price:</strong> ${{ package.package_price }}</p>
+                            {% if package.offer_price %}
+                            <p><i class="bi bi-tag text-success me-2"></i> 
+                               <strong>Offer Price:</strong> ${{ package.offer_price }}</p>
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            {% if package.duration_days %}
+                            <p><i class="bi bi-calendar2-week text-primary me-2"></i> 
+                               <strong>Duration:</strong> {{ package.duration_days }} Days</p>
+                            {% endif %}
+                            {% if package.max_persons %}
+                            <p><i class="bi bi-people text-primary me-2"></i> 
+                               <strong>Max Persons:</strong> {{ package.max_persons }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    {% if package.is_featured %}
+                    <span class="badge bg-warning text-dark mt-2">
+                        <i class="bi bi-star-fill"></i> Featured Package
+                    </span>
+                    {% endif %}
+                </div>
+
+                <!-- Tours Tab -->
+                <div class="tab-pane fade" id="tours" role="tabpanel">
+                    <h4 class="mb-4">Tours Included</h4>
+                    <div class="row g-4">
+                        {% for tour in package.tours.all %}
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card h-100 shadow-sm border-0">
+                                {% if tour.tour_featured_image or tour.images.all %}
+                                <div id="carousel{{ tour.id }}" class="carousel slide" data-bs-ride="carousel">
+                                    <div class="carousel-inner">
+                                        {% if tour.tour_featured_image %}
+                                        <div class="carousel-item active">
+                                            <img src="{{ tour.tour_featured_image.url }}" 
+                                                 class="d-block w-100 rounded-top" 
+                                                 style="height: 200px; object-fit: cover;" 
+                                                 alt="{{ tour.title }}">
+                                        </div>
+                                        {% endif %}
+                                        {% for img in tour.images.all %}
+                                        <div class="carousel-item {% if not tour.tour_featured_image and forloop.first %}active{% endif %}">
+                                            <img src="{{ img.image.url }}" 
+                                                 class="d-block w-100 rounded-top" 
+                                                 style="height: 200px; object-fit: cover;" 
+                                                 alt="{{ tour.title }}">
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                    <button class="carousel-control-prev" type="button" data-bs-target="#carousel{{ tour.id }}" data-bs-slide="prev">
+                                        <span class="carousel-control-prev-icon bg-dark rounded-circle p-2"></span>
+                                    </button>
+                                    <button class="carousel-control-next" type="button" data-bs-target="#carousel{{ tour.id }}" data-bs-slide="next">
+                                        <span class="carousel-control-next-icon bg-dark rounded-circle p-2"></span>
+                                    </button>
+                                </div>
+                                {% endif %}
+                                <div class="card-body">
+                                    <h5>{{ tour.title }}</h5>
+                                    <p class="text-muted description-clamp">{{ tour.description|truncatewords:25 }}</p>
+                                    <div class="d-flex justify-content-between mt-3 text-center">
+                                        <div>
+                                            <i class="bi bi-calendar2-event text-success fs-5"></i>
+                                            <p class="mb-0 small">Duration</p>
+                                            <strong>{{ tour.duration_days|default:"N/A" }} Days</strong>
+                                        </div>
+                                        <div>
+                                            <i class="bi bi-people text-success fs-5"></i>
+                                            <p class="mb-0 small">Group Size</p>
+                                            <strong>{{package.max_persons}}</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <p>No tours available.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Guides Tab -->
+                <div class="tab-pane fade" id="guides" role="tabpanel">
+                    <h4 class="mb-4">Guides</h4>
+                    <div class="row g-4">
+                        {% for guide in package.guides.all %}
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card h-100 shadow-sm border-0 text-center">
+                                {% if guide.photo %}
+                                <img src="{{ guide.photo.url }}" class="card-img-top rounded-top" 
+                                     style="height: 250px; object-fit: cover;" 
+                                     alt="{{ guide.full_name }}">
+                                {% endif %}
+                                <div class="card-body">
+                                    <h5>{{ guide.full_name }}</h5>
+                                    {% if guide.location %}<p><i class="bi bi-geo-alt"></i> {{ guide.location }}</p>{% endif %}
+                                    {% if guide.experience_years %}<p><i class="bi bi-people"></i> Experience: {{ guide.experience_years }} yrs</p>{% endif %}
+                                    {% if guide.languages %}<p><i class="bi bi-translate"></i> {{ guide.languages }}</p>{% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <p>No guides assigned.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Reviews Tab -->
+                <div class="tab-pane fade" id="reviews" role="tabpanel">
+                    <h4 class="mb-4">Reviews</h4>
+                    <p>No reviews yet. Be the first to review this package!</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Right Column: Booking Sidebar -->
+        <div class="col-lg-4">
+            <div class="card p-4 shadow-sm border-0">
+                <div class="text-center mb-4">
+                    <div class="h2 text-primary mb-0">${{ package.package_price }}</div>
+                    <small class="text-muted">per person</small>
+                    {% if package.offer_price %}
+                        <p class="text-success mt-2">Special Offer: ${{ package.offer_price }}</p>
+                    {% endif %}
+                </div>
+                <form method="post" action="">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Select Date</label>
+                        <input type="date" name="date" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Travelers</label>
+                        <select name="travelers" class="form-select" required>
+                            <option value="">Select travelers</option>
+                            {% for i in traveler_range %}
+                            <option value="{{ i }}">{{ i }} Person{% if i > 1 %}s{% endif %}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 mb-2">Book Now</button>
+                    <button type="button" class="btn btn-outline-primary w-100">Add to Wishlist</button>
+                </form>
+                <hr>
+                <div class="text-center">
+                    <h6>Need Help?</h6>
+                    <p class="mb-2"><i class="fas fa-phone text-primary me-2"></i>+1 (555) 123-4567</p>
+                    <p><i class="fas fa-envelope text-primary me-2"></i>info@wanderguide.com</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

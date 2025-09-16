@@ -1,0 +1,657 @@
+{% extends 'backend_base.html' %}
+{% load static %}
+
+{% block title %}
+    Guide Management
+{% endblock title %}
+  
+
+{% block content %}
+<div class="container my-4" id="guide-management">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 id="guideTypeTitle">Guide Requests</h2>
+    <div class="btn-group">
+      <button class="btn btn-outline-primary active" onclick="switchGuideType('requests')">Guide Requests</button>
+      <button class="btn btn-outline-primary" onclick="switchGuideType('accepted')">Accepted Guides</button>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="guideTableBody">
+
+        <!-- Guide Requests -->
+        {% for guide in guide_requests %}
+        <tr data-type="requests">
+          <td>#G{{ guide.id|stringformat:"04d" }}</td>
+          <td>{{ guide.first_name }} {{ guide.last_name }}</td>
+          <td>{{ guide.email }}</td>
+          <td>{{ guide.phone }}</td>
+          <td><span class="badge bg-warning">Pending</span></td>
+          <td>
+            <div class="btn-group">
+             <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#acceptGuideModal{{ guide.id }}">
+                Accept
+              </button>
+              <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#rejectGuideModal{{ guide.id }}">
+                Reject
+              </button>
+               <button class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#viewGuideModal{{ guide.id }}">
+                View
+              </button>
+            </div>
+          </td>
+        </tr>
+
+        <!-- View Modal -->
+        <div class="modal fade" id="viewGuideModal{{ guide.id }}" tabindex="-1">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+
+                    <!-- Header -->
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title">{{ guide.first_name }} {{ guide.last_name }} - Guide Details</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="modal-body">
+
+                        <!-- Top Row: Photo & Basic Info -->
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-4 text-center">
+                                {% if guide.photo %}
+                                <img src="{{ guide.photo.url }}" class="img-fluid rounded mb-3" alt="Guide Photo" style="max-height:300px; object-fit:cover;">
+                                {% else %}
+                                <div class="bg-secondary text-white p-5 rounded mb-3">No Photo</div>
+                                {% endif %}
+                                <span class="badge 
+                                  {% if guide.status == 'approved' %}
+                                      bg-success
+                                  {% elif guide.status == 'rejected' %}
+                                      bg-danger
+                                  {% else %}
+                                      bg-warning
+                                  {% endif %}">
+                                      {{ guide.status|capfirst }}
+                                </span>
+                            </div>
+
+                            <div class="col-md-8">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item"><strong>Email:</strong> {{ guide.email }}</li>
+                                    <li class="list-group-item"><strong>Phone:</strong> {{ guide.phone }}</li>
+                                    <li class="list-group-item"><strong>Location:</strong> {{ guide.location }}</li>
+                                    <li class="list-group-item"><strong>Experience:</strong> {{ guide.experience_years }} years</li>
+                                    <li class="list-group-item"><strong>Languages:</strong> {{ guide.languages }}</li>
+                                    {% if guide.bio %}
+                                    <li class="list-group-item"><strong>Bio:</strong> {{ guide.bio }}</li>
+                                    {% endif %}
+                                    {% if guide.license_number %}
+                                    <li class="list-group-item"><strong>Tour Guide License:</strong> {{ guide.license_number }}</li>
+                                    {% endif %}
+                                    {% if guide.gender %}
+                                    <li class="list-group-item"><strong>Gender:</strong> {{ guide.gender|capfirst }}</li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Documents -->
+                        <hr>
+                        <h6 class="mb-2">Documents</h6>
+                        <div class="row g-3 mb-3">
+                            {% if guide.nid %}
+                            <div class="col-md-4 text-center">
+                                <strong>NID</strong>
+                                <img src="{{ guide.nid.url }}" class="img-fluid rounded mt-1" style="max-height:150px; object-fit:cover;">
+                            </div>
+                            {% endif %}
+                            {% if guide.passport %}
+                            <div class="col-md-4 text-center">
+                                <strong>Passport</strong>
+                                <img src="{{ guide.passport.url }}" class="img-fluid rounded mt-1" style="max-height:150px; object-fit:cover;">
+                            </div>
+                            {% endif %}
+                            {% if guide.driving_license %}
+                            <div class="col-md-4 text-center">
+                                <strong>Driving License</strong>
+                                <img src="{{ guide.driving_license.url }}" class="img-fluid rounded mt-1" style="max-height:150px; object-fit:cover;">
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Certifications -->
+                        {% if guide.certifications.exists %}
+                          <hr>
+                          <h6 class="mb-2">Certifications</h6>
+                          <div class="row g-3 mb-3">
+                              {% for cert in guide.certifications.all %}
+                              <div class="col-md-6 text-center">
+                                  {% if cert.name %}
+                                  <div class="mb-1"><strong>{{ cert.name }}</strong></div>
+                                  {% endif %}
+                                  {% if cert.certificate_image %}
+                                  <img src="{{ cert.certificate_image.url }}" class="img-thumbnail" style="width:150px; height:150px; object-fit:cover;">
+                                  {% else %}
+                                  <div class="bg-light p-3 rounded mt-1">No Image</div>
+                                  {% endif %}
+                              </div>
+                              {% endfor %}
+                          </div>
+                        {% endif %}
+
+
+                        <!-- Achievements & Specialties -->
+                        <hr>
+                        <div class="row g-3">
+                            {% if guide.achievements.exists %}
+                            <div class="col-md-6">
+                                <h6>Achievements</h6>
+                                <ul class="list-group list-group-flush">
+                                    {% for achievement in guide.achievements.all %}
+                                    <li class="list-group-item">{{ achievement.name }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            {% endif %}
+
+                            {% if guide.specialties %}
+                            <div class="col-md-6">
+                                <h6>Specialties</h6>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">{{  guide.specialties }}</li>
+
+                                </ul>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Social Links -->
+                        <hr>
+                        <div class="row g-3">
+                            {% if guide.fb_link %}
+                            <div class="col-md-4"><a href="{{ guide.fb_link }}" target="_blank" class="btn btn-outline-primary w-100">Facebook</a></div>
+                            {% endif %}
+                            {% if guide.instagram_link %}
+                            <div class="col-md-4"><a href="{{ guide.instagram_link }}" target="_blank" class="btn btn-outline-danger w-100">Instagram</a></div>
+                            {% endif %}
+                            {% if guide.linkedin_link %}
+                            <div class="col-md-4"><a href="{{ guide.linkedin_link }}" target="_blank" class="btn btn-outline-info w-100">LinkedIn</a></div>
+                            {% endif %}
+                        </div>
+
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Accept Modal -->
+        <div class="modal fade" id="acceptGuideModal{{ guide.id }}" tabindex="-1">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header bg-success text-white">
+                <h5 class="modal-title">Accept Guide - {{ guide.first_name }} {{ guide.last_name }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <form method="post" action="{% url 'accept_guide' guide.id %}">
+                {% csrf_token %}
+                <div class="modal-body">
+                  <div class="mb-3">
+                    <label for="pricePerDay{{ guide.id }}" class="form-label">Price Per Day (USD)</label>
+                    <input type="number" class="form-control" id="pricePerDay{{ guide.id }}" name="price_per_day" step="0.01" required>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-success">Confirm Accept</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+
+<!-- Reject Modal -->
+        <div class="modal fade" id="rejectGuideModal{{ guide.id }}" tabindex="-1">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Reject Guide - {{ guide.first_name }} {{ guide.last_name }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <form method="post" action="{% url 'reject_guide' guide.id %}">
+                {% csrf_token %}
+                <div class="modal-body">
+                  <div class="mb-3">
+                    <label for="reviewNotes{{ guide.id }}" class="form-label">Review Notes (Reason for rejection)</label>
+                    <textarea class="form-control" id="reviewNotes{{ guide.id }}" name="review_notes" rows="4" required></textarea>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-danger">Reject Guide</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+        <!-- Accepted Guides -->
+        {% for guide in accepted_guides %}
+        <tr data-type="accepted" class="d-none">
+          <td>#G{{ guide.id|stringformat:"04d" }}</td>
+          <td>{{ guide.full_name }}</td>
+          <td>{{ guide.user_id.email}}</td>
+          <td>{{ guide.phone }}</td>
+          <td><span class="badge bg-success">Accepted</span></td>
+          <td>
+            <div class="btn-group" role="group">
+              <button class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#viewGuideModal{{ guide.id }}">View</button>
+              <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editGuideModal{{ guide.id }}">Edit</button>
+              <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteGuideModal{{ guide.id }}">Delete</button>
+            </div>
+          </td>
+        </tr>
+
+        
+
+        <!-- viewGuideModal Modal -->
+        <div class="modal fade" id="viewGuideModal{{ guide.id }}" tabindex="-1">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+
+                    <!-- Header -->
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title">{{ guide.full_name }} - Guide Profile</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="modal-body">
+
+                        <!-- Top Row: Photo & Basic Info -->
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-4 text-center">
+                                {% if guide.photo %}
+                                <img src="{{ guide.photo.url }}" class="img-fluid rounded mb-3" style="max-height:250px; object-fit:cover;">
+                                {% else %}
+                                <div class="bg-secondary text-white p-5 rounded mb-3">No Photo</div>
+                                {% endif %}
+                                {% if guide.user_id %}
+                                <span class="badge bg-success">Accepted</span>
+                                {% endif %}
+                            </div>
+
+                            <div class="col-md-8">
+                                <ul class="list-group list-group-flush mb-3">
+                                    <li class="list-group-item"><strong>Email:</strong> {{ guide.user_id.email }}</li>
+                                    <li class="list-group-item"><strong>Phone:</strong> {{ guide.phone }}</li>
+                                    <li class="list-group-item"><strong>Location:</strong> {{ guide.location }}</li>
+                                    <li class="list-group-item"><strong>Experience:</strong> {{ guide.experience_years }} years</li>
+                                    <li class="list-group-item"><strong>Languages:</strong> {{ guide.languages }}</li>
+                                    {% if guide.bio %}
+                                    <li class="list-group-item"><strong>Bio:</strong> {{ guide.bio }}</li>
+                                    {% endif %}
+                                    {% if guide.license_number %}
+                                    <li class="list-group-item"><strong>License Number:</strong> {{ guide.license_number }}</li>
+                                    {% endif %}
+                                    <li class="list-group-item"><strong>Price per Day:</strong> ${{ guide.price_per_day }}</li>
+                                    <li class="list-group-item"><strong>Availability:</strong>
+                                        {% if guide.availability_status %}
+                                        <span class="badge bg-success">Available</span>
+                                        {% else %}
+                                        <span class="badge bg-secondary">Not Available</span>
+                                        {% endif %}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Documents -->
+                        <hr>
+                        <h6>Documents</h6>
+                        <div class="row g-3 mb-3">
+                            {% if guide.nid %}
+                            <div class="col-md-4 text-center">
+                                <strong>NID</strong>
+                                <img src="{{ guide.nid.url }}" class="img-fluid rounded mt-1" style="max-height:150px; object-fit:cover;">
+                            </div>
+                            {% endif %}
+                            {% if guide.passport %}
+                            <div class="col-md-4 text-center">
+                                <strong>Passport</strong>
+                                <img src="{{ guide.passport.url }}" class="img-fluid rounded mt-1" style="max-height:150px; object-fit:cover;">
+                            </div>
+                            {% endif %}
+                            {% if guide.driving_license %}
+                            <div class="col-md-4 text-center">
+                                <strong>Driving License</strong>
+                                <img src="{{ guide.driving_license.url }}" class="img-fluid rounded mt-1" style="max-height:150px; object-fit:cover;">
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Certifications -->
+                        {% if guide.certifications.exists %}
+                        <hr>
+                        <h6>Certifications</h6>
+                        <div class="row g-3 mb-3">
+                            {% for cert in guide.certifications.all %}
+                            <div class="col-md-6 text-center">
+                                {% if cert.name %}
+                                <div class="mb-1"><strong>{{ cert.name }}</strong></div>
+                                {% endif %}
+                                {% if cert.chr_image %}
+                                <img src="{{ cert.chr_image.url }}" class="img-thumbnail" style="width:150px; height:150px; object-fit:cover;">
+                                {% else %}
+                                <div class="bg-light p-3 rounded mt-1">No Image</div>
+                                {% endif %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <!-- Achievements & Specialties -->
+                        <hr>
+                        <div class="row g-3">
+                            {% if guide.achievements.exists %}
+                            <div class="col-md-6">
+                                <h6>Achievements</h6>
+                                <ul class="list-group list-group-flush">
+                                    {% for achievement in guide.achievements.all %}
+                                    <li class="list-group-item">{{ achievement.description }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            {% endif %}
+
+                            {% if guide.specialties %}
+                            <div class="col-md-6">
+                                <h6>Specialties</h6>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">{{ guide.specialties }}</li>
+                                </ul>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Social Links -->
+                        <hr>
+                        <div class="row g-3">
+                            {% if guide.fb_link %}
+                            <div class="col-md-4">
+                                <a href="{{ guide.fb_link }}" target="_blank" class="btn btn-outline-primary w-100" tabindex="-1">Facebook</a>
+                            </div>
+                            {% endif %}
+                            {% if guide.instagram_link %}
+                            <div class="col-md-4">
+                                <a href="{{ guide.instagram_link }}" target="_blank" class="btn btn-outline-danger w-100" tabindex="-1">Instagram</a>
+                            </div>
+                            {% endif %}
+                            {% if guide.linkedin_link %}
+                            <div class="col-md-4">
+                                <a href="{{ guide.linkedin_link }}" target="_blank" class="btn btn-outline-info w-100" tabindex="-1">LinkedIn</a>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+
+          <!-- Edit Modal -->
+                 <div class="modal fade" id="editGuideModal{{ guide.id }}" tabindex="-1">
+                  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                      <div class="modal-content">
+                          <form method="post" action="{% url 'edit_guide' guide.id %}" enctype="multipart/form-data">
+                              {% csrf_token %}
+                              <div class="modal-header bg-warning text-dark">
+                                  <h5 class="modal-title">Edit Guide - {{ guide.full_name }}</h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                              </div>
+                              <div class="modal-body">
+                                  <div class="row g-3">
+                                      <div class="col-md-6">
+                                          <label class="form-label">Full Name</label>
+                                          <input type="text" class="form-control" name="full_name" value="{{ guide.full_name }}">
+                                      </div>
+                                      <div class="col-md-6">
+                                          <label class="form-label">Phone</label>
+                                          <input type="text" class="form-control" name="phone" value="{{ guide.phone }}">
+                                      </div>
+                                      <div class="col-md-6">
+                                          <label class="form-label">Location</label>
+                                          <input type="text" class="form-control" name="location" value="{{ guide.location }}">
+                                      </div>
+                                      <div class="col-md-6">
+                                          <label class="form-label">Experience (Years)</label>
+                                          <input type="number" class="form-control" name="experience_years" value="{{ guide.experience_years }}">
+                                      </div>
+                                      <div class="col-md-6">
+                                          <label class="form-label">Languages</label>
+                                          <input type="text" class="form-control" name="languages" value="{{ guide.languages }}">
+                                      </div>
+                                      <div class="col-md-6">
+                                          <label class="form-label">Price per Day</label>
+                                          <input type="number" step="0.01" class="form-control" name="price_per_day" value="{{ guide.price_per_day }}">
+                                      </div>
+                                      <div class="col-md-12">
+                                          <label class="form-label">Bio</label>
+                                          <textarea class="form-control" name="bio">{{ guide.bio }}</textarea>
+                                      </div>
+                                      <div class="col-md-12">
+                                          <label class="form-label">Specialties</label>
+                                          <input type="text" class="form-control" name="specialties" value="{{ guide.specialties }}">
+                                      </div>
+
+                                      <!-- Documents -->
+                                      <div class="col-md-3">
+                                          <label class="form-label">Photo</label>
+                                          <input type="file" name="photo">
+                                          {% if guide.photo %}
+                                          <img src="{{ guide.photo.url }}" class="img-fluid mt-1" style="max-height:100px;">
+                                          {% endif %}
+                                      </div>
+                                      <div class="col-md-3">
+                                          <label class="form-label">NID</label>
+                                          <input type="file" name="nid">
+                                          {% if guide.nid %}
+                                          <img src="{{ guide.nid.url }}" class="img-fluid mt-1" style="max-height:100px;">
+                                          {% endif %}
+                                      </div>
+                                      <div class="col-md-3">
+                                          <label class="form-label">Passport</label>
+                                          <input type="file" name="passport">
+                                          {% if guide.passport %}
+                                          <img src="{{ guide.passport.url }}" class="img-fluid mt-1" style="max-height:100px;">
+                                          {% endif %}
+                                      </div>
+                                      <div class="col-md-3">
+                                          <label class="form-label">Driving License</label>
+                                          <input type="file" name="driving_license">
+                                          {% if guide.driving_license %}
+                                          <img src="{{ guide.driving_license.url }}" class="img-fluid mt-1" style="max-height:100px;">
+                                          {% endif %}
+                                      </div>
+
+                                      <!-- Certifications & Achievements -->
+                                      <div class="col-md-12 mt-3">
+                                          <h6>Certifications</h6>
+                                          <div id="certifications-wrapper{{ guide.id }}">
+                                              {% for cert in guide.certifications.all %}
+                                              <div class="row g-2 mb-2" data-id="{{ cert.id }}">
+                                                  <div class="col-md-5">
+                                                      <input type="text" name="certification_name[]" class="form-control" value="{{ cert.name }}">
+                                                  </div>
+                                                  <div class="col-md-5">
+                                                      <input type="file" name="certification_image[]">
+                                                      {% if cert.chr_image %}
+                                                      <img src="{{ cert.chr_image.url }}" class="img-fluid mt-1" style="max-height:80px;">
+                                                      {% endif %}
+                                                  </div>
+                                                  <div class="col-md-2">
+                                                      <button type="button" class="btn btn-danger" onclick="this.parentElement.parentElement.remove()">Remove</button>
+                                                  </div>
+                                                  <input type="hidden" name="cert_id[]" value="{{ cert.id }}">
+                                              </div>
+                                              {% endfor %}
+                                          </div>
+                                          <button type="button" class="btn btn-success btn-sm" onclick="addCertification({{ guide.id }})">+ Add Certification</button>
+                                      </div>
+
+                                      <div class="col-md-12 mt-3">
+                                          <h6>Achievements</h6>
+                                          <div id="achievements-wrapper{{ guide.id }}">
+                                              {% for ach in guide.achievements.all %}
+                                              <div class="row g-2 mb-2" data-id="{{ ach.id }}">
+                                                  <div class="col-md-10">
+                                                      <input type="text" name="achievement_name[]" class="form-control" value="{{ ach.description }}">
+                                                  </div>
+                                                  <div class="col-md-2">
+                                                      <button type="button" class="btn btn-danger" onclick="this.parentElement.parentElement.remove()">Remove</button>
+                                                  </div>
+                                                  <input type="hidden" name="ach_id[]" value="{{ ach.id }}">
+                                              </div>
+                                              {% endfor %}
+                                          </div>
+                                          <button type="button" class="btn btn-success btn-sm" onclick="addAchievement({{ guide.id }})">+ Add Achievement</button>
+                                      </div>
+
+                                      <!-- Social Links -->
+                                      <div class="col-md-4">
+                                          <label class="form-label">Facebook</label>
+                                          <input type="url" name="fb_link" class="form-control" value="{{ guide.fb_link }}">
+                                      </div>
+                                      <div class="col-md-4">
+                                          <label class="form-label">Instagram</label>
+                                          <input type="url" name="instagram_link" class="form-control" value="{{ guide.instagram_link }}">
+                                      </div>
+                                      <div class="col-md-4">
+                                          <label class="form-label">LinkedIn</label>
+                                          <input type="url" name="linkedin_link" class="form-control" value="{{ guide.linkedin_link }}">
+                                      </div>
+
+                                      <!-- Availability -->
+                                      <div class="col-md-6 mt-2">
+                                          <label class="form-label">Availability</label>
+                                          <select class="form-select" name="availability_status">
+                                              <option value="True" {% if guide.availability_status %}selected{% endif %}>Available</option>
+                                              <option value="False" {% if not guide.availability_status %}selected{% endif %}>Not Available</option>
+                                          </select>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="modal-footer">
+                                  <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                  <button type="submit" class="btn btn-primary">Save Changes</button>
+                              </div>
+                          </form>
+                      </div>
+                  </div>
+              </div>
+
+<!-- Delete Modal -->
+        <div class="modal fade" id="deleteGuideModal{{ guide.id }}" tabindex="-1">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Delete Guide - {{ guide.full_name }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                <p>Are you sure you want to delete <strong>{{ guide.full_name }}</strong>?</p>
+              </div>
+              <div class="modal-footer">
+                <form method="post" action="{% url 'delete_guide' guide.id %}">
+                  {% csrf_token %}
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+let currentGuideType = 'requests';
+
+function switchGuideType(type) {
+  currentGuideType = type;
+
+  const buttons = document.querySelectorAll('.btn-group .btn');
+  buttons.forEach(btn => btn.classList.remove('active'));
+  buttons[type === 'requests' ? 0 : 1].classList.add('active');
+
+  document.getElementById('guideTypeTitle').innerText = type === 'requests' ? 'Guide Requests' : 'Accepted Guides';
+
+  document.querySelectorAll('#guideTableBody tr').forEach(row => {
+    row.classList.toggle('d-none', row.dataset.type !== type);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  switchGuideType(currentGuideType);
+});
+</script>
+<script>
+function addCertification(guideId) {
+    let wrapper = document.getElementById(`certifications-wrapper${guideId}`);
+    let div = document.createElement("div");
+    div.classList.add("row","g-2","mb-2");
+    div.innerHTML = `
+        <div class="col-md-5"><input type="text" name="certification_name[]" class="form-control" placeholder="Certification Name"></div>
+        <div class="col-md-5"><input type="file" name="certification_image[]"></div>
+        <div class="col-md-2"><button type="button" class="btn btn-danger" onclick="this.parentElement.parentElement.remove()">Remove</button></div>
+        <input type="hidden" name="cert_id[]" value="">
+    `;
+    wrapper.appendChild(div);
+}
+
+function addAchievement(guideId) {
+    let wrapper = document.getElementById(`achievements-wrapper${guideId}`);
+    let div = document.createElement("div");
+    div.classList.add("row","g-2","mb-2");
+    div.innerHTML = `
+        <div class="col-md-10"><input type="text" name="achievement_name[]" class="form-control" placeholder="Achievement"></div>
+        <div class="col-md-2"><button type="button" class="btn btn-danger" onclick="this.parentElement.parentElement.remove()">Remove</button></div>
+        <input type="hidden" name="ach_id[]" value="">
+    `;
+    wrapper.appendChild(div);
+}
+</script>
+{% endblock %}

@@ -1,0 +1,233 @@
+{% extends 'frontend_base.html' %}
+{% load static %}
+{% block title %}About Us{% endblock title %}
+{% block content %}
+        <div class="container-fluid bg-primary py-5 mb-5 hero-header">
+            <div class="container py-5">
+                <div class="row justify-content-center py-5">
+                    <div class="col-lg-10 pt-lg-5 mt-lg-5 text-center">
+                        <h1 class="display-3 text-white animated slideInDown">Packages</h1>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb justify-content-center">
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                                <li class="breadcrumb-item text-white active" aria-current="page">Packages</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!-- Navbar & Hero End -->
+
+
+    <!-- Package Start -->
+        <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title bg-white text-center text-primary px-3">Packages</h6>
+                <h1 class="mb-5">Awesome Packages</h1>
+            </div>
+       <div class="row g-4 justify-content-center">
+            {% for package in page_obj  %}
+            <div class="col-lg-4 col-md-6 wow fadeInUp">
+                <div class="card h-100 shadow-sm">
+                    <div class="position-relative">
+                        {% if package.package_featured_image %}
+                        <img src="{{ package.package_featured_image.url }}" class="card-img-top" style="height: 250px; object-fit: cover;" alt="{{ package.name }}">
+                        {% endif %}
+
+                        {% if package.offer_percentage %}
+                        <span class="badge bg-danger position-absolute top-0 start-0 m-2">
+                            {{ package.offer_percentage }}% Off
+                        </span>
+                        {% endif %}
+
+                        {% if package.is_featured %}
+                        <span class="badge bg-info position-absolute top-0 start-50 translate-middle-x m-2">
+                            Top Rated
+                        </span>
+                        {% endif %}
+
+                        <span class="badge bg-dark text-white position-absolute top-0 end-0 m-2">
+                            ${{ package.offer_price|default:package.package_price }}
+                        </span>
+                    </div>
+
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ package.name }}</h5>
+                        <div class="mb-2 text-muted">
+                            <i class="bi bi-clock me-1"></i>{{ package.duration_days }} Days
+                            <i class="bi bi-people ms-3 me-1"></i>Max {{ package.max_persons|default:6 }}
+                        </div>
+                        <p class="card-text description-clamp">{{ package.description }}</p>
+
+                        <!-- Tour Cities -->
+                        <div class="mb-2">
+                            {% for tour in package.tours.all %}
+                                <span class="badge bg-light text-primary me-1">{{ tour.city.name }}</span>
+                            {% endfor %}
+                        </div>
+
+                        <div class="mt-auto d-flex justify-content-between align-items-center">
+                            <a href="{% url 'package_detail' package.id %}" class="btn btn-info">Book Now</a>
+                            <div class="tour-rating">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-half"></i>
+                                <span>4.8 (95)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-center">No packages available at the moment.</p>
+            {% endfor %}
+        </div>
+
+
+        </div>
+    </div>
+
+
+     <nav aria-label="Page navigation" class="mt-4">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                        <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                {% endif %}
+            </ul>
+        </nav>
+    <!-- Package End -->
+
+
+    <!-- Booking Start -->
+    <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container">
+            <div class="booking p-5">
+                <div class="row g-5 align-items-center">
+                    <div class="col-md-6 text-white">
+                        <h6 class="text-white text-uppercase">Booking</h6>
+                        <h1 class="text-white mb-4">Online Booking</h1>
+                        <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit.</p>
+                        <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet</p>
+                        <a class="btn btn-outline-light py-3 px-5 mt-2" href="">Read More</a>
+                    </div>
+                    <div class="col-md-6">
+                        <h1 class="text-white mb-4">Book A Tour</h1>
+                        <form>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control bg-transparent" id="name" placeholder="Your Name">
+                                        <label for="name">Your Name</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="email" class="form-control bg-transparent" id="email" placeholder="Your Email">
+                                        <label for="email">Your Email</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating date" id="date3" data-target-input="nearest">
+                                        <input type="text" class="form-control bg-transparent datetimepicker-input" id="datetime" placeholder="Date & Time" data-target="#date3" data-toggle="datetimepicker" />
+                                        <label for="datetime">Date & Time</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <select class="form-select bg-transparent" id="select1">
+                                            <option value="1">Destination 1</option>
+                                            <option value="2">Destination 2</option>
+                                            <option value="3">Destination 3</option>
+                                        </select>
+                                        <label for="select1">Destination</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-floating">
+                                        <textarea class="form-control bg-transparent" placeholder="Special Request" id="message" style="height: 100px"></textarea>
+                                        <label for="message">Special Request</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button class="btn btn-outline-light w-100 py-3" type="submit">Book Now</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Booking Start -->
+
+
+    <!-- Process Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center pb-4 wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title bg-white text-center text-primary px-3">Process</h6>
+                <h1 class="mb-5">3 Easy Steps</h1>
+            </div>
+            <div class="row gy-5 gx-4 justify-content-center">
+                <div class="col-lg-4 col-sm-6 text-center pt-4 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="position-relative border border-primary pt-5 pb-4 px-4">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-primary rounded-circle position-absolute top-0 start-50 translate-middle shadow" style="width: 100px; height: 100px;">
+                            <i class="fa fa-globe fa-3x text-white"></i>
+                        </div>
+                        <h5 class="mt-4">Choose A Destination</h5>
+                        <hr class="w-25 mx-auto bg-primary mb-1">
+                        <hr class="w-50 mx-auto bg-primary mt-0">
+                        <p class="mb-0">Tempor erat elitr rebum clita dolor diam ipsum sit diam amet diam eos erat ipsum et lorem et sit sed stet lorem sit</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 text-center pt-4 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="position-relative border border-primary pt-5 pb-4 px-4">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-primary rounded-circle position-absolute top-0 start-50 translate-middle shadow" style="width: 100px; height: 100px;">
+                            <i class="fa fa-dollar-sign fa-3x text-white"></i>
+                        </div>
+                        <h5 class="mt-4">Pay Online</h5>
+                        <hr class="w-25 mx-auto bg-primary mb-1">
+                        <hr class="w-50 mx-auto bg-primary mt-0">
+                        <p class="mb-0">Tempor erat elitr rebum clita dolor diam ipsum sit diam amet diam eos erat ipsum et lorem et sit sed stet lorem sit</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 text-center pt-4 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="position-relative border border-primary pt-5 pb-4 px-4">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-primary rounded-circle position-absolute top-0 start-50 translate-middle shadow" style="width: 100px; height: 100px;">
+                            <i class="fa fa-plane fa-3x text-white"></i>
+                        </div>
+                        <h5 class="mt-4">Fly Today</h5>
+                        <hr class="w-25 mx-auto bg-primary mb-1">
+                        <hr class="w-50 mx-auto bg-primary mt-0">
+                        <p class="mb-0">Tempor erat elitr rebum clita dolor diam ipsum sit diam amet diam eos erat ipsum et lorem et sit sed stet lorem sit</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Process Start -->
+        
+
+{% endblock content %}

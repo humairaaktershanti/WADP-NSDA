@@ -1,0 +1,255 @@
+{% extends 'backend_base.html' %}
+{% load static %}
+
+{% block title %}
+    Tour Management
+{% endblock title %}
+
+{% block content %}
+<div class="container my-4" id="tour-management">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Tour Management</h2>
+    <a href="{% url 'add_tour' %}" class="btn btn-primary">+ Add New Tour</a>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Category</th>
+          <th>Country</th>
+          <th>City</th>
+          <th>Price</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for tour in tours %}
+        <tr>
+          <td>#T{{ tour.id|stringformat:"04d" }}</td>
+          <td>{{ tour.title }}</td>
+          <td>{{ tour.category.name }}</td>
+          <td>{{ tour.country.name }}</td>
+          <td>{{ tour.city.name }}</td>
+          <td>
+            {% if tour.offer_price %}
+              <span class="text-success">${{ tour.offer_price }}</span>
+              <small class="text-muted"><del>${{ tour.regular_price }}</del></small>
+              <span class="badge bg-danger">-{{ tour.offer_percentage }}%</span>
+            {% else %}
+              ${{ tour.regular_price }}
+            {% endif %}
+          </td>
+          <td>
+            {% if tour.is_active %}
+              <span class="badge bg-success">Active</span>
+            {% else %}
+              <span class="badge bg-secondary">Inactive</span>
+            {% endif %}
+          </td>
+          <td>
+            <div class="btn-group">
+              <button class="btn btn-sm btn-info" data-bs-toggle="modal" data-bs-target="#viewTourModal{{ tour.id }}">View</button>
+              <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editTourModal{{ tour.id }}">Edit</button>
+              <button class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteTourModal{{ tour.id }}">Delete</button>
+            </div>
+          </td>
+        </tr>
+
+        <!-- View Modal -->
+        <div class="modal fade" id="viewTourModal{{ tour.id }}" tabindex="-1">
+          <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">{{ tour.title }} - Tour Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                <div class="row g-3">
+                  <div class="col-md-4 text-center">
+                    {% if tour.tour_featured_image %}
+                    <img src="{{ tour.tour_featured_image.url }}" class="img-fluid rounded mb-3" style="max-height:250px; object-fit:cover;">
+                    {% else %}
+                    <div class="bg-secondary text-white p-5 rounded mb-3">No Image</div>
+                    {% endif %}
+                    <span class="badge {% if tour.is_active %}bg-success{% else %}bg-secondary{% endif %}">
+                      {{ tour.is_active|yesno:"Active,Inactive" }}
+                    </span>
+                  </div>
+                  <div class="col-md-8">
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item"><strong>Category:</strong> {{ tour.category.name }}</li>
+                      <li class="list-group-item"><strong>Country:</strong> {{ tour.country.name }}</li>
+                      <li class="list-group-item"><strong>City:</strong> {{ tour.city.name }}</li>
+                      <li class="list-group-item"><strong>Duration:</strong> {{ tour.duration_days }} days</li>
+                      <li class="list-group-item"><strong>Regular Price:</strong> ${{ tour.regular_price }}</li>
+                      {% if tour.offer_price %}
+                      <li class="list-group-item"><strong>Offer Price:</strong> ${{ tour.offer_price }} ({{ tour.offer_percentage }}% Off)</li>
+                      {% endif %}
+                      {% if tour.description %}
+                      <li class="list-group-item"><strong>Description:</strong><br>{{ tour.description }}</li>
+                      {% endif %}
+                    </ul>
+                  </div>
+                </div>
+
+                <!-- Gallery -->
+                <hr>
+                <h6>Tour Gallery</h6>
+                <div class="row g-2">
+                  {% for img in tour.images.all %}
+                  <div class="col-md-3">
+                    <img src="{{ img.image.url }}" class="img-fluid rounded" style="max-height:150px; object-fit:cover;">
+                  </div>
+                  {% empty %}
+                  <p class="text-muted">No additional images.</p>
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Edit Modal -->
+       <div class="modal fade" id="editTourModal{{ tour.id }}" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">Edit Tour - {{ tour.title }}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <form method="post" action="{% url 'edit_tour' tour.id %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="modal-body">
+
+          <div class="row g-2">
+
+            <!-- Title -->
+            <div class="col-12">
+              <input type="text" name="title" class="form-control" value="{{ tour.title }}" placeholder="Title" required>
+            </div>
+
+            <!-- Category / Country / City -->
+            <div class="col-4">
+              <select name="category" class="form-select" required>
+                {% for category in categories %}
+                  <option value="{{ category.id }}" {% if tour.category.id == category.id %}selected{% endif %}>{{ category.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-4">
+              <select name="country" class="form-select" required>
+                {% for country in countries %}
+                  <option value="{{ country.id }}" {% if tour.country.id == country.id %}selected{% endif %}>{{ country.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-4">
+              <select name="city" class="form-select" required>
+                {% for city in cities %}
+                  <option value="{{ city.id }}" {% if tour.city.id == city.id %}selected{% endif %}>{{ city.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <!-- Prices -->
+            <div class="col-4">
+              <input type="number" name="regular_price" step="0.01" class="form-control" value="{{ tour.regular_price }}" placeholder="Regular Price" required>
+            </div>
+            <div class="col-4">
+              <input type="number" name="offer_price" step="0.01" class="form-control" value="{{ tour.offer_price }}" placeholder="Offer Price">
+            </div>
+            <div class="col-4">
+              <input type="number" name="duration_days" class="form-control" value="{{ tour.duration_days }}" placeholder="Duration (Days)">
+            </div>
+
+            <!-- Featured Image -->
+            <div class="col-6">
+              <label class="form-label">Featured Image</label>
+              <input type="file" name="tour_featured_image" class="form-control">
+              {% if tour.tour_featured_image %}
+                <img src="{{ tour.tour_featured_image.url }}" class="img-fluid mt-1" style="max-height:100px;">
+              {% endif %}
+            </div>
+
+            <!-- Multi Images -->
+            <div class="col-6">
+              <label class="form-label">Additional Images</label>
+              <input type="file" name="tour_images" class="form-control" multiple>
+              <div class="mt-1 d-flex flex-wrap gap-1">
+                {% for img in tour.images.all %}
+                  <img src="{{ img.image.url }}" class="img-thumbnail" style="max-height:80px;">
+                {% endfor %}
+              </div>
+            </div>
+
+            <!-- Featured & Status -->
+            <div class="col-6">
+              <select name="is_featured" class="form-select">
+                <option value="True" {% if tour.is_featured %}selected{% endif %}>Featured</option>
+                <option value="False" {% if not tour.is_featured %}selected{% endif %}>Not Featured</option>
+              </select>
+            </div>
+            <div class="col-6">
+              <select name="is_active" class="form-select">
+                <option value="True" {% if tour.is_active %}selected{% endif %}>Active</option>
+                <option value="False" {% if not tour.is_active %}selected{% endif %}>Inactive</option>
+              </select>
+            </div>
+
+            <!-- Description (Full width) -->
+            <div class="col-12">
+              <textarea name="description" class="form-control" rows="2" placeholder="Description">{{ tour.description }}</textarea>
+            </div>
+
+          </div> <!-- end row -->
+
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button class="btn btn-primary" type="submit">Save Changes</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+        <!-- Delete Modal -->
+        <div class="modal fade" id="deleteTourModal{{ tour.id }}" tabindex="-1">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Delete Tour - {{ tour.title }}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                <p>Are you sure you want to delete <strong>{{ tour.title }}</strong>?</p>
+              </div>
+              <div class="modal-footer">
+                <form method="post" action="{% url 'delete_tour' tour.id %}">
+                  {% csrf_token %}
+                  <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <button class="btn btn-danger" type="submit">Delete</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

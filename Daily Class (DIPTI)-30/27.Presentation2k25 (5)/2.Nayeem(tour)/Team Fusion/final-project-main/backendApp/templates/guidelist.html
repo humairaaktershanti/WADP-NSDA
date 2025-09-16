@@ -1,0 +1,118 @@
+{% extends 'backend_base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container my-4" id="guide-management">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 id="guideTypeTitle">Guide Requests</h2>
+    <div class="btn-group">
+      <button class="btn btn-outline-primary active" onclick="switchGuideType('requests')">Guide Requests</button>
+      <button class="btn btn-outline-primary" onclick="switchGuideType('accepted')">Accepted Guides</button>
+    </div>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="guideTableBody">
+
+        <!-- Guide Requests -->
+        {% for guide in guide_requests %}
+        <tr data-type="requests">
+          <td>#G{{ guide.id|stringformat:"04d" }}</td>
+          <td>{{ guide.first_name }} {{ guide.last_name }}</td>
+          <td>{{ guide.email }}</td>
+          <td>{{ guide.phone }}</td>
+          <td><span class="badge bg-warning">Pending</span></td>
+          <td>
+            <div class="btn-group">
+              <form method="post" action="">
+                {% csrf_token %}
+                <button class="btn btn-sm btn-success">Accept</button>
+              </form>
+              <form method="post" action="">
+                {% csrf_token %}
+                <button class="btn btn-sm btn-danger">Reject</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+
+        <!-- Accepted Guides -->
+        {% for guide in accepted_guides %}
+        <tr data-type="accepted" class="d-none">
+          <td>#G{{ guide.id|stringformat:"04d" }}</td>
+          <td>{{ guide.first_name }} {{ guide.last_name }}</td>
+          <td>{{ guide.email }}</td>
+          <td>{{ guide.phone }}</td>
+          <td><span class="badge bg-success">Accepted</span></td>
+          <td>
+            <button class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#viewGuideModal{{ guide.id }}">View</button>
+          </td>
+        </tr>
+
+        <!-- View Modal -->
+        <div class="modal fade" id="viewGuideModal{{ guide.id }}" tabindex="-1">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">{{ guide.first_name }} {{ guide.last_name }} - Guide</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+              </div>
+              <div class="modal-body">
+                <ul class="list-group">
+                  <li class="list-group-item"><strong>Email:</strong> {{ guide.email }}</li>
+                  <li class="list-group-item"><strong>Phone:</strong> {{ guide.phone }}</li>
+                  <li class="list-group-item"><strong>Status:</strong> <span class="badge bg-success">Accepted</span></li>
+                  {% if guide.photo %}
+                  <li class="list-group-item">
+                    <img src="{{ guide.photo.url }}" class="img-fluid" alt="Guide Photo"/>
+                  </li>
+                  {% endif %}
+                </ul>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+let currentGuideType = 'requests';
+
+function switchGuideType(type) {
+  currentGuideType = type;
+
+  const buttons = document.querySelectorAll('.btn-group .btn');
+  buttons.forEach(btn => btn.classList.remove('active'));
+  buttons[type === 'requests' ? 0 : 1].classList.add('active');
+
+  document.getElementById('guideTypeTitle').innerText = type === 'requests' ? 'Guide Requests' : 'Accepted Guides';
+
+  document.querySelectorAll('#guideTableBody tr').forEach(row => {
+    row.classList.toggle('d-none', row.dataset.type !== type);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  switchGuideType(currentGuideType);
+});
+</script>
+{% endblock %}

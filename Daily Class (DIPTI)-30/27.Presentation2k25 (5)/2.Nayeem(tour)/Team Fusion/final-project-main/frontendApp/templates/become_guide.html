@@ -1,0 +1,126 @@
+{% extends 'frontend_base.html' %}
+{% load static %}
+{% block title %}Become a Guide{% endblock title %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<div class="container-fluid bg-primary py-5 mb-5 hero-header">
+    <div class="container py-5">
+        <div class="row justify-content-center py-5">
+            <div class="col-lg-8 text-center">
+                <h1 class="display-3 text-white animated slideInDown">Become a Guide</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb justify-content-center">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item text-white active" aria-current="page">Become a Guide</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Guide Registration Form -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 wow fadeInUp" data-wow-delay="0.2s">
+                <div class="bg-light rounded shadow p-5">
+                    <h3 class="text-center mb-4">Join as a Professional Guide</h3>
+                   <form method="POST" enctype="multipart/form-data" action="{% url 'become_guide' %}">
+                        {% csrf_token %}
+                        <div class="row g-3">
+                          <!-- Personal Info -->
+                          <div class="col-md-6">
+                            <label class="form-label">First Name</label>
+                            <input type="text" name="first_name" class="form-control" placeholder="Enter your first name" required>
+                          </div>
+                          <div class="col-md-6">
+                            <label class="form-label">Last Name</label>
+                            <input type="text" name="last_name" class="form-control" placeholder="Enter your last name" required>
+                          </div>
+                          <div class="col-md-6">
+                            <label class="form-label">Email</label>
+                            <input type="email" name="email" class="form-control" placeholder="Enter your email" required>
+                          </div>
+                          <div class="col-md-6">
+                            <label class="form-label">Phone</label>
+                            <input type="text" name="phone" class="form-control" placeholder="Enter your phone number" required>
+                          </div>
+                          <div class="col-md-12">
+                            <label class="form-label">Location</label>
+                            <input type="text" name="location" class="form-control" placeholder="Enter your location" required>
+                          </div>
+                          <div class="col-md-6">
+                            <label class="form-label">Years of Experience</label>
+                            <input type="number" name="experience_years" class="form-control" placeholder="e.g. 3" min="0">
+                          </div>
+                          <div class="col-md-6">
+                            <label class="form-label">Languages</label>
+                            <input type="text" name="languages" class="form-control" placeholder="e.g. English, Bangla">
+                          </div>
+                          <div class="col-md-12">
+                            <label class="form-label">Short Bio</label>
+                            <textarea name="bio" class="form-control" rows="3" placeholder="Write a short bio about yourself"></textarea>
+                          </div>
+
+                          <!-- Document Uploads -->
+                          <h5 class="mt-4">Upload Documents</h5>
+                          <div class="col-md-6">
+                            <label class="form-label">Profile Photo</label>
+                            <input type="file" name="photo" class="form-control">
+                          </div>
+                          <div class="col-md-6">
+                            <label class="form-label">NID</label>
+                            <input type="file" name="nid" class="form-control">
+                          </div>
+                          <div class="col-md-6">
+                            <label class="form-label">Passport</label>
+                            <input type="file" name="passport" class="form-control">
+                          </div>
+                          <div class="col-md-6">
+                            <label class="form-label">Driving License</label>
+                            <input type="file" name="driving_license" class="form-control">
+                          </div>
+                          <div class="col-md-12">
+                            <label class="form-label">License Number</label>
+                            <input type="text" name="license_number" class="form-control" placeholder="Enter your Tour Guide license number">
+                          </div>
+
+                          <!-- Social Links -->
+                          <h5 class="mt-4">Social Links</h5>
+                          <div class="col-md-4">
+                            <label class="form-label">Facebook</label>
+                            <input type="url" name="fb_link" class="form-control" placeholder="https://facebook.com/yourprofile">
+                          </div>
+                          <div class="col-md-4">
+                            <label class="form-label">Instagram</label>
+                            <input type="url" name="instagram_link" class="form-control" placeholder="https://instagram.com/yourprofile">
+                          </div>
+                          <div class="col-md-4">
+                            <label class="form-label">LinkedIn</label>
+                            <input type="url" name="linkedin_link" class="form-control" placeholder="https://linkedin.com/in/yourprofile">
+                          </div>
+
+                          <!-- Terms -->
+                          <div class="col-md-12 mt-3">
+                            <div class="form-check">
+                              <input type="checkbox" name="accept_terms" class="form-check-input" required>
+                              <label class="form-check-label">I accept the <a href="/terms/">terms & conditions</a></label>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="d-grid mt-4">
+                          <button type="submit" class="btn btn-primary btn-lg rounded-pill">Submit Application</button>
+                        </div>
+                   </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

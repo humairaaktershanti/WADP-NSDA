@@ -1,0 +1,930 @@
+{% extends 'frontend_base.html' %}
+{% load static %}
+{% block title %}Home{% endblock title %}
+{% block content %}
+
+    <div class="carousel-header">
+        <div id="carouselId" class="carousel slide" data-bs-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-bs-target="#carouselId" data-bs-slide-to="0" class="active"></li>
+                <li data-bs-target="#carouselId" data-bs-slide-to="1"></li>
+                <li data-bs-target="#carouselId" data-bs-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner" role="listbox">
+                <div class="carousel-item active">
+                    <img src="{% static 'img/carousel-2.jpg' %}" class="img-fluid" alt="Image">
+                    <div class="carousel-caption">
+                        <div class="p-3" style="max-width: 900px;">
+                            <h4 class="text-white text-uppercase fw-bold mb-4" style="letter-spacing: 3px;">Explore
+                                The World</h4>
+                            <h1 class="display-2 text-capitalize text-white mb-4">Let's The World Together!</h1>
+                            <p class="mb-5 fs-5">Lorem Ipsum is simply dummy text of the printing and typesetting
+                                industry. Lorem Ipsum has been the industry's standard dummy text ever since the
+                                1500s,
+                            </p>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="{% static 'img/carousel-1.jpg' %}" class="img-fluid" alt="Image">
+                    <div class="carousel-caption">
+                        <div class="p-3" style="max-width: 900px;">
+                            <h4 class="text-white text-uppercase fw-bold mb-4" style="letter-spacing: 3px;">Explore
+                                The World</h4>
+                            <h1 class="display-2 text-capitalize text-white mb-4">Find Your Perfect Tour At Travel
+                            </h1>
+                            <p class="mb-5 fs-5">Lorem Ipsum is simply dummy text of the printing and typesetting
+                                industry. Lorem Ipsum has been the industry's standard dummy text ever since the
+                                1500s,
+                            </p>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="{% static 'img/carousel-3.jpg' %}" class="img-fluid" alt="Image">
+                    <div class="carousel-caption">
+                        <div class="p-3" style="max-width: 900px;">
+                            <h4 class="text-white text-uppercase fw-bold mb-4" style="letter-spacing: 3px;">Explore
+                                The World</h4>
+                            <h1 class="display-2 text-capitalize text-white mb-4">You Like To Go?</h1>
+                            <p class="mb-5 fs-5">Lorem Ipsum is simply dummy text of the printing and typesetting
+                                industry. Lorem Ipsum has been the industry's standard dummy text ever since the
+                                1500s,
+                            </p>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselId" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon btn bg-primary" aria-hidden="false"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselId" data-bs-slide="next">
+                <span class="carousel-control-next-icon btn bg-primary" aria-hidden="false"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+    <div class="container-fluid search-bar position-relative" style="top: -50%; transform: translateY(-50%);">
+        <div class="container">
+            <div class="position-relative rounded-pill w-100 mx-auto p-5" style="background: #2C3E50">
+                <input class="form-control border-0 rounded-pill w-100 py-3 ps-4 pe-5" type="text"
+                    placeholder="Eg: Thailand">
+                <button type="button" class="btn btn-primary rounded-pill py-2 px-4 position-absolute me-2"
+                    style="top: 50%; right: 46px; transform: translateY(-50%);">Search</button>
+            </div>
+        </div>
+    </div>
+    <!-- About Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s" style="min-height: 400px;">
+                    <div class="position-relative h-100">
+                        <img class="img-fluid position-absolute w-100 h-100" src="{% static 'img/about.jpg' %}" alt=""
+                            style="object-fit: cover;">
+                    </div>
+                </div>
+                <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <h6 class="section-title bg-white text-start text-primary pe-3">About Us</h6>
+                    <h1 class="mb-4">Welcome to <span class="text-primary">Tourist</span></h1>
+                    <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et
+                        eos. Clita erat ipsum et lorem et sit.</p>
+                    <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet diam et
+                        eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna dolore erat amet
+                    </p>
+                    <div class="row gy-2 gx-4 mb-4">
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>First Class Flights</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Handpicked Hotels</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>5 Star Accommodations</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>Latest Model Vehicles</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>150 Premium City Tours
+                            </p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="mb-0"><i class="fa fa-arrow-right text-primary me-2"></i>24/7 Service</p>
+                        </div>
+                    </div>
+                    <a class="btn btn-primary py-3 px-5 mt-2" href="">Read More</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- About End -->
+    <!-- Service Start -->
+    <div class="container-xxl py-2">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title bg-white text-center text-primary px-3">Services</h6>
+                <h1 class="mb-5">Our Services</h1>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="service-item rounded pt-3">
+                        <div class="p-4">
+                            <i class="fa fa-3x fa-globe text-primary mb-4"></i>
+                            <h5>WorldWide Tours</h5>
+                            <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="service-item rounded pt-3">
+                        <div class="p-4">
+                            <i class="fa fa-3x fa-hotel text-primary mb-4"></i>
+                            <h5>Hotel Reservation</h5>
+                            <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="service-item rounded pt-3">
+                        <div class="p-4">
+                            <i class="fa fa-3x fa-user text-primary mb-4"></i>
+                            <h5>Travel Guides</h5>
+                            <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
+                    <div class="service-item rounded pt-3">
+                        <div class="p-4">
+                            <i class="fa fa-3x fa-cog text-primary mb-4"></i>
+                            <h5>Event Management</h5>
+                            <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="service-item rounded pt-3">
+                        <div class="p-4">
+                            <i class="fa fa-3x fa-globe text-primary mb-4"></i>
+                            <h5>WorldWide Tours</h5>
+                            <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="service-item rounded pt-3">
+                        <div class="p-4">
+                            <i class="fa fa-3x fa-hotel text-primary mb-4"></i>
+                            <h5>Hotel Reservation</h5>
+                            <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="service-item rounded pt-3">
+                        <div class="p-4">
+                            <i class="fa fa-3x fa-user text-primary mb-4"></i>
+                            <h5>Travel Guides</h5>
+                            <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
+                    <div class="service-item rounded pt-3">
+                        <div class="p-4">
+                            <i class="fa fa-3x fa-cog text-primary mb-4"></i>
+                            <h5>Event Management</h5>
+                            <p>Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita amet diam</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Service End -->
+
+
+    <!-- Destination Start -->
+    <div class="container-xxl py-2 destination">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title bg-white text-center text-primary px-3">Destination</h6>
+                <h1 class="mb-5">Popular Destination</h1>
+            </div>
+
+            <div class="row g-3">
+                <div class="col-lg-7 col-md-6">
+                    <div class="row g-3">
+                        {% for country in countries|slice:":1" %}
+                        <!-- Big Country Image -->
+                        <div class="col-lg-12 col-md-12 wow zoomIn" data-wow-delay="0.1s">
+                            <a class="position-relative d-block overflow-hidden" href="{% url 'country_tours' country.name %}">
+                                <img class="img-fluid w-100" src="{{ country.catalog_image.url }}" alt="{{ country.name }}"
+                                    style="height:350px; object-fit:cover;">
+                                <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">
+                                    {{ country.total_tours }} Tours
+                                </div>
+                                <div class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">
+                                    {{ country.name }}
+                                </div>
+                            </a>
+                        </div>
+                        {% endfor %}
+
+                        {% for country in countries|slice:"1:3" %}
+                        <!-- Two Smaller Country Images -->
+                        <div class="col-lg-6 col-md-12 wow zoomIn" data-wow-delay="0.3s">
+                            <a class="position-relative d-block overflow-hidden" href="{% url 'country_tours' country.id %}">
+                                <img class="img-fluid w-100" src="{{ country.catalog_image.url }}" alt="{{ country.name }}"
+                                    style="height:170px; object-fit:cover;">
+                                <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">
+                                    {{ country.total_tours }} Tours
+                                </div>
+                                <div class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">
+                                    {{ country.name }}
+                                </div>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Right Side Large Country -->
+                {% for country in countries|slice:"3:4" %}
+                <div class="col-lg-5 col-md-6 wow zoomIn" data-wow-delay="0.7s" style="min-height:350px;">
+                    <a class="position-relative d-block h-100 overflow-hidden" href="{% url 'country_tours' country.id %}">
+                        <img class="img-fluid position-absolute w-100 h-100" src="{{ country.catalog_image.url }}"
+                            alt="{{ country.name }}" style="object-fit:cover;">
+                        <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">
+                            {{ country.total_tours }} Tours
+                        </div>
+                        <div class="bg-white text-primary fw-bold position-absolute bottom-0 end-0 m-3 py-1 px-2">
+                            {{ country.name }}
+                        </div>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Explore More Button -->
+            <div class="text-center mt-4 wow fadeInUp" data-wow-delay="0.9s">
+                <a href="{% url 'destinations' %}" class="btn btn-primary py-1 px-5 rounded-pill">
+                    Explore More
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- Destination end -->
+
+
+    <!-- tour Start -->
+       <div class="container-xxl py-2">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title bg-white text-center text-primary px-3">Tours</h6>
+                <h1 class="mb-5">Awesome Tours</h1>
+            </div>
+            <div class="row g-4 justify-content-center">
+                {% for tour in tours %}
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="{{ forloop.counter0|add:'0.1' }}s">
+                    <div class="package-item d-flex flex-column h-100">
+                        <div class="overflow-hidden position-relative" style="height: 250px;">
+                            <img class="img-fluid w-100 h-100" style="object-fit: cover;" 
+                                src="{{ tour.tour_featured_image.url }}" alt="{{ tour.title }}">
+                            
+                            {% if tour.offer_price %}
+                            <div class="bg-white text-danger fw-bold position-absolute top-0 start-0 m-3 py-1 px-2">
+                                {{ tour.offer_percentage }}% Off
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="d-flex border-bottom">
+                            <small class="flex-fill text-center border-end py-2">
+                                <i class="fa fa-map-marker-alt text-primary me-2"></i>{{ tour.country.name }}
+                            </small>
+                            <small class="flex-fill text-center py-2">
+                                <i class="fa fa-calendar-alt text-primary me-2"></i>{{ tour.duration_days }} days
+                            </small>
+                        </div>
+                        <div class="text-center p-4 flex-grow-1 d-flex flex-column justify-content-between">
+                            <h5 class="mb-2">{{ tour.title }}</h5>
+                            <h5 class="mb-2">
+                                {% if tour.offer_price %} ${{ tour.offer_price }}
+                                <del class="text-muted">${{ tour.regular_price }}</del>
+                                {% else %} ${{ tour.regular_price }} {% endif %}
+                            </h5>
+                           <div class="tour-rating mb-3">
+                                {% for i in "12345"|make_list %}
+                                    {% if i|add:'0' <= tour.average_rating %}
+                                        <i class="bi bi-star-fill text-primary"></i>
+                                    {% elif i|add:'0' < tour.average_rating|add:'1' %}
+                                        <i class="bi bi-star-half text-primary"></i>
+                                    {% else %}
+                                        <i class="bi bi-star text-primary"></i>
+                                    {% endif %}
+                                {% endfor %}
+                                <span>{{ tour.average_rating }} ({{ tour.review_count }})</span>
+                            </div>
+                            <div class="d-flex justify-content-center mb-2 mt-auto">
+                                <a href="" class="btn btn-sm btn-secondary  px-3 border-end"
+                                style="border-radius: 30px 0 0 30px;">Read More</a>
+                                <a href="" class="btn btn-sm btn-success  px-3"
+                                style="border-radius: 0 30px 30px 0;">Book Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="text-center mt-4 wow fadeInUp" data-wow-delay="0.9s">
+                <a href="{% url 'tours' %}" class="btn btn-primary py-1 px-5 rounded-pill">
+                    Explore More
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- tour End -->
+
+    <!-- package start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title bg-white text-center text-primary px-3">Packages</h6>
+                <h1 class="mb-5">Awesome Packages</h1>
+            </div>
+       <div class="row g-4 justify-content-center">
+            {% for package in packages %}
+            <div class="col-lg-4 col-md-6 wow fadeInUp">
+                <div class="card h-100 shadow-sm">
+                    <div class="position-relative">
+                        {% if package.package_featured_image %}
+                        <img src="{{ package.package_featured_image.url }}" class="card-img-top" style="height: 250px; object-fit: cover;" alt="{{ package.name }}">
+                        {% endif %}
+
+                        {% if package.offer_percentage %}
+                        <span class="badge bg-danger position-absolute top-0 start-0 m-2">
+                            {{ package.offer_percentage }}% Off
+                        </span>
+                        {% endif %}
+
+                        {% if package.is_featured %}
+                        <span class="badge bg-info position-absolute top-0 start-50 translate-middle-x m-2">
+                            Top Rated
+                        </span>
+                        {% endif %}
+
+                        <span class="badge bg-dark text-white position-absolute top-0 end-0 m-2">
+                            ${{ package.offer_price|default:package.package_price }}
+                        </span>
+                    </div>
+
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">{{ package.name }}</h5>
+                        <div class="mb-2 text-muted">
+                            <i class="bi bi-clock me-1"></i>{{ package.duration_days }} Days
+                            <i class="bi bi-people ms-3 me-1"></i>Max {{ package.max_persons|default:6 }}
+                        </div>
+                        <p class="card-text description-clamp">{{ package.description }}</p>
+
+                        <!-- Tour Cities -->
+                        <div class="mb-2">
+                            {% for tour in package.tours.all %}
+                                <span class="badge bg-light text-primary me-1">{{ tour.city.name }}</span>
+                            {% endfor %}
+                        </div>
+
+                        <div class="mt-auto d-flex justify-content-between align-items-center">
+                            <a href="{% url 'package_detail' package.id %}" class="btn btn-info">Book Now</a>
+                            <div class="tour-rating">
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-fill"></i>
+                                <i class="bi bi-star-half"></i>
+                                <span>4.8 (95)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-center">No packages available at the moment.</p>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4 wow fadeInUp" data-wow-delay="0.9s">
+                <a href="{% url 'packages' %}" class="btn btn-primary py-1 px-5 rounded-pill">
+                    Explore More
+                </a>
+            </div>
+
+
+        </div>
+    </div>
+
+    <!-- package End -->
+    
+  <!-- Team Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title bg-white text-center text-primary px-3">Travel Guide</h6>
+                <h1 class="mb-5">Meet Our Guide</h1>
+            </div>
+           <div class="row g-4">
+                {% for guide in guides %}
+                <div class="col-md-4">
+                    <div class="card shadow-sm border rounded-3 text-center p-3 h-100">
+                        
+                        <!-- Guide Photo -->
+                        {% if guide.photo %}
+                        <img src="{{ guide.photo.url }}" 
+                            class="rounded-circle mx-auto mb-3" 
+                            alt="{{ guide.full_name }}" 
+                            style="width: 100px; height: 100px; object-fit: cover;">
+                        {% endif %}
+
+                        <!-- Guide Name -->
+                        <h5 class="fw-bold mb-1">{{ guide.full_name }}</h5>
+                        
+                        <!-- Location -->
+                        <p class="text-muted mb-2">
+                            <i class="fa fa-map-marker-alt text-danger me-1"></i>{{ guide.location }}
+                        </p>
+
+                        <!-- Rating -->
+                        <p class="mb-2">
+                            <span class="text-warning fs-5">★ {{ guide.rating }}</span>
+                            <small class="text-muted">({{ guide.total_tours }} tours)</small>
+                        </p>
+                        
+                        <!-- Languages -->
+                        <p class="mb-1 fw-semibold">Languages:</p>
+                        <div class="mb-2">
+
+                                <span class="badge bg-light text-dark border me-1">{{ guide.languages }}</span>
+
+                        </div>
+                        
+                        <!-- Specialties -->
+                        <p class="mb-1 fw-semibold">Specialties:</p>
+                        <div class="mb-3">
+                            
+                                <span class="badge bg-light text-dark border me-1">{{ guide.specialties }}</span>
+
+                        </div>
+
+
+                        <a href="{% url 'guide_detail' guide.id %}" class="btn btn-primary  rounded-pill py-1 px-5">View Profile</a>
+                    </div>
+                </div>
+                {% endfor %}
+           </div>
+            <div class="text-center mt-4 wow fadeInUp" data-wow-delay="0.9s">
+                <a href="{% url 'team' %}" class="btn btn-primary py-1 px-5 rounded-pill">
+                    Explore More
+                </a>
+            </div>
+
+        </div>
+    </div>
+    <!-- Team End -->
+
+    <!-- Booking Start -->
+    <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container">
+            <div class="booking p-5">
+                <div class="row g-5 align-items-center">
+                    <div class="col-md-6 text-white">
+                        <h6 class="text-white text-uppercase">Booking</h6>
+                        <h1 class="text-white mb-4">Online Booking</h1>
+                        <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet
+                            diam et eos. Clita erat ipsum et lorem et sit.</p>
+                        <p class="mb-4">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit. Aliqu diam amet
+                            diam et eos. Clita erat ipsum et lorem et sit, sed stet lorem sit clita duo justo magna
+                            dolore erat amet</p>
+                        <a class="btn btn-outline-light py-3 px-5 mt-2" href="">Read More</a>
+                    </div>
+                    <div class="col-md-6">
+                        <h1 class="text-white mb-4">Book A Tour</h1>
+                       <form method="post">
+                            {% csrf_token %}
+                            <div class="row g-3">
+
+                                <!-- Name -->
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" 
+                                            class="form-control bg-transparent" 
+                                            id="name" 
+                                            placeholder="Your Name"
+                                            name="name"
+                                            {% if user.is_authenticated %} 
+                                                value="{{ user.get_full_name }}" readonly 
+                                            {% endif %}>
+                                        <label for="name">Your Name</label>
+                                    </div>
+                                </div>
+
+                                <!-- Email -->
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="email" 
+                                            class="form-control bg-transparent" 
+                                            id="email" 
+                                            placeholder="Your Email"
+                                            name="email"
+                                            {% if user.is_authenticated %} 
+                                                value="{{ user.email }}" readonly 
+                                            {% endif %}>
+                                        <label for="email">Your Email</label>
+                                    </div>
+                                </div>
+
+                                <!-- Date & Time -->
+                                <div class="col-md-6">
+                                    <div class="form-floating date" id="date3" data-target-input="nearest">
+                                        <input type="datetime-local" 
+                                            class="form-control bg-transparent datetimepicker-input"
+                                            id="datetime" 
+                                            placeholder="Date & Time" 
+                                            name="start_date"
+                                            data-target="#date3" 
+                                            data-toggle="datetimepicker" />
+                                        <label for="datetime">Date & Time</label>
+                                    </div>
+                                </div>
+
+                                <!-- Destination / Tour Select -->
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <select class="form-select bg-transparent" id="select1" name="tour_id">
+                                           {% if tour %} {% for tour in tour %} <option value="{{ tour.id }}">{{ tour.title }}</option> {% endfor %} {% endif %} <option value="1">Destination 1</option>
+                                        </select>
+                                        <label for="select1">Destination</label>
+                                    </div>
+                                </div>
+
+                                <!-- Special Request -->
+                                <div class="col-12">
+                                    <div class="form-floating">
+                                        <textarea class="form-control bg-transparent" 
+                                                placeholder="Special Request"
+                                                id="message" 
+                                                name="special_requests" 
+                                                style="height: 100px"></textarea>
+                                        <label for="message">Special Request</label>
+                                    </div>
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="col-12">
+                                    {% if user.is_authenticated %}
+                                        <button class="btn btn-outline-light w-100 py-3" type="submit">Book Now</button>
+                                    {% else %}
+                                        <a href="{% url 'frontend_login' %}?next={{ request.path }}" class="btn btn-outline-light w-100 py-3">
+                                            Login to Book
+                                        </a>
+                                    {% endif %}
+                                </div>
+
+                            </div>
+                       </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Booking Start -->
+
+
+    <!-- Process Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center pb-4 wow fadeInUp" data-wow-delay="0.1s">
+                <h6 class="section-title bg-white text-center text-primary px-3">Process</h6>
+                <h1 class="mb-5">3 Easy Steps</h1>
+            </div>
+            <div class="row gy-5 gx-4 justify-content-center">
+                <div class="col-lg-4 col-sm-6 text-center pt-4 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="position-relative border border-primary pt-5 pb-4 px-4">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-primary rounded-circle position-absolute top-0 start-50 translate-middle shadow"
+                            style="width: 100px; height: 100px;">
+                            <i class="fa fa-globe fa-3x text-white"></i>
+                        </div>
+                        <h5 class="mt-4">Choose A Destination</h5>
+                        <hr class="w-25 mx-auto bg-primary mb-1">
+                        <hr class="w-50 mx-auto bg-primary mt-0">
+                        <p class="mb-0">Tempor erat elitr rebum clita dolor diam ipsum sit diam amet diam eos erat ipsum
+                            et lorem et sit sed stet lorem sit</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 text-center pt-4 wow fadeInUp" data-wow-delay="0.3s">
+                    <div class="position-relative border border-primary pt-5 pb-4 px-4">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-primary rounded-circle position-absolute top-0 start-50 translate-middle shadow"
+                            style="width: 100px; height: 100px;">
+                            <i class="fa fa-dollar-sign fa-3x text-white"></i>
+                        </div>
+                        <h5 class="mt-4">Pay Online</h5>
+                        <hr class="w-25 mx-auto bg-primary mb-1">
+                        <hr class="w-50 mx-auto bg-primary mt-0">
+                        <p class="mb-0">Tempor erat elitr rebum clita dolor diam ipsum sit diam amet diam eos erat ipsum
+                            et lorem et sit sed stet lorem sit</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 text-center pt-4 wow fadeInUp" data-wow-delay="0.5s">
+                    <div class="position-relative border border-primary pt-5 pb-4 px-4">
+                        <div class="d-inline-flex align-items-center justify-content-center bg-primary rounded-circle position-absolute top-0 start-50 translate-middle shadow"
+                            style="width: 100px; height: 100px;">
+                            <i class="fa fa-plane fa-3x text-white"></i>
+                        </div>
+                        <h5 class="mt-4">Fly Today</h5>
+                        <hr class="w-25 mx-auto bg-primary mb-1">
+                        <hr class="w-50 mx-auto bg-primary mt-0">
+                        <p class="mb-0">Tempor erat elitr rebum clita dolor diam ipsum sit diam amet diam eos erat ipsum
+                            et lorem et sit sed stet lorem sit</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Process Start -->
+
+
+  
+
+
+    <!-- Testimonial Start -->
+    <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
+        <div class="container">
+            <div class="text-center">
+                <h6 class="section-title bg-white text-center text-primary px-3">Testimonial</h6>
+                <h1 class="mb-5">Our Clients Say!!!</h1>
+            </div>
+            <div class="owl-carousel testimonial-carousel position-relative">
+                <div class="testimonial-item bg-white text-center border p-4">
+                    <img class="bg-white rounded-circle shadow p-1 mx-auto mb-3" src="{% static 'img/testimonial-1.jpg' %}"
+                        style="width: 80px; height: 80px;">
+                    <h5 class="mb-0">John Doe</h5>
+                    <p>New York, USA</p>
+                    <p class="mb-0">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam et eos.
+                        Clita erat ipsum et lorem et sit.</p>
+                </div>
+                <div class="testimonial-item bg-white text-center border p-4">
+                    <img class="bg-white rounded-circle shadow p-1 mx-auto mb-3" src="{% static 'img/testimonial-2.jpg' %}"
+                        style="width: 80px; height: 80px;">
+                    <h5 class="mb-0">John Doe</h5>
+                    <p>New York, USA</p>
+                    <p class="mt-2 mb-0">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam et
+                        eos. Clita erat ipsum et lorem et sit.</p>
+                </div>
+                <div class="testimonial-item bg-white text-center border p-4">
+                    <img class="bg-white rounded-circle shadow p-1 mx-auto mb-3" src="{% static 'img/testimonial-3.jpg' %}"
+                        style="width: 80px; height: 80px;">
+                    <h5 class="mb-0">John Doe</h5>
+                    <p>New York, USA</p>
+                    <p class="mt-2 mb-0">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam et
+                        eos. Clita erat ipsum et lorem et sit.</p>
+                </div>
+                <div class="testimonial-item bg-white text-center border p-4">
+                    <img class="bg-white rounded-circle shadow p-1 mx-auto mb-3" src="{% static 'img/testimonial-4.jpg' %}"
+                        style="width: 80px; height: 80px;">
+                    <h5 class="mb-0">John Doe</h5>
+                    <p>New York, USA</p>
+                    <p class="mt-2 mb-0">Tempor erat elitr rebum at clita. Diam dolor diam ipsum sit diam amet diam et
+                        eos. Clita erat ipsum et lorem et sit.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Testimonial End -->
+    {% comment %} <section id="featured-tours" class="featured-tours section">
+
+
+            <div class="container section-title" data-aos="fade-up">
+                <h2>Featured Tours</h2>
+                <div><span>Check Our</span> <span class="description-title">Featured Tours</span></div>
+            </div>
+
+            <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+                <div class="row gy-4">
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="tour-card">
+                    <div class="tour-image">
+                        <img src="assets/img/travel/tour-1.webp" alt="Serene Beach Retreat" class="img-fluid" loading="lazy">
+                        <div class="tour-badge">Top Rated</div>
+                        <div class="tour-price">$2,150</div>
+                    </div>
+                    <div class="tour-content">
+                        <h4>Serene Beach Retreat</h4>
+                        <div class="tour-meta">
+                        <span class="duration"><i class="bi bi-clock"></i> 8 Days</span>
+                        <span class="group-size"><i class="bi bi-people"></i> Max 6</span>
+                        </div>
+                        <p>Mauris ipsum neque, cursus ac ipsum at, iaculis facilisis ligula. Suspendisse non sapien vel enim cursus semper.</p>
+                        <div class="tour-highlights">
+                        <span>Maldives</span>
+                        <span>Seychelles</span>
+                        <span>Bora Bora</span>
+                        </div>
+                        <div class="tour-action">
+                        <a href="booking.html" class="btn-book">Book Now</a>
+                        <div class="tour-rating">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-half"></i>
+                            <span>4.8 (95)</span>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="tour-card">
+                    <div class="tour-image">
+                        <img src="assets/img/travel/tour-2.webp" alt="Arctic Expedition" class="img-fluid" loading="lazy">
+                        <div class="tour-badge limited">Only 3 Spots!</div>
+                        <div class="tour-price">$5,700</div>
+                    </div>
+                    <div class="tour-content">
+                        <h4>Arctic Wilderness Expedition</h4>
+                        <div class="tour-meta">
+                        <span class="duration"><i class="bi bi-clock"></i> 10 Days</span>
+                        <span class="group-size"><i class="bi bi-people"></i> Max 8</span>
+                        </div>
+                        <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec dictum non massa nec fermentum.</p>
+                        <div class="tour-highlights">
+                        <span>Greenland</span>
+                        <span>Iceland</span>
+                        <span>Norway</span>
+                        </div>
+                        <div class="tour-action">
+                        <a href="booking.html" class="btn-book">Book Now</a>
+                        <div class="tour-rating">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star"></i>
+                            <span>4.6 (55)</span>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                    <div class="tour-card">
+                    <div class="tour-image">
+                        <img src="assets/img/travel/tour-4.webp" alt="Desert Safari" class="img-fluid" loading="lazy">
+                        <div class="tour-badge new">Newly Added</div>
+                        <div class="tour-price">$1,400</div>
+                    </div>
+                    <div class="tour-content">
+                        <h4>Sahara Desert Discovery</h4>
+                        <div class="tour-meta">
+                        <span class="duration"><i class="bi bi-clock"></i> 5 Days</span>
+                        <span class="group-size"><i class="bi bi-people"></i> Max 10</span>
+                        </div>
+                        <p>Pellentesque euismod tincidunt turpis ac tristique. Phasellus vitae lacus in enim mollis facilisis vel quis ex. In hac habitasse platea dictumst.</p>
+                        <div class="tour-highlights">
+                        <span>Morocco</span>
+                        <span>Egypt</span>
+                        <span>Dubai</span>
+                        </div>
+                        <div class="tour-action">
+                        <a href="booking.html" class="btn-book">Book Now</a>
+                        <div class="tour-rating">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <span>4.9 (72)</span>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="tour-card">
+                    <div class="tour-image">
+                        <img src="assets/img/travel/tour-5.webp" alt="Coastal Explorer" class="img-fluid" loading="lazy">
+                        <div class="tour-badge">Popular Choice</div>
+                        <div class="tour-price">$1,980</div>
+                    </div>
+                    <div class="tour-content">
+                        <h4>Mediterranean Coastal Cruise</h4>
+                        <div class="tour-meta">
+                        <span class="duration"><i class="bi bi-clock"></i> 9 Days</span>
+                        <span class="group-size"><i class="bi bi-people"></i> Max 15</span>
+                        </div>
+                        <p>Nullam lacinia justo eget ex sodales, vel finibus orci aliquet. Donec auctor, elit ut molestie gravida, magna mi molestie nisi.</p>
+                        <div class="tour-highlights">
+                        <span>Greece</span>
+                        <span>Croatia</span>
+                        <span>Italy</span>
+                        </div>
+                        <div class="tour-action">
+                        <a href="booking.html" class="btn-book">Book Now</a>
+                        <div class="tour-rating">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-half"></i>
+                            <span>4.7 (110)</span>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="tour-card">
+                    <div class="tour-image">
+                        <img src="assets/img/travel/tour-6.webp" alt="Rainforest Trek" class="img-fluid" loading="lazy">
+                        <div class="tour-badge cultural">Eco-Friendly</div>
+                        <div class="tour-price">$2,650</div>
+                    </div>
+                    <div class="tour-content">
+                        <h4>Amazon Rainforest Trek</h4>
+                        <div class="tour-meta">
+                        <span class="duration"><i class="bi bi-clock"></i> 12 Days</span>
+                        <span class="group-size"><i class="bi bi-people"></i> Max 10</span>
+                        </div>
+                        <p>Quisque dictum felis eu tortor mollis, quis tincidunt arcu pharetra. A pellentesque sit amet, consectetur adipiscing elit.</p>
+                        <div class="tour-highlights">
+                        <span>Brazil</span>
+                        <span>Ecuador</span>
+                        <span>Peru</span>
+                        </div>
+                        <div class="tour-action">
+                        <a href="booking.html" class="btn-book">Book Now</a>
+                        <div class="tour-rating">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star"></i>
+                            <span>4.5 (88)</span>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                    <div class="tour-card">
+                    <div class="tour-image">
+                        <img src="assets/img/travel/tour-8.webp" alt="Patagonian Peaks" class="img-fluid" loading="lazy">
+                        <div class="tour-badge adventure">Adventure Seekers</div>
+                        <div class="tour-price">$3,950</div>
+                    </div>
+                    <div class="tour-content">
+                        <h4>Patagonian Peaks &amp; Glaciers</h4>
+                        <div class="tour-meta">
+                        <span class="duration"><i class="bi bi-clock"></i> 14 Days</span>
+                        <span class="group-size"><i class="bi bi-people"></i> Max 10</span>
+                        </div>
+                        <p>Vivamus eget semper neque. Ut porttitor mi at odio egestas, non vestibulum est malesuada. Nunc facilisis in felis eget efficitur.</p>
+                        <div class="tour-highlights">
+                        <span>Argentina</span>
+                        <span>Chile</span>
+                        <span>Ushuaia</span>
+                        </div>
+                        <div class="tour-action">
+                        <a href="booking.html" class="btn-book">Book Now</a>
+                        <div class="tour-rating">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <span>4.9 (60)</span>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                </div>
+
+                <div class="text-center mt-5" data-aos="fade-up" data-aos-delay="500">
+                <a href="tours.html" class="btn-view-all">View All Tours</a>
+                </div>
+
+            </div>
+
+    </section> {% endcomment %}
+{% endblock content %}

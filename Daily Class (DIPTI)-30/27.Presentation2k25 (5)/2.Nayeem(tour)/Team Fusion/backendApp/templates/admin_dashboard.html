@@ -1,0 +1,78 @@
+{% extends 'backend_base.html' %}
+
+
+{% block title %}
+Dashboard    
+{% endblock title %}
+
+{% block content %}
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-3 col-md-6">
+          <div class="stat-card">
+            <div class="stat-number">{{total_guides}}</div>
+            <div class="stat-label">Total Guide</div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="stat-card success">
+            <div class="stat-number">{{total_tours}}</div>
+            <div class="stat-label">Total Tour</div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="stat-card warning">
+            <div class="stat-number">{{total_packages}}</div>
+            <div class="stat-label">Total Packages</div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="stat-card danger">
+            <div class="stat-number">{{total_packages}}</div>
+            <div class="stat-label">Total Packages</div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="dashboard-card">
+            <h5 class="mb-3">Recent Activity</h5>
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr><th>User</th><th>Action</th><th>Time</th><th>Status</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>John Doe</td><td>Created new order</td><td>2 hours ago</td><td><span class="badge bg-success">Completed</span></td></tr>
+                  <tr><td>Jane Smith</td><td>Updated profile</td><td>4 hours ago</td><td><span class="badge bg-warning">Pending</span></td></tr>
+                  <tr><td>Mike Johnson</td><td>Logged in</td><td>6 hours ago</td><td><span class="badge bg-info">Active</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="dashboard-card">
+            <h5 class="mb-3">Quick Actions</h5>
+            <div class="d-grid gap-2">
+              <button class="btn btn-primary"><i class="bi bi-plus-circle me-2"></i>Add New User</button>
+              <button class="btn btn-success"><i class="bi bi-box me-2"></i>Add Product</button>
+              <button class="btn btn-warning"><i class="bi bi-file-earmark-text me-2"></i>Generate Report</button>
+              <button class="btn btn-info"><i class="bi bi-gear me-2"></i>System Settings</button>
+            </div>
+          </div>
+          <div class="dashboard-card">
+            <h5 class="mb-3">System Status</h5>
+            <div class="row">
+              <div class="col-6 text-center"><i class="bi bi-check-circle text-success" style="font-size:2rem;"></i><div class="mt-2">Database</div></div>
+              <div class="col-6 text-center"><i class="bi bi-check-circle text-success" style="font-size:2rem;"></i><div class="mt-2">Server</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+{% endblock content %}
+    
+    

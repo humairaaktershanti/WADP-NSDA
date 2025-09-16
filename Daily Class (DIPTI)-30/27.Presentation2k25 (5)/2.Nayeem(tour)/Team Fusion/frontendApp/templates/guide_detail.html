@@ -1,0 +1,203 @@
+{% extends 'frontend_base.html' %}
+{% load static %}
+
+{% block title %}{{ guide.full_name }} - Guide Profile{% endblock %}
+
+{% block content %}
+
+        <div class="container-fluid bg-primary py-5 mb-5 hero-header">
+            <div class="container py-5">
+                <div class="row justify-content-center py-5">
+                    <div class="col-lg-10 pt-lg-5 mt-lg-5 text-center">
+                        <h1 class="display-3 text-white animated slideInDown">Booking</h1>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb justify-content-center">
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item"><a href="#">Pages</a></li>
+                                <li class="breadcrumb-item text-white active" aria-current="page">Booking</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<div class="container my-5">
+
+    <!-- Top Profile Section -->
+    <div class="row align-items-center mb-5">
+        <div class="col-md-3 text-center">
+            {% if guide.photo %}
+                <img src="{{ guide.photo.url }}" class="rounded-circle shadow-lg" width="200" height="200" alt="{{ guide.full_name }}">
+            {% endif %}
+        </div>
+        <div class="col-md-9">
+            <h1 class="fw-bold">{{ guide.full_name }}</h1>
+            <p class="text-muted">Expert Himalayan Guide & Mountaineer</p>
+            
+            <!-- Rating + Verified -->
+            <div class="d-flex align-items-center mb-3">
+                <span class="text-warning fs-5">
+                    ★★★★★
+                </span>
+                <span class="ms-2">4.9 (89 reviews)</span>
+                <span class="badge bg-success ms-3">Verified Guide</span>
+            </div>
+
+            <!-- Stats -->
+            <div class="d-flex flex-wrap gap-4 my-3">
+                <div><strong>{{ guide.experience_years }}+</strong><br>Years Experience</div>
+                <div><strong>200+</strong><br>Tours Completed</div>
+                <div><strong>{{ guide.languages }}</strong><br>Languages</div>
+                <div><strong>5,364m</strong><br>Max Altitude</div>
+            </div>
+
+            <!-- Certifications -->
+            <div class="d-flex flex-wrap gap-2 mt-3">
+                {% for cert in guide.certifications.all %}
+                    <span class="badge bg-success p-2">{{ cert.name }}</span>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Left Column -->
+        <div class="col-md-8">
+
+            <!-- About -->
+            <div class="mb-5">
+                <h3 class="fw-bold">About {{ guide.full_name }}</h3>
+                <p>{{ guide.bio }}</p>
+            </div>
+
+            <!-- Skills & Expertise -->
+            <div class="mb-5">
+                <h3 class="fw-bold">Skills & Expertise</h3>
+                <div class="mb-3">
+                    <label>High Altitude Trekking</label>
+                    <div class="progress">
+                        <div class="progress-bar bg-success" style="width:95%">95%</div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label>Cultural Knowledge</label>
+                    <div class="progress">
+                        <div class="progress-bar bg-info" style="width:98%">98%</div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label>Safety Management</label>
+                    <div class="progress">
+                        <div class="progress-bar bg-primary" style="width:100%">100%</div>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label>Group Leadership</label>
+                    <div class="progress">
+                        <div class="progress-bar bg-warning" style="width:92%">92%</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Languages -->
+            <div class="mb-5">
+                <h3 class="fw-bold">Languages</h3>
+                <div class="d-flex gap-4">
+                 
+                        <div class="border rounded p-2 shadow-sm">{{ guide.languages }}</div>
+                    
+                </div>
+            </div>
+
+            <!-- Tours -->
+            <div class="mb-5">
+                <h3 class="fw-bold">Tours Led by {{ guide.full_name }}</h3>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <div class="card shadow-sm">
+                            <img src="{% static 'img/everest.jpg' %}" class="card-img-top" alt="Everest Trek">
+                            <div class="card-body">
+                                <h5 class="card-title">Everest Base Camp Trek</h5>
+                                <p>14-day adventure to the base of the world's highest peak.</p>
+                                <p><strong>$2400</strong></p>
+                                <a href="#" class="btn btn-outline-primary btn-sm">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card shadow-sm">
+                            <img src="{% static 'img/annapurna.jpg' %}" class="card-img-top" alt="Annapurna Trek">
+                            <div class="card-body">
+                                <h5 class="card-title">Annapurna Circuit Trek</h5>
+                                <p>16-day journey around the Annapurna massif.</p>
+                                <p><strong>$1900</strong></p>
+                                <a href="#" class="btn btn-outline-primary btn-sm">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Testimonials -->
+            <div class="mb-5">
+                <h3 class="fw-bold">Client Testimonials</h3>
+                <div class="border rounded p-3 mb-3 shadow-sm">
+                    <p class="mb-1"><strong>Sarah Johnson</strong></p>
+                    <p class="text-warning">★★★★★</p>
+                    <p>"Rajesh made our Everest Base Camp trek absolutely unforgettable. His knowledge of the mountains and local culture is incredible."</p>
+                </div>
+                <div class="border rounded p-3 shadow-sm">
+                    <p class="mb-1"><strong>Michael Chen</strong></p>
+                    <p class="text-warning">★★★★★</p>
+                    <p>"Safety was always Rajesh’s top priority, which gave us complete confidence throughout the trek. He’s not just a guide, but a true friend."</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Booking Sidebar -->
+        <div class="col-md-4">
+            <div class="card shadow-lg p-4">
+                <h4 class="fw-bold">Book with {{ guide.full_name }}</h4>
+                <p><span class="badge bg-success">Available</span></p>
+                {% if guide.availability_status %}
+                <form method="post" action="">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label">Preferred Tour</label>
+                        <select class="form-select" name="tour">
+                            <option selected disabled>Select a Tour</option>
+                            <option>Everest Base Camp Trek</option>
+                            <option>Annapurna Circuit Trek</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Preferred Date</label>
+                        <input type="date" class="form-control" name="preferred_date" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Group Size</label>
+                        <input type="number" class="form-control" name="group_size" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Message</label>
+                        <textarea class="form-control" name="message" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Request Booking</button>
+                </form>
+                {% else %}
+                <p class="text-danger">Currently Unavailable</p>
+                {% endif %}
+
+                <hr>
+                <h6>Contact {{ guide.full_name }} directly</h6>
+                <p><i class="bi bi-telephone"></i> {{ guide.phone }}</p>
+                <p><i class="bi bi-envelope"></i> {{ guide.user_id.email }}</p>
+                <p><i class="bi bi-geo-alt"></i> {{ guide.location }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
