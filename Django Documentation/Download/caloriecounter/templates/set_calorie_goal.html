@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}Set Calorie Goal{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Set Daily Calorie Goal</h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="id_daily_calorie_goal" class="form-label">Daily Calorie Goal</label>
+                        {{ form.daily_calorie_goal }}
+                        {% if form.daily_calorie_goal.errors %}
+                        <div class="text-danger">
+                            {{ form.daily_calorie_goal.errors }}
+                        </div>
+                        {% endif %}
+                        <div class="form-text">
+                            Based on your BMR of {{ profile.bmr|floatformat:0 }} calories, we recommend:
+                            <ul>
+                                <li>To maintain weight: {{ profile.bmr|floatformat:0 }} calories</li>
+                                <li>To lose weight: {{ profile.bmr|add:-500|floatformat:0 }} calories</li>
+                                <li>To gain weight: {{ profile.bmr|add:500|floatformat:0 }} calories</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Set Goal</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-center">
+                <a href="{% url 'dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

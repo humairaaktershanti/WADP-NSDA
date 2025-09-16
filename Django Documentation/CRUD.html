@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Django Documentation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css">
+    <style>
+        :root {
+            --bg-color: #f8f9fa;
+            --text-color: #333;
+            --card-bg: white;
+            --card-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            --header-bg: #f1f3f5;
+            --border-color: #e9ecef;
+            --button-hover: #e9ecef;
+            --button-text: #6c757d;
+            --button-text-hover: #495057;
+            --code-bg: #f8f9fa;
+            --primary-color: #092e20;
+            --primary-hover: #0c4b33;
+            --code-text: #333;
+            --code-comment: #6a737d;
+            --code-keyword: #d73a49;
+            --code-string: #032f62;
+            --code-function: #6f42c1;
+            --code-number: #005cc5;
+            --sidebar-width: 240px;
+            --sidebar-bg: #f8f9fa;
+            --sidebar-hover: #e9ecef;
+            --sidebar-active: #dee2e6;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            display: flex;
+        }
+        
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--sidebar-bg);
+            height: 100vh;
+            overflow-y: auto;
+            position: fixed;
+            left: 0;
+            top: 0;
+            border-right: 1px solid var(--border-color);
+            padding-top: 20px;
+        }
+        
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+        
+        .sidebar-title {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        .sidebar-nav {
+            list-style: none;
+        }
+        
+        .sidebar-nav li {
+            margin-bottom: 5px;
+        }
+        
+        .sidebar-nav a {
+            display: block;
+            padding: 8px 20px;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+        
+        .sidebar-nav a:hover {
+            background-color: var(--sidebar-hover);
+        }
+        
+        .sidebar-nav a.active {
+            background-color: var(--sidebar-active);
+            font-weight: 600;
+            border-left: 3px solid var(--primary-color);
+        }
+        
+        .sidebar-nav .subsection {
+            padding-left: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 20px;
+            max-width: 900px;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        h1 {
+            color: var(--text-color);
+            margin: 0;
+        }
+        
+        .markdown-container {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .markdown-container h1, .markdown-container h2, .markdown-container h3 {
+            color: var(--text-color);
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+        
+        .markdown-container h1 {
+            font-size: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+        
+        .markdown-container h2 {
+            font-size: 1.5rem;
+        }
+        
+        .markdown-container h3 {
+            font-size: 1.25rem;
+        }
+        
+        .markdown-container p {
+            margin-bottom: 16px;
+        }
+        
+        .markdown-container ul, .markdown-container ol {
+            margin-bottom: 16px;
+            padding-left: 30px;
+        }
+        
+        .markdown-container li {
+            margin-bottom: 8px;
+        }
+        
+        .markdown-container a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .markdown-container a:hover {
+            text-decoration: underline;
+        }
+        
+        .code-viewer {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background-color: var(--header-bg);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .file-name {
+            font-weight: 600;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        .file-icon {
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
+            fill: var(--primary-color);
+        }
+        
+        .code-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        
+        .action-btn {
+            background: none;
+            border: none;
+            color: var(--button-text);
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.2s, color 0.2s;
+        }
+        
+        .action-btn:hover {
+            background-color: var(--button-hover);
+            color: var(--button-text-hover);
+        }
+        
+        .code-content {
+            position: relative;
+            max-height: 40px; /* Show only one line by default */
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .code-content.expanded {
+            max-height: none;
+        }
+        
+        pre[class*="language-"] {
+            margin: 0;
+            padding: 16px;
+            background-color: var(--code-bg);
+            border-radius: 0;
+            color: var(--code-text);
+        }
+        
+        .line-numbers .line-numbers-rows {
+            border-right: 1px solid var(--border-color);
+        }
+        
+        .line-numbers-rows > span:before {
+            color: var(--button-text);
+        }
+        
+        .collapse-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .collapse-btn:hover {
+            background: var(--primary-hover);
+        }
+        
+        .collapse-icon {
+            transition: transform 0.3s ease;
+        }
+        
+        .collapse-btn.expanded .collapse-icon {
+            transform: rotate(180deg);
+        }
+        
+        .copy-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+        
+        .copy-notification.show {
+            opacity: 1;
+        }
+        
+        .line-info {
+            font-size: 12px;
+            color: var(--button-text);
+            margin-right: 8px;
+        }
+        
+        .note {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--primary-color);
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+        
+        .note-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .content {
+                margin-left: 0;
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .menu-toggle {
+                display: none;
+            }
+        }
+        
+        .menu-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <button class="menu-toggle" id="menu-toggle">☰</button>
+    
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">Django Docs</div>
+        </div>
+        <ul class="sidebar-nav">
+            <li><a href="index.html" class="active">Getting Started</a></li>
+            <li><a href="#installation">Installation</a></li>
+            <li><a href="#tutorial">Tutorial</a>
+                <ul class="subsection">
+                    <li><a href="#tutorial-part1">Part 1: Requests & Responses</a></li>
+                    <li><a href="#tutorial-part2">Part 2: Models & Database</a></li>
+                    <li><a href="#tutorial-part3">Part 3: Views & Templates</a></li>
+                    <li><a href="#tutorial-part4">Part 4: Forms</a></li>
+                </ul>
+            </li>
+            <li><a href="#models">Models</a></li>
+            <li><a href="#views">Views</a></li>
+            <li><a href="#templates">Templates</a></li>
+            <li><a href="#forms">Forms</a></li>
+            <li><a href="#admin">Admin</a></li>
+            <li><a href="#testing">Testing</a></li>
+            <li><a href="#deployment">Deployment</a></li>
+			<!-- for addition -->
+			<li><a href="#tutorial">Extra</a>
+                <ul class="subsection">
+                    <li><a href="a.html">Part 0: AuthApp</a></li>
+                    <li><a href="CRUD.html">Part 1: CRUD</a></li>
+                    <li><a href="update-add.html">Part 2: update-add Using Forms</a></li>
+                    <li><a href="help.zip">Part 3: Download</a></li>
+                    <li><a href="#tutorial-part4">Part 4: Forms</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    
+    <div class="content">
+        <div class="header">
+            <h1>Django Documentation</h1>
+        </div>
+        
+        <div class="markdown-container" id="markdown-container">
+            <!-- Django documentation content will be rendered here -->
+        </div>
+        
+        <div class="copy-notification" id="copy-notification">Copied to clipboard!</div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-html.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    
+    <script>
+        // Configure marked to use Prism for syntax highlighting
+        marked.setOptions({
+            highlight: function(code, lang) {
+                if (Prism.languages[lang]) {
+                    return Prism.highlight(code, Prism.languages[lang], lang);
+                } else {
+                    return code;
+                }
+            },
+            breaks: true,
+            gfm: true
+        });
+        
+        // Django documentation content in Markdown format
+        const djangoDocs = `
+# Getting Started
+
+Django is a high-level Python web framework that encourages rapid development and clean, pragmatic design. Built by experienced developers, it takes care of much of the hassle of web development, so you can focus on writing your app without needing to reinvent the wheel.
+
+## Why Django?
+
+- **Rapid Development**: Django was designed to help developers take applications from concept to completion as quickly as possible.
+- **Secure**: Django takes security seriously and helps developers avoid many common security mistakes.
+- **Scalable**: Some of the busiest sites on the web leverage Django's ability to quickly and flexibly scale.
+- **Versatile**: Companies, organizations and governments have used Django to build all sorts of things — from content management systems to social networks to scientific computing platforms.
+
+# Installation
+
+Before you can use Django, you'll need to install it. You have a few options:
+
+## Using pip (Recommended)
+
+This is the recommended way to install Django:
+
+\`\`\`bash
+pip install django
+\`\`\`
+
+## Using a virtual environment
+
+It's highly recommended to use a virtual environment to manage your project dependencies:
+
+\`\`\`bash
+# Create a virtual environment
+python -m venv myenv
+
+# Activate the virtual environment
+# On Windows:
+myenv\\Scripts\\activate
+# On macOS/Linux:
+source myenv/bin/activate
+
+# Install Django
+pip install django
+\`\`\`
+
+## Verifying installation
+
+To verify that Django can be seen by Python, type python from your shell. Then at the Python prompt, try to import Django:
+
+\`\`\`python
+>>> import django
+>>> print(django.get_version())
+4.2
+\`\`\`
+
+# Tutorial
+
+This tutorial is for CRUD
+
+# This is a full CRUD with out forms
+
+## Part 1: Models
+
+### Creating a model
+
+#### myProject/myApp/models.py
+\`\`\`python
+class toDoModel(models.Model):
+    title = models.CharField(max_length = 100, null = True)
+    description = models.TextField(null = True)
+    STATUS = [
+        ('Not Started', 'Not Started'),
+        ('In Progress', 'In Progress'),
+        ('Completed', 'Completed'),
+    ]
+    status = models.CharField(choices=STATUS, max_length=30, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add = True, null = True)
+    updated_at = models.DateTimeField(auto_now = True, null = True)
+\`\`\`
+
+## Part 2: views
+
+### Creating a views for CRUD
+
+#### myProject/myApp/views.py
+\`\`\`python
+# [Done] CRUD [Worked]
+@login_required
+def addToDo(req):
+    if req.method=='POST':
+        title = req.POST.get('title')
+        description = req.POST.get('description')
+        status = req.POST.get('status')
+
+        data = toDoModel(
+            title=title,
+            description=description,
+            status=status
+        )
+        data.save()
+        return redirect ('listToDo')
+    return render(req,"addToDo.html")
+
+@login_required
+def listToDo(req):
+    todo = toDoModel.objects.all()
+
+    context={
+        'todo':todo
+    }
+    return render(req,"listToDo.html",context)
+
+@login_required
+def deleteToDo(req, id):
+    data = toDoModel.objects.get(id=id).delete()
+    return redirect ('listToDo')
+
+@login_required
+def viewsToDo(req,id):
+    data = toDoModel.objects.get(id=id)
+    context={
+        'data':data
+    }
+    return render(req,"viewsToDo.html", context)
+
+@login_required
+def updateToDo(req,id):
+    data=toDoModel.objects.get(id=id)
+    if req.method=='POST':
+        data.id=id
+        data.title=req.POST.get('title')
+        data.description=req.POST.get('description')
+        data.status=req.POST.get('status')
+
+        data.save()
+        return redirect ('listToDo')
+    context={
+        'data':data
+    }
+
+    return render(req, "updateToDo.html", context)
+\`\`\`
+
+## Part 3: urls
+
+### Creating a urls for CRUD
+
+#### myProject/myApp/urls.py
+\`\`\`python
+from django.urls import path
+from .views import *
+
+urlpatterns = [
+    path('addToDo/', addToDo, name='addToDo'),
+    path('listToDo/', listToDo, name='listToDo'),
+    path('viewsToDo/<int:id>', viewsToDo, name='viewsToDo'),
+    path('updateToDo/<int:id>', updateToDo, name='updateToDo'),
+    path('deleteToDo/<int:id>', deleteToDo, name='deleteToDo'),
+]
+\`\`\`
+
+## Part 4: template
+
+### Creating a template for CRUD
+
+#### myProject/myApp/listToDo.html
+\`\`\`html
+{% extends "master.html" %}
+{% block content %}
+{% load static %}
+
+<style>
+    .container {
+        max-width: fit-content;
+        margin: 40px auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 30px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th {
+        background-color: #4CAF50;
+        color: white;
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .no-tasks {
+        text-align: center;
+        color: #999;
+        padding: 20px;
+    }
+</style>
+
+<div class="container">
+    <h1>Your Data List</h1>
+    <button><a href="{% url 'addToDo' %}">Add New To-Do</a></button>
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Created At</th>
+            <th>Updated At</th>
+            <th>Action</th>
+        </tr>
+
+        {% for i in todo %}
+        <tr>
+            <td>{{ i.title }}</td>
+            <td>{{ i.description }}</td>
+            <td>{{ i.status }}</td>
+            <td>{{ i.created_at }}</td>
+            <td>{{ i.updated_at }}</td>
+            <td>
+                <a href="{% url 'deleteToDo' i.id %}">Delete</a>
+                <a href="{% url 'viewsToDo' i.id %}">Views</a>
+                <a href="{% url 'updateToDo' i.id %}">Edit</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock content %}
+\`\`\`
+
+#### myProject/myApp/addToDo.html
+\`\`\`html
+{% extends "master.html" %}
+{% block content %}
+{% load static %}
+
+<style>
+    .container {
+        width: 500px;
+        margin: 50px auto;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        padding: 30px;
+    }
+
+    h2 {
+        text-align: center;
+        color: #333;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    label {
+        margin-top: 15px;
+        font-weight: bold;
+        color: #555;
+    }
+
+    input[type="text"],
+    textarea,
+    select {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-top: 5px;
+    }
+
+    textarea {
+        resize: vertical;
+        min-height: 80px;
+    }
+
+    input[readonly] {
+        background-color: #f0f0f0;
+    }
+
+    button {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    button:hover {
+        background-color: #45a049;
+    }
+</style>
+
+<div class="container">
+    <h2>Add Item</h2>
+    <form method="POST">
+        {% csrf_token %}
+
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" maxlength="100" required>
+
+        <label for="description">Description</label>
+        <textarea id="description" name="description"></textarea>
+
+        <!-- jodi all add korte chai -->
+        <label for="status">Status</label>
+        <select id="status" name="status" required>
+            <option value="pending">Pending</option>
+            <option value="inProgress">In Progress</option>
+            <option value="completed">Completed</option>
+        </select>
+
+        <!-- jodi all je kono ekta lage like only 'pedning' 
+        taile eita dekha i jabe na -->
+        
+        <!-- <label for="status">Status</label>
+        <select id="status" name="status" required>
+            <option value="pending">Pending</option>
+            <option value="inProgress">In Progress</option>
+            <option value="completed">Completed</option>
+        </select> -->
+
+        <!-- 'update at', 'create at', 'foren key' ei gulo add hobe na
+        <label for="updated_at">Updated At</label>
+        <input type="text" id="updated_at" name="updated_at" readonly value="{{ toDo.updated_at|default:'' }}"> -->
+
+        <button type="submit">Save</button>
+        
+    </form>
+</div>
+{% endblock content %}
+\`\`\`
+
+#### myProject/myApp/updateToDo.html
+\`\`\`html
+{% extends "master.html" %}
+{% block content %}
+{% load static %}
+
+<style>
+    .container {
+        width: 500px;
+        margin: 50px auto;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        padding: 30px;
+    }
+
+    h2 {
+        text-align: center;
+        color: #333;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    label {
+        margin-top: 15px;
+        font-weight: bold;
+        color: #555;
+    }
+
+    input[type="text"],
+    textarea,
+    select {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-top: 5px;
+    }
+
+    textarea {
+        resize: vertical;
+        min-height: 80px;
+    }
+
+    input[readonly] {
+        background-color: #f0f0f0;
+    }
+
+    button {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    button:hover {
+        background-color: #45a049;
+    }
+</style>
+
+<div class="container">
+    <h2>Update Item</h2>
+    <form method="POST">
+        {% csrf_token %}
+
+        {% comment %} value >
+            for text > value="{{data.title}}
+            for textarea > {{data.description}}
+            for date > value="{{data.due_date|date:'Y-m-d'}}
+            for chaice > <option value="Pending" {% if data.status == "Pending" %}selected{% endif %}>Pending</option>
+            for img > <img src="/{{data.title}}" alt="img"> 
+            
+            update page a 'required' thakbe na input filed a {% endcomment %}
+
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" maxlength="100" value="{{data.title}}">
+
+        <label for="description">Description</label>
+        <textarea id="description" name="description">{{data.description}}</textarea>
+
+        <label for="status">Status</label>
+        <select id="status" name="status">
+            <option value="Pending" {% if data.status == "Pending" %}selected{% endif %}>Pending</option>
+            <option value="In Progress" {% if data.status == "In Progress" %}selected{% endif %}>In Progress</option>
+            <option value="Completed" {% if data.status == "Completed" %}selected{% endif %}>Completed</option>
+        </select><br>
+
+        {% comment %} <img src="/{{data.title}}" alt="img">
+        <input type="file" id="img" name="img"> {% endcomment %}
+
+        <button type="submit">Update</button>
+        
+    </form>
+</div>
+{% endblock content %}
+\`\`\`
+
+#### myProject/myApp/viewsToDo.html
+\`\`\`html
+{% extends "master.html" %}
+{% block content %}
+
+<style>
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+
+    .card-container {
+        display: flex;
+        /* grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); */
+        gap: 20px;
+        margin-top: 30px;
+        justify-content: center;
+        justify-items: center;
+    }
+
+    .card {
+        background: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 500px;
+        height: auto;
+    }
+
+    .card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .card-content {
+        padding: 25px;
+    }
+
+    .card-content h3 {
+        margin: 0 0 10px 0;
+        color: #333;
+        font-size: 28px;
+        text-align: center;
+    }
+
+    .card-content p {
+        font-size: 18px;
+        color: #555;
+        overflow: hidden;
+    }
+
+</style>
+
+<h1>View indivisual data:</h1>
+
+<div class="card-container">
+    <div class="card">
+        {% comment %} <img src="/{{ data.studentImage }}" height='150px'> {% endcomment %}
+        <div class="card-content">
+            <h3>Title: {{ data.title }}</h3>
+            <p>Description: {{ data.description }}</p>
+            <p>Status: {{ data.status }}</p>
+            <p>Created At: {{ data.created_at }}</p>
+            <p>Update At: {{ data.updated_at }}</p>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+\`\`\`
+        `;
+        
+        // Get the container element
+        const contentContainer = document.getElementById('markdown-container');
+        
+        // Convert Markdown to HTML and insert into the DOM
+        const htmlContent = marked.parse(djangoDocs);
+        contentContainer.innerHTML = htmlContent;
+        
+        // Find all code blocks and replace them with our custom code viewer
+        const codeBlocks = contentContainer.querySelectorAll('pre');
+        codeBlocks.forEach((block, index) => {
+            const codeElement = block.querySelector('code');
+            const language = codeElement.className.replace('language-', '');
+            const code = codeElement.textContent;
+            
+            // Create custom code viewer
+            const codeViewer = createCodeViewer(language, code, index);
+            block.parentNode.replaceChild(codeViewer, block);
+        });
+        
+        // Function to create a code viewer element
+        function createCodeViewer(language, code, index) {
+            const viewer = document.createElement('div');
+            viewer.className = 'code-viewer';
+            
+            // Calculate number of lines
+            const totalLines = code.split('\n').length;
+            const visibleLines = 1; // Show only one line by default
+            const hiddenLines = totalLines - visibleLines;
+            
+            // Create header
+            const header = document.createElement('div');
+            header.className = 'code-header';
+            
+            const fileName = document.createElement('div');
+            fileName.className = 'file-name';
+            fileName.innerHTML = `
+                <svg class="file-icon" viewBox="0 0 24 24">
+                    <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
+                </svg>
+                ${language}.${getFileExtension(language)}
+            `;
+            
+            const actions = document.createElement('div');
+            actions.className = 'code-actions';
+            
+            // Add line info if there are hidden lines
+            if (hiddenLines > 0) {
+                const lineInfo = document.createElement('span');
+                lineInfo.className = 'line-info';
+                lineInfo.textContent = `${hiddenLines} lines`;
+                actions.appendChild(lineInfo);
+            }
+            
+            actions.innerHTML += `
+                <button class="action-btn copy-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                    Copy
+                </button>
+                <button class="action-btn wrap-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 7h16M4 12h16M4 17h16"></path>
+                    </svg>
+                    Wrap
+                </button>
+                ${hiddenLines > 0 ? `
+                <button class="collapse-btn">
+                    <span>Expand</span>
+                    <svg class="collapse-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+                ` : ''}
+            `;
+            
+            header.appendChild(fileName);
+            header.appendChild(actions);
+            
+            // Create content
+            const content = document.createElement('div');
+            content.className = 'code-content';
+            content.id = `code-content-${index}`;
+            
+            const pre = document.createElement('pre');
+            pre.className = 'line-numbers';
+            
+            const codeElement = document.createElement('code');
+            codeElement.className = `language-${language}`;
+            
+            // Highlight the code
+            if (Prism.languages[language]) {
+                codeElement.innerHTML = Prism.highlight(code, Prism.languages[language], language);
+            } else {
+                codeElement.textContent = code;
+            }
+            
+            pre.appendChild(codeElement);
+            content.appendChild(pre);
+            
+            viewer.appendChild(header);
+            viewer.appendChild(content);
+            
+            // Add event listeners
+            const copyBtn = viewer.querySelector('.copy-btn');
+            const wrapBtn = viewer.querySelector('.wrap-btn');
+            const collapseBtn = viewer.querySelector('.collapse-btn');
+            
+            copyBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(code).then(() => {
+                    showCopyNotification();
+                });
+            });
+            
+            wrapBtn.addEventListener('click', () => {
+                pre.classList.toggle('wrap');
+            });
+            
+            if (collapseBtn) {
+                collapseBtn.addEventListener('click', () => {
+                    if (content.classList.contains('expanded')) {
+                        content.classList.remove('expanded');
+                        collapseBtn.classList.remove('expanded');
+                        collapseBtn.querySelector('span').textContent = 'Expand';
+                    } else {
+                        content.classList.add('expanded');
+                        collapseBtn.classList.add('expanded');
+                        collapseBtn.querySelector('span').textContent = 'Collapse';
+                    }
+                });
+            }
+            
+            return viewer;
+        }
+        
+        // Function to get file extension based on language
+        function getFileExtension(language) {
+            const extensions = {
+                'python': 'py',
+                'javascript': 'js',
+                'css': 'css',
+                'html': 'html',
+                'sql': 'sql',
+                'bash': 'sh',
+                'shell': 'sh',
+                'json': 'json',
+                'xml': 'xml',
+                'yaml': 'yaml',
+                'markdown': 'md',
+                'java': 'java',
+                'c': 'c',
+                'cpp': 'cpp',
+                'csharp': 'cs',
+                'php': 'php',
+                'ruby': 'rb',
+                'go': 'go',
+                'rust': 'rs',
+                'typescript': 'ts',
+                'jsx': 'jsx',
+                'tsx': 'tsx',
+                'vue': 'vue',
+                'scss': 'scss',
+                'sass': 'sass',
+                'less': 'less',
+                'docker': 'dockerfile',
+                'nginx': 'conf',
+                'apache': 'conf',
+                'ini': 'ini',
+                'toml': 'toml',
+                'diff': 'diff',
+                'git': 'git',
+                'log': 'log',
+                'text': 'txt'
+            };
+            
+            return extensions[language] || 'txt';
+        }
+        
+        // Function to show copy notification
+        function showCopyNotification() {
+            const notification = document.getElementById('copy-notification');
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 2000);
+        }
+        
+        // Sidebar navigation
+        const sidebarLinks = document.querySelectorAll('.sidebar-nav a');
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                // Remove active class from all links
+                sidebarLinks.forEach(l => l.classList.remove('active'));
+                // Add active class to clicked link
+                this.classList.add('active');
+                
+                // Scroll to section if it exists
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    e.preventDefault();
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+        
+        // Mobile menu toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+        
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+        });
+        
+        // Close sidebar when clicking on a link (mobile)
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    sidebar.classList.remove('open');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

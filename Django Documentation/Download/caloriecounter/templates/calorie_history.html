@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% block title %}Calorie History{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h2>Calorie History</h2>
+        <p class="text-muted">View your calorie consumption history</p>
+    </div>
+</div>
+
+<div class="card mb-4">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Filter by Date</h5>
+    </div>
+    <div class="card-body">
+        <form method="get">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="mb-3">
+                        <label for="start_date" class="form-label">Start Date</label>
+                        <input type="date" class="form-control" id="start_date" name="start_date" value="{{ start_date }}">
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="mb-3">
+                        <label for="end_date" class="form-label">End Date</label>
+                        <input type="date" class="form-control" id="end_date" name="end_date" value="{{ end_date }}">
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="mb-3">
+                        <label class="form-label">&nbsp;</label>
+                        <div>
+                            <button type="submit" class="btn btn-primary w-100">Filter</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Calorie Consumption Chart</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="historyChart" height="100"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Consumed Items</h5>
+    </div>
+    <div class="card-body">
+        {% if consumed_items %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Item</th>
+                        <th>Calories</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in consumed_items %}
+                    <tr>
+                        <td>{{ item.date|date:"M d, Y" }}</td>
+                        <td>{{ item.time|time:"H:i" }}</td>
+                        <td>{{ item.item_name }}</td>
+                        <td>{{ item.calories|floatformat:0 }} cal</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-center text-muted">No consumed items found in the selected date range.</p>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    // History chart
+    const ctx = document.getElementById('historyChart').getContext('2d');
+    const historyChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [{% for day in chart_data %}'{{ day.date }}',{% endfor %}],
+            datasets: [{
+                label: 'Calories Consumed',
+                data: [{% for day in chart_data %}{{ day.calories }},{% endfor %}],
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 2,
+                tension: 0.4
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}
