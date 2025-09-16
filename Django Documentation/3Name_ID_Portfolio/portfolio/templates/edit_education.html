@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Education - Portfolio{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Edit Education</h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="id_institution" class="form-label">Institution</label>
+                        {{ form.institution }}
+                        {% if form.institution.errors %}
+                        <div class="text-danger">
+                            {{ form.institution.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_degree" class="form-label">Degree</label>
+                        {{ form.degree }}
+                        {% if form.degree.errors %}
+                        <div class="text-danger">
+                            {{ form.degree.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_field_of_study" class="form-label">Field of Study</label>
+                        {{ form.field_of_study }}
+                        {% if form.field_of_study.errors %}
+                        <div class="text-danger">
+                            {{ form.field_of_study.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_start_date" class="form-label">Start Date</label>
+                        {{ form.start_date }}
+                        {% if form.start_date.errors %}
+                        <div class="text-danger">
+                            {{ form.start_date.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_end_date" class="form-label">End Date</label>
+                        {{ form.end_date }}
+                        {% if form.end_date.errors %}
+                        <div class="text-danger">
+                            {{ form.end_date.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            {{ form.current }}
+                            <label class="form-check-label" for="id_current">
+                                Current Education
+                            </label>
+                        </div>
+                        {% if form.current.errors %}
+                        <div class="text-danger">
+                            {{ form.current.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_description" class="form-label">Description</label>
+                        {{ form.description }}
+                        {% if form.description.errors %}
+                        <div class="text-danger">
+                            {{ form.description.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'manage_educations' %}" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary">Update Education</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

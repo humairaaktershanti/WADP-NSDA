@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Project - Portfolio{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Edit Project</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="id_title" class="form-label">Title</label>
+                        {{ form.title }}
+                        {% if form.title.errors %}
+                        <div class="text-danger">
+                            {{ form.title.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_description" class="form-label">Description</label>
+                        {{ form.description }}
+                        {% if form.description.errors %}
+                        <div class="text-danger">
+                            {{ form.description.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_technologies" class="form-label">Technologies</label>
+                        {{ form.technologies }}
+                        {% if form.technologies.errors %}
+                        <div class="text-danger">
+                            {{ form.technologies.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_project_url" class="form-label">Project URL</label>
+                        {{ form.project_url }}
+                        {% if form.project_url.errors %}
+                        <div class="text-danger">
+                            {{ form.project_url.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_github_url" class="form-label">GitHub URL</label>
+                        {{ form.github_url }}
+                        {% if form.github_url.errors %}
+                        <div class="text-danger">
+                            {{ form.github_url.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_image" class="form-label">Image</label>
+                        {{ form.image }}
+                        {% if form.image.errors %}
+                        <div class="text-danger">
+                            {{ form.image.errors }}
+                        </div>
+                        {% endif %}
+                        {% if project.image %}
+                        <div class="mt-2">
+                            <img src="{{ project.image.url }}" alt="{{ project.title }}" class="img-thumbnail" width="200">
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_status" class="form-label">Status</label>
+                        {{ form.status }}
+                        {% if form.status.errors %}
+                        <div class="text-danger">
+                            {{ form.status.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            {{ form.featured }}
+                            <label class="form-check-label" for="id_featured">
+                                Featured
+                            </label>
+                        </div>
+                        {% if form.featured.errors %}
+                        <div class="text-danger">
+                            {{ form.featured.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'manage_projects' %}" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary">Update Project</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

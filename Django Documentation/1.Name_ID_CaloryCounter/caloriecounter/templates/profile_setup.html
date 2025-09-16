@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile Setup{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Complete Your Profile</h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="id_name" class="form-label">Name</label>
+                        {{ form.name }}
+                        {% if form.name.errors %}
+                        <div class="text-danger">
+                            {{ form.name.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="id_age" class="form-label">Age</label>
+                                {{ form.age }}
+                                {% if form.age.errors %}
+                                <div class="text-danger">
+                                    {{ form.age.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="id_gender" class="form-label">Gender</label>
+                                {{ form.gender }}
+                                {% if form.gender.errors %}
+                                <div class="text-danger">
+                                    {{ form.gender.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="id_height" class="form-label">Height (cm)</label>
+                                {{ form.height }}
+                                {% if form.height.errors %}
+                                <div class="text-danger">
+                                    {{ form.height.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="id_weight" class="form-label">Weight (kg)</label>
+                                {{ form.weight }}
+                                {% if form.weight.errors %}
+                                <div class="text-danger">
+                                    {{ form.weight.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Save Profile</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Apply for Job{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Apply for: {{ job.title }}</h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="id_cover_letter" class="form-label">Cover Letter</label>
+                        {{ form.cover_letter }}
+                        {% if form.cover_letter.errors %}
+                        <div class="text-danger">
+                            {{ form.cover_letter.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Submit Application</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-center">
+                <a href="{% url 'job_detail' job.id %}" class="btn btn-secondary">Back to Job Details</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

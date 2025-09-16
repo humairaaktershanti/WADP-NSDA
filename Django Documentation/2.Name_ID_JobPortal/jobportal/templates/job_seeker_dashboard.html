@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% block title %}Job Seeker Dashboard{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h2>Job Seeker Dashboard</h2>
+        <p class="text-muted">Welcome back, {{ user.userprofile.display_name }}! Here's your job search overview.</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h5 class="card-title">Applications Sent</h5>
+                <p class="card-text display-6">{{ applications.count }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h5 class="card-title">Resume Status</h5>
+                <p class="card-text">
+                    {% if job_seeker_profile.resume %}
+                    <i class="bi bi-check-circle-fill"></i> Uploaded
+                    {% else %}
+                    <i class="bi bi-x-circle-fill"></i> Not Uploaded
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <h5 class="card-title">Skills</h5>
+                <p class="card-text">{{ job_seeker_profile.skills|truncatewords:10 }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Recommended Jobs</h5>
+            </div>
+            <div class="card-body">
+                {% if recommended_jobs %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Job Title</th>
+                                <th>Company</th>
+                                <th>Location</th>
+                                <th>Category</th>
+                                <th>Posted Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for job in recommended_jobs %}
+                            <tr>
+                                <td>{{ job.title }}</td>
+                                <td>{{ job.recruiter.company_name }}</td>
+                                <td>{{ job.location }}</td>
+                                <td>{{ job.get_category_display }}</td>
+                                <td>{{ job.posted_date|date:"M d, Y" }}</td>
+                                <td>
+                                    <a href="{% url 'job_detail' job.id %}" class="btn btn-sm btn-info">View Details</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Your Applications</h5>
+                <a href="{% url 'applications' %}" class="btn btn-sm btn-light">View All</a>
+            </div>
+            <div class="card-body">
+                {% if applications %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Job Title</th>
+                                <th>Company</th>
+                                <th>Applied Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for application in applications|slice:":5" %}
+                            <tr>
+                                <td>{{ application.job_post.title }}</td>
+                                <td>{{ application.job_post.recruiter.company_name }}</td>
+                                <td>{{ application.applied_date|date:"M d, Y" }}</td>
+                                <td>
+                                    <span class="badge bg-{{ application.status|yesno:'success,primary,warning,danger,info' }}">
+                                        {{ application.get_status_display }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="{% url 'job_detail' application.job_post.id %}" class="btn btn-sm btn-info">View Job</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

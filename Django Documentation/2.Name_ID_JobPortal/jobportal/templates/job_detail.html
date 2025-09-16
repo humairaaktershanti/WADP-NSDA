@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ job.title }}{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">{{ job.title }}</h4>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <p><strong>Company:</strong> {{ job.recruiter.company_name }}</p>
+                        <p><strong>Location:</strong> {{ job.location }}</p>
+                        <p><strong>Category:</strong> {{ job.get_category_display }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Posted Date:</strong> {{ job.posted_date|date:"F d, Y" }}</p>
+                        <p><strong>Last Date to Apply:</strong> {{ job.last_date_to_apply|date:"F d, Y" }}</p>
+                        <p><strong>Openings:</strong> {{ job.number_of_openings }}</p>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <h5>Job Description</h5>
+                    <p>{{ job.description|linebreaksbr }}</p>
+                </div>
+                
+                <div class="mb-3">
+                    <h5>Required Skills</h5>
+                    <p>{{ job.required_skills }}</p>
+                </div>
+                
+                {% if job.salary_min or job.salary_max %}
+                <div class="mb-3">
+                    <h5>Salary Range</h5>
+                    <p>
+                        {% if job.salary_min and job.salary_max %}
+                        ${{ job.salary_min }} - ${{ job.salary_max }}
+                        {% elif job.salary_min %}
+                        ${{ job.salary_min }} and above
+                        {% else %}
+                        Up to ${{ job.salary_max }}
+                        {% endif %}
+                    </p>
+                </div>
+                {% endif %}
+                
+                <div class="d-flex justify-content-between">
+                    <a href="{% url 'job_search' %}" class="btn btn-secondary">Back to Search</a>
+                    {% if user.is_authenticated and user.userprofile.user_type == 'jobseeker' %}
+                        {% if applied %}
+                        <button class="btn btn-success" disabled>Already Applied</button>
+                        {% else %}
+                        <a href="{% url 'apply_job' job.id %}" class="btn btn-primary">Apply Now</a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">Company Information</h5>
+            </div>
+            <div class="card-body">
+                <h6>{{ job.recruiter.company_name }}</h6>
+                {% if job.recruiter.company_description %}
+                <p>{{ job.recruiter.company_description|truncatewords:30 }}</p>
+                {% endif %}
+                {% if job.recruiter.company_website %}
+                <p><strong>Website:</strong> <a href="{{ job.recruiter.company_website }}" target="_blank">{{ job.recruiter.company_website }}</a></p>
+                {% endif %}
+                {% if job.recruiter.company_location %}
+                <p><strong>Location:</strong> {{ job.recruiter.company_location }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

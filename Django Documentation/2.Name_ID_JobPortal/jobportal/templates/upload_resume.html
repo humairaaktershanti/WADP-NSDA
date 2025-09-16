@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Upload Resume{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 mx-auto">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Upload Your Resume</h4>
+            </div>
+            <div class="card-body">
+                {% if job_seeker_profile.resume %}
+                <div class="alert alert-info">
+                    You already have a resume uploaded: <a href="{{ job_seeker_profile.resume.url }}" target="_blank">{{ job_seeker_profile.resume.name }}</a>
+                </div>
+                {% endif %}
+                
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="id_resume" class="form-label">Resume (PDF, DOC, DOCX)</label>
+                        {{ form.resume }}
+                        {% if form.resume.errors %}
+                        <div class="text-danger">
+                            {{ form.resume.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Upload Resume</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-center">
+                <a href="{% url 'dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block title %}Post a Job{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-10 mx-auto">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Post a New Job</h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="id_title" class="form-label">Job Title</label>
+                        {{ form.title }}
+                        {% if form.title.errors %}
+                        <div class="text-danger">
+                            {{ form.title.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_description" class="form-label">Job Description</label>
+                        {{ form.description }}
+                        {% if form.description.errors %}
+                        <div class="text-danger">
+                            {{ form.description.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="id_category" class="form-label">Category</label>
+                                {{ form.category }}
+                                {% if form.category.errors %}
+                                <div class="text-danger">
+                                    {{ form.category.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="id_number_of_openings" class="form-label">Number of Openings</label>
+                                {{ form.number_of_openings }}
+                                {% if form.number_of_openings.errors %}
+                                <div class="text-danger">
+                                    {{ form.number_of_openings.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_required_skills" class="form-label">Required Skills (comma separated)</label>
+                        {{ form.required_skills }}
+                        {% if form.required_skills.errors %}
+                        <div class="text-danger">
+                            {{ form.required_skills.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="id_location" class="form-label">Location</label>
+                                {{ form.location }}
+                                {% if form.location.errors %}
+                                <div class="text-danger">
+                                    {{ form.location.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="id_last_date_to_apply" class="form-label">Last Date to Apply</label>
+                                {{ form.last_date_to_apply }}
+                                {% if form.last_date_to_apply.errors %}
+                                <div class="text-danger">
+                                    {{ form.last_date_to_apply.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="id_salary_min" class="form-label">Minimum Salary ($)</label>
+                                {{ form.salary_min }}
+                                {% if form.salary_min.errors %}
+                                <div class="text-danger">
+                                    {{ form.salary_min.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="id_salary_max" class="form-label">Maximum Salary ($)</label>
+                                {{ form.salary_max }}
+                                {% if form.salary_max.errors %}
+                                <div class="text-danger">
+                                    {{ form.salary_max.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Post Job</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-center">
+                <a href="{% url 'dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

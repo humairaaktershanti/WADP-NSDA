@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Portfolio{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h2>Portfolio Dashboard</h2>
+        <p class="text-muted">Welcome back, {{ user.username }}! Manage your portfolio content here.</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h5 class="card-title">Profile</h5>
+                <p class="card-text display-6">
+                    {% if user_profile %}✓{% else %}✗{% endif %}
+                </p>
+                <a href="{% url 'profile_setup' %}" class="btn btn-light">Manage</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h5 class="card-title">Skills</h5>
+                <p class="card-text display-6">{{ skills.count }}</p>
+                <a href="{% url 'manage_skills' %}" class="btn btn-light">Manage</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <h5 class="card-title">Projects</h5>
+                <p class="card-text display-6">{{ projects.count }}</p>
+                <a href="{% url 'manage_projects' %}" class="btn btn-light">Manage</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-warning text-white">
+            <div class="card-body">
+                <h5 class="card-title">Contacts</h5>
+                <p class="card-text display-6">{{ contacts.count }}</p>
+                <a href="{% url 'manage_contacts' %}" class="btn btn-light">Manage</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <a href="{% url 'profile_setup' %}" class="btn btn-outline-primary w-100">
+                            <i class="bi bi-person-circle me-2"></i> Setup Profile
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <a href="{% url 'manage_skills' %}" class="btn btn-outline-success w-100">
+                            <i class="bi bi-tools me-2"></i> Manage Skills
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <a href="{% url 'manage_projects' %}" class="btn btn-outline-info w-100">
+                            <i class="bi bi-folder me-2"></i> Manage Projects
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <a href="{% url 'manage_contacts' %}" class="btn btn-outline-warning w-100">
+                            <i class="bi bi-envelope me-2"></i> View Contacts
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Recent Activity</h5>
+            </div>
+            <div class="card-body">
+                {% if contacts %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Subject</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for contact in contacts|slice:":5" %}
+                            <tr>
+                                <td>{{ contact.name }}</td>
+                                <td>{{ contact.subject }}</td>
+                                <td>{{ contact.created_at|date:"M d, Y" }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-center text-muted">No recent activity.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Portfolio Stats</h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-md-4">
+                        <h3>{{ skills.count }}</h3>
+                        <p>Skills</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h3>{{ experiences.count }}</h3>
+                        <p>Experience</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h3>{{ projects.count }}</h3>
+                        <p>Projects</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

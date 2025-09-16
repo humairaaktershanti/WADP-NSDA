@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}My Applications{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h2>My Applications</h2>
+        <p class="text-muted">Track the status of your job applications</p>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Application History</h5>
+    </div>
+    <div class="card-body">
+        {% if applications %}
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Job Title</th>
+                        <th>Company</th>
+                        <th>Applied Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for application in applications %}
+                    <tr>
+                        <td>{{ application.job_post.title }}</td>
+                        <td>{{ application.job_post.recruiter.company_name }}</td>
+                        <td>{{ application.applied_date|date:"F d, Y" }}</td>
+                        <td>
+                            <span class="badge bg-{{ application.status|yesno:'success,primary,warning,danger,info' }}">
+                                {{ application.get_status_display }}
+                            </span>
+                        </td>
+                        <td>
+                            <a href="{% url 'job_detail' application.job_post.id %}" class="btn btn-sm btn-info">View Job</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

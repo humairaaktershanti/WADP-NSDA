@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage Projects - Portfolio{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h2>Manage Projects</h2>
+        <p class="text-muted">Add, edit, or delete your projects here.</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Your Projects</h5>
+            </div>
+            <div class="card-body">
+                {% if projects %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Status</th>
+                                <th>Featured</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for project in projects %}
+                            <tr>
+                                <td>{{ project.title }}</td>
+                                <td>
+                                    <span class="badge bg-{{ project.status|yesno:'success,primary,secondary' }}">
+                                        {{ project.get_status_display }}
+                                    </span>
+                                </td>
+                                <td>
+                                    {% if project.featured %}
+                                    <span class="badge bg-warning">Yes</span>
+                                    {% else %}
+                                    <span class="badge bg-secondary">No</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <a href="{% url 'edit_project' project.id %}" class="btn btn-sm btn-info">Edit</a>
+                                    <a href="{% url 'delete_project' project.id %}" class="btn btn-sm btn-danger">Delete</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-center text-muted">No projects added yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Add New Project</h5>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="id_title" class="form-label">Title</label>
+                        {{ form.title }}
+                        {% if form.title.errors %}
+                        <div class="text-danger">
+                            {{ form.title.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_description" class="form-label">Description</label>
+                        {{ form.description }}
+                        {% if form.description.errors %}
+                        <div class="text-danger">
+                            {{ form.description.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_technologies" class="form-label">Technologies</label>
+                        {{ form.technologies }}
+                        {% if form.technologies.errors %}
+                        <div class="text-danger">
+                            {{ form.technologies.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_project_url" class="form-label">Project URL</label>
+                        {{ form.project_url }}
+                        {% if form.project_url.errors %}
+                        <div class="text-danger">
+                            {{ form.project_url.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_github_url" class="form-label">GitHub URL</label>
+                        {{ form.github_url }}
+                        {% if form.github_url.errors %}
+                        <div class="text-danger">
+                            {{ form.github_url.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_image" class="form-label">Image</label>
+                        {{ form.image }}
+                        {% if form.image.errors %}
+                        <div class="text-danger">
+                            {{ form.image.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_status" class="form-label">Status</label>
+                        {{ form.status }}
+                        {% if form.status.errors %}
+                        <div class="text-danger">
+                            {{ form.status.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <div class="form-check">
+                            {{ form.featured }}
+                            <label class="form-check-label" for="id_featured">
+                                Featured
+                            </label>
+                        </div>
+                        {% if form.featured.errors %}
+                        <div class="text-danger">
+                            {{ form.featured.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Add Project</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

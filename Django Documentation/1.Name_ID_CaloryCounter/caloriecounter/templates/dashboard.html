@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <h2>Calorie Dashboard</h2>
+        <p class="text-muted">Welcome back, {{ profile.name }}! Here's your calorie overview.</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card bg-primary text-white">
+            <div class="card-body">
+                <h5 class="card-title">BMR</h5>
+                <p class="card-text display-6">{{ profile.bmr|floatformat:0 }} cal</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-success text-white">
+            <div class="card-body">
+                <h5 class="card-title">Daily Goal</h5>
+                <p class="card-text display-6">{{ profile.daily_calorie_goal|floatformat:0|default:"Not set" }} cal</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card bg-info text-white">
+            <div class="card-body">
+                <h5 class="card-title">Consumed Today</h5>
+                <p class="card-text display-6">{{ total_consumed|floatformat:0 }} cal</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card {% if remaining_calories >= 0 %}bg-warning{% else %}bg-danger{% endif %} text-white">
+            <div class="card-body">
+                <h5 class="card-title">Remaining</h5>
+                <p class="card-text display-6">{{ remaining_calories|floatformat:0|default:"N/A" }} cal</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Add Consumed Calories</h5>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="id_item_name" class="form-label">Item Name</label>
+                        {{ form.item_name }}
+                        {% if form.item_name.errors %}
+                        <div class="text-danger">
+                            {{ form.item_name.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_calories" class="form-label">Calories</label>
+                        {{ form.calories }}
+                        {% if form.calories.errors %}
+                        <div class="text-danger">
+                            {{ form.calories.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Add Item</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Set Daily Calorie Goal</h5>
+            </div>
+            <div class="card-body">
+                <form action="{% url 'set_calorie_goal' %}" method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="id_daily_calorie_goal" class="form-label">Daily Calorie Goal</label>
+                        {{ goal_form.daily_calorie_goal }}
+                        {% if goal_form.daily_calorie_goal.errors %}
+                        <div class="text-danger">
+                            {{ goal_form.daily_calorie_goal.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Set Goal</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Recent Consumed Items</h5>
+            </div>
+            <div class="card-body">
+                {% if recent_items %}
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Calories</th>
+                                <th>Time</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in recent_items %}
+                            <tr>
+                                <td>{{ item.item_name }}</td>
+                                <td>{{ item.calories|floatformat:0 }} cal</td>
+                                <td>{{ item.time|time:"H:i" }}</td>
+                                <td>
+                                    <form action="{% url 'delete_item' item.id %}" method="post" class="d-inline">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-center text-muted">No items consumed today.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Last 7 Days</h5>
+            </div>
+            <div class="card-body">
+                <canvas id="weeklyChart" height="300"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Weekly chart
+    const ctx = document.getElementById('weeklyChart').getContext('2d');
+    const weeklyChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [{% for day in past_week %}'{{ day.date }}',{% endfor %}],
+            datasets: [{
+                label: 'Calories Consumed',
+                data: [{% for day in past_week %}{{ day.calories }},{% endfor %}],
+                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

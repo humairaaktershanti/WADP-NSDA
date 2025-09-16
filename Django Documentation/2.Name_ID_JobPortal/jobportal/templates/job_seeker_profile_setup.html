@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}Job Seeker Profile Setup{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Complete Your Job Seeker Profile</h4>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    <h5>Personal Information</h5>
+                    <div class="mb-3">
+                        <label for="id_display_name" class="form-label">Display Name</label>
+                        {{ profile_form.display_name }}
+                        {% if profile_form.display_name.errors %}
+                        <div class="text-danger">
+                            {{ profile_form.display_name.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_phone" class="form-label">Phone</label>
+                        {{ profile_form.phone }}
+                        {% if profile_form.phone.errors %}
+                        <div class="text-danger">
+                            {{ profile_form.phone.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <hr>
+                    
+                    <h5>Professional Information</h5>
+                    <div class="mb-3">
+                        <label for="id_skills" class="form-label">Skills (comma separated)</label>
+                        {{ job_seeker_form.skills }}
+                        {% if job_seeker_form.skills.errors %}
+                        <div class="text-danger">
+                            {{ job_seeker_form.skills.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_experience" class="form-label">Experience</label>
+                        {{ job_seeker_form.experience }}
+                        {% if job_seeker_form.experience.errors %}
+                        <div class="text-danger">
+                            {{ job_seeker_form.experience.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_education" class="form-label">Education</label>
+                        {{ job_seeker_form.education }}
+                        {% if job_seeker_form.education.errors %}
+                        <div class="text-danger">
+                            {{ job_seeker_form.education.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Save Profile</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

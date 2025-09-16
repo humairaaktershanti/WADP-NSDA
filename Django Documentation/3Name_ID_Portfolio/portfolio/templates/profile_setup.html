@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile Setup - Portfolio{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Setup Your Profile</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="id_name" class="form-label">Name</label>
+                        {{ form.name }}
+                        {% if form.name.errors %}
+                        <div class="text-danger">
+                            {{ form.name.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_title" class="form-label">Title</label>
+                        {{ form.title }}
+                        {% if form.title.errors %}
+                        <div class="text-danger">
+                            {{ form.title.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_bio" class="form-label">Bio</label>
+                        {{ form.bio }}
+                        {% if form.bio.errors %}
+                        <div class="text-danger">
+                            {{ form.bio.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_profile_image" class="form-label">Profile Image</label>
+                        {{ form.profile_image }}
+                        {% if form.profile_image.errors %}
+                        <div class="text-danger">
+                            {{ form.profile_image.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_email" class="form-label">Email</label>
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                        <div class="text-danger">
+                            {{ form.email.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_phone" class="form-label">Phone</label>
+                        {{ form.phone }}
+                        {% if form.phone.errors %}
+                        <div class="text-danger">
+                            {{ form.phone.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_location" class="form-label">Location</label>
+                        {{ form.location }}
+                        {% if form.location.errors %}
+                        <div class="text-danger">
+                            {{ form.location.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_github_url" class="form-label">GitHub URL</label>
+                        {{ form.github_url }}
+                        {% if form.github_url.errors %}
+                        <div class="text-danger">
+                            {{ form.github_url.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_linkedin_url" class="form-label">LinkedIn URL</label>
+                        {{ form.linkedin_url }}
+                        {% if form.linkedin_url.errors %}
+                        <div class="text-danger">
+                            {{ form.linkedin_url.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_twitter_url" class="form-label">Twitter URL</label>
+                        {{ form.twitter_url }}
+                        {% if form.twitter_url.errors %}
+                        <div class="text-danger">
+                            {{ form.twitter_url.errors }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Save Profile</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-center">
+                <a href="{% url 'dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
